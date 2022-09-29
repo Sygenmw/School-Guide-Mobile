@@ -20,6 +20,9 @@ dependencies:
   cloud_firestore: ^3.4.6
   carousel_slider: ^4.1.1
   get: ^4.6.5
+  url_launcher: ^6.1.6
+  intl: ^0.17.0
+  timeago: ^3.3.0
 
 dev_dependencies:
   flutter_test:

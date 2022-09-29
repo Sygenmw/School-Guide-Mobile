@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'controllers/all_controllers.dart';
 import 'firebase_options.dart';
 
 // ...
@@ -11,7 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+  ).then((value) {
+    Get.put(BannerController());
+  });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.grey,
