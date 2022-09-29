@@ -29,9 +29,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onTap: backIconAvailable
                   ? () {
                       HapticFeedback.vibrate();
-                      Navigator.pop(context);
+                      Get.back();
                     }
-                  : null,
+                  : () {},
               child: Image.asset(
                 'assets/images/logo.png',
                 height: 40,
