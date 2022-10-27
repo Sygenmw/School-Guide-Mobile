@@ -10,7 +10,7 @@ class Curriculum extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: CustomAppBar(
-        backIconAvailable: true,
+        backIconAvailable: false,
         isHomeAppBar: true,
       ),
       body: CustomBody(

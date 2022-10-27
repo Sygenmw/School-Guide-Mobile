@@ -65,7 +65,7 @@ class BlogArticleCard extends StatelessWidget {
                             Text(
                               blog.postDescription.length > 110 ? "${blog.postDescription.substring(0, 110)}..." : blog.postDescription,
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 15,
                                 color: AppColors.black,
                               ),
                             ),

@@ -26,6 +26,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(bannerController.allBanners.length);
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: false,
@@ -136,7 +137,7 @@ class Home extends StatelessWidget {
                               } else {
                                 print(snapshot.error.toString());
                               }
-                              return const Text('ERRORsasas');
+                              return Container();
                             }),
                         const SizedBox(
                           height: 10,
@@ -166,7 +167,7 @@ class Home extends StatelessWidget {
                               } else {
                                 print(snapshot.error.toString());
                               }
-                              return const Text('ERROR');
+                              return Container();
                             }),
                         const SizedBox(
                           height: 10,
@@ -203,7 +204,7 @@ class Home extends StatelessWidget {
                               } else {
                                 print(snapshot.error.toString());
                               }
-                              return const Text('ERROR');
+                              return Container();
                             }),
                         const SizedBox(
                           height: 10,
@@ -234,7 +235,7 @@ class Home extends StatelessWidget {
                               } else {
                                 print(snapshot.error.toString());
                               }
-                              return Text(snapshot.error.toString());
+                              return Container();
                             }),
                         const SizedBox(
                           height: 10,

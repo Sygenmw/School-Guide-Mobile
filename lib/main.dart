@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/controllers/video_controller.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,7 @@ void main() async {
     Get.put(BannerController());
     Get.put(SchoolsNearController());
     Get.put(EduBlogController());
+    Get.put(VideoController());
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -42,7 +44,7 @@ class SchoolGuide extends StatelessWidget {
         fontFamily: 'quicksand',
       ),
       debugShowCheckedModeBanner: false,
-      home:   Home(),
+      home: Home(),
     );
   }
 }
