@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:school_guide/style/app_styles.dart';
-import 'package:school_guide/views/home/school_directory/school_details.dart';
+import 'package:school_guide/views/home/school_directory/school_info.dart';
 
 class SchoolCard extends StatelessWidget {
   const SchoolCard({Key? key, required this.schoolImage, required this.name, required this.schoolLevel, required this.location, this.distance = 0.0, this.showDistance = false}) : super(key: key);

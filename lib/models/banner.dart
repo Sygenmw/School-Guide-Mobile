@@ -18,10 +18,10 @@ class BannerDetails {
   final String bannerLink;
   final String bannerTitle;
   final Timestamp createdAt;
+  final Timestamp dateLine;
   final String linkType;
   final String schoolID;
   final Timestamp updatedAt;
-  final Timestamp dateLine;
 
   factory BannerDetails.fromDocument(DocumentSnapshot doc) => BannerDetails(
         bannerDescription: doc["bannerDescription"],

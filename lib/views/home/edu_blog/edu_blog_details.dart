@@ -1,11 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:school_guide/controllers/time_controller.dart';
+import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class EduBlogDetails extends StatelessWidget {
-  const EduBlogDetails({Key? key}) : super(key: key);
+class EduBlogItemDetails extends StatelessWidget {
+  const EduBlogItemDetails({Key? key, required this.eduBlog}) : super(key: key);
+  final EduBlogDetails eduBlog;
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +20,12 @@ class EduBlogDetails extends StatelessWidget {
           isHomeAppBar: true,
         ),
         body: CustomBody(
-          text: 'Education blog/Digital library Malawi',
+          text: 'Education blog/${eduBlog.postTitle}',
           children: [
-            SizedBox( 
+            SizedBox(
               height: 170,
-              child: Image.network(
-                'https://www.gannett-cdn.com/presto/2020/08/24/PGRE/c006a84b-e37a-4c7d-9c6c-d5ca09f52660-BacktoSchool-MB18-08242020.jpg?crop=2999,1687,x0,y152&width=2999&height=1687&format=pjpg&auto=webp',
+              child: CachedNetworkImage(
+                imageUrl: eduBlog.postCover,
                 fit: BoxFit.cover,
               ),
             ),
@@ -34,19 +39,19 @@ class EduBlogDetails extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Digital Library Malawi',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                        Text(
+                          eduBlog.postTitle,
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                         ),
                         Row(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'By: ',
                               style: TextStyle(),
                             ),
                             Text(
-                              'Ahmed Assan',
-                              style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
+                              eduBlog.postAuthor,
+                              style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
                             ),
                           ],
                         ),
@@ -123,24 +128,33 @@ class EduBlogDetails extends StatelessWidget {
                           ],
                         ),
                         Row(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Posted: ',
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Text(
-                              '22 June 2022',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
+                              TimeConversion.convertToTimeAgo(eduBlog.createdAt),
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
                             ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      '15 years of teaching English to hundreds of children in various parts of England, there are four books that have been on the',
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Html(
+                      data: eduBlog.postContent,
+                      style: {
+                        "h3": Style(
+                          fontSize: FontSize(25),
+                          backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                        ),
+                        "p": Style(
+                          fontSize: FontSize(22),
+                        ),
+                      },
                     ),
                   ),
                 ],

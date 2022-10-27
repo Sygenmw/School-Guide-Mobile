@@ -15,7 +15,7 @@ class HomeButton extends StatelessWidget {
   }) : super(key: key);
 
   final VoidCallback onPressed;
-  final List<String> items;
+  final List items;
   final String image;
   final String title;
   final bool isSmall;
@@ -60,40 +60,48 @@ class HomeButton extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: CircleAvatar(radius: 30, backgroundColor: AppColors.primaryColor, backgroundImage: AssetImage(image)),
                   ),
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    ...items.map((e) => Padding(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...items.map(
+                        (text) => Padding(
                           padding: const EdgeInsets.only(bottom: 3.0),
                           child: Row(
-                              children: needDots
-                                  ? [
-                                      const Icon(
-                                        Icons.fiber_manual_record,
-                                        size: 8,
-                                        color: AppColors.white,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          e,
-                                          style: const TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 14,
-                                          ),
+                            children: needDots
+                                ? [
+                                    const Icon(
+                                      Icons.fiber_manual_record,
+                                      size: 8,
+                                      color: AppColors.white,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0),
+                                      child: Text(
+                                        text,
+                                        style: const TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 14,
                                         ),
                                       ),
-                                    ]
-                                  : [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 4.0),
-                                        child: Text(e,
-                                            style: const TextStyle(
-                                              color: AppColors.white,
-                                              fontSize: 14,
-                                            )),
+                                    ),
+                                  ]
+                                : [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0),
+                                      child: Text(
+                                        text,
+                                        style: const TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 14,
+                                        ),
                                       ),
-                                    ]),
-                        )),
-                  ]),
+                                    ),
+                                  ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

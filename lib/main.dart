@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/controllers/edu_blog_controller.dart';
+import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/style/app_styles.dart';
-import 'package:school_guide/views/home.dart';
+import 'package:school_guide/views/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controllers/all_controllers.dart';
 import 'firebase_options.dart';
@@ -14,6 +16,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) {
     Get.put(BannerController());
+    Get.put(SchoolsNearController());
+    Get.put(EduBlogController());
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -33,12 +37,12 @@ class SchoolGuide extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
     return GetMaterialApp(
-      defaultTransition: Transition.cupertino,
+      defaultTransition: Transition.fadeIn,
       theme: ThemeData(
         fontFamily: 'quicksand',
       ),
       debugShowCheckedModeBanner: false,
-      home: const Home(),
+      home:   Home(),
     );
   }
 }

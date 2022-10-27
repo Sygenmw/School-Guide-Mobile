@@ -1,117 +1,137 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:school_guide/controllers/featured_carousel_controller.dart';
+import 'package:school_guide/controllers/all_controllers.dart';
 import 'package:school_guide/models/banner.dart';
+import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
-import 'package:school_guide/views/home/school_directory/school_details.dart';
+import 'package:school_guide/views/home/school_directory/school_info.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeCarousel extends StatelessWidget {
-  HomeCarousel({Key? key}) : super(key: key);
-  late FeaturedItems items = FeaturedItems();
+class HomeCarousel extends StatefulWidget {
+  const HomeCarousel({Key? key}) : super(key: key);
+
+  @override
+  State<HomeCarousel> createState() => _HomeCarouselState();
+}
+
+class _HomeCarouselState extends State<HomeCarousel> {
+  final BannerController bannerController = Get.find();
+
+  List<BannerDetails> validBanners = [];
+
+  void getBanners() {
+    for (var banner in bannerController.allBanners) {
+      if (banner.dateLine.compareTo(Timestamp.now()) > 0) {
+        validBanners.add(banner);
+        print('NOT YET DATELINE : ${banner.dateLine.compareTo(Timestamp.now())}');
+      } else {
+        print('Dateline Passed${banner.dateLine.compareTo(Timestamp.now())}');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    getBanners();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<BannerDetails>>(
-        stream: getAllBanners(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<BannerDetails> banners = snapshot.data!;
-            List<BannerDetails> validBanners = [];
-
-            for (var banner in banners) {
-              if (banner.dateLine.compareTo(Timestamp.now()) > 0) {
-                validBanners.add(banner);
-              } else {
-                // print('in else');
-              }
-            }
-
-            return validBanners.isEmpty
-                ? Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Image.network(
-                      'https://th.bing.com/th/id/R.b502cd29aed436797c011142ca531565?rik=cmFu6HN4%2fm2RTQ&pid=ImgRaw&r=0',
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                : CarouselSlider.builder(
-                    itemCount: validBanners.length,
-                    itemBuilder: (BuildContext context, int index, int pageViewIndex) {
-                      // final diff = DateTime.now().difference(TimeConversion.convertToDateTime(banners[index].dateLine));
-                      // print(diff);
-                      return Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: GestureDetector(
-                          onTap: validBanners[index].linkType == 'External'
-                              ? () {
-                                  launchUrl(Uri.parse(banners[index].bannerLink), mode: LaunchMode.externalApplication);
-                                }
-                              : () {
-                                  Get.to(() => const SchoolInfo());
-                                },
-                          child: Container(
-                            width: 400,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                banners[index].bannerImage,
-                                fit: BoxFit.cover,
-                              ),
+    return validBanners.isEmpty
+        ? Container(
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: const Center(child: Text('Loading')),
+          )
+        : CarouselSlider.builder(
+            itemCount: validBanners.length,
+            itemBuilder: (BuildContext context, int index, int pageViewIndex) {
+              // final diff = DateTime.now().difference(TimeConversion.convertToDateTime(banners[index].dateLine));
+              // print(diff);
+              return Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: GestureDetector(
+                  onTap: validBanners[index].linkType == 'External'
+                      ? () {
+                          launchUrl(Uri.parse(validBanners[index].bannerLink), mode: LaunchMode.externalApplication);
+                        }
+                      : () {
+                          Get.to(() => const SchoolInfo());
+                        },
+                  child: Container(
+                    width: 420,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        imageUrl: bannerController.allBanners[index].bannerImage,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => SizedBox(
+                          width: 200.0,
+                          height: 100.0,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.black12,
+                            highlightColor: Colors.black,
+                            child: Column(
+                              children: const [
+                                SizedBox(
+                                  height: 20,
+                                  width: double.infinity,
+                                  // color: Colors.grey,
+                                )
+                              ],
                             ),
                           ),
                         ),
-                      );
-                    },
-                    options: CarouselOptions(
-                      height: 200,
-                      aspectRatio: 16 / 9,
-                      viewportFraction: 0.8,
-                      initialPage: 0,
-                      enableInfiniteScroll: true,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 3),
-                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enlargeCenterPage: true,
-                      scrollDirection: Axis.horizontal,
+                      ),
                     ),
-                  );
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-          return Container();
-        });
-  }
-
-  // Get all the banners
-  Stream<List<BannerDetails>> getAllBanners() {
-    return FirebaseFirestore.instance.collection('banners').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => BannerDetails.fromDocument(doc)).toList());
+                  ),
+                ),
+              );
+            },
+            options: CarouselOptions(
+              height: 220,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.8,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayCurve: Curves.easeInOut,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
+            ),
+          );
   }
 }
 
 class EduCarousel extends StatelessWidget {
-  EduCarousel({Key? key}) : super(key: key);
-  late FeaturedItems items = FeaturedItems();
+  const EduCarousel({Key? key, required this.blogItems}) : super(key: key);
+  final List<EduBlogDetails> blogItems;
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider.builder(
-      itemCount: items.featuredItems.length,
+      itemCount: blogItems.length,
       itemBuilder: (BuildContext context, int index, int pageViewIndex) {
         return Padding(
           padding: const EdgeInsets.all(2.0),
           child: GestureDetector(
             onTap: () {
-              Get.to(() => const EduBlogDetails());
+              Get.to(() => EduBlogItemDetails(
+                    eduBlog: blogItems[index],
+                  ));
             },
             child: Container(
               width: 400,
@@ -126,7 +146,7 @@ class EduCarousel extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Image.network(
-                        items.featuredItems[index],
+                        blogItems[index].postCover,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -147,9 +167,9 @@ class EduCarousel extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    'Digital Library Malawi',
-                                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
+                                  Text(
+                                    blogItems[index].postTitle,
+                                    style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
                                   ),
                                   Material(
                                     borderRadius: BorderRadius.circular(4),
@@ -168,8 +188,8 @@ class EduCarousel extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const Expanded(
-                                child: Text('If you can read this correctly without doing any jiggling it means you are sicksssss'),
+                              Expanded(
+                                child: Text(blogItems[index].postDescription),
                               )
                             ],
                           ),

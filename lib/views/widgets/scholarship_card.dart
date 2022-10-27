@@ -34,7 +34,7 @@ class ScholarshipCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const ScholarshipDetails();
+                  return const Scholarship();
                 },
               ),
             );

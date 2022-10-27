@@ -1,13 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:school_guide/controllers/time_controller.dart';
+import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
 
 class BlogArticleCard extends StatelessWidget {
-  const BlogArticleCard({Key? key, required this.articleTitle, required this.articleDescription, required this.publishedDate, required this.image}) : super(key: key);
-  final String articleTitle;
-  final String articleDescription;
-  final String publishedDate;
-  final String image;
+  const BlogArticleCard({Key? key, required this.blog}) : super(key: key);
+  final EduBlogDetails blog;
 
   @override
   Widget build(BuildContext context) {
@@ -26,62 +26,68 @@ class BlogArticleCard extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: ((BuildContext context) {
-                    return const EduBlogDetails();
+                    return EduBlogItemDetails(
+                      eduBlog: blog,
+                    );
                   }),
                 ),
               );
             },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-                    child: Image.network(
-                      image,
-                      fit: BoxFit.cover,
+            child: SizedBox(
+              height: 130,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                      child: CachedNetworkImage(
+                        imageUrl: blog.postCover,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                    flex: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 6.0),
-                            child: Text(
-                              articleTitle,
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 17),
+                  Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 6.0),
+                              child: Text(
+                                blog.postTitle,
+                                style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 17),
+                              ),
                             ),
-                          ),
-                          Text(
-                            articleDescription,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: AppColors.black,
+                            Text(
+                              blog.postDescription.length > 110 ? "${blog.postDescription.substring(0, 110)}..." : blog.postDescription,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: AppColors.black,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  publishedDate,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.primaryColor,
-                                  ),
-                                )),
-                          ),
-                        ],
-                      ),
-                    ))
-              ],
+                            const Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(
+                                    TimeConversion.convertToTimeAgo(blog.createdAt),
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ))
+                ],
+              ),
             ),
           ),
         ),

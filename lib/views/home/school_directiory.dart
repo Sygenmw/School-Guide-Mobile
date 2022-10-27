@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
@@ -20,6 +23,8 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
 
   int? levelSelectedIndex;
   int? curriculumSelectedIndex;
+
+  final SchoolsNearController schoolController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -210,35 +215,42 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
+
+  void addSchools() {
+    for (var school in schoolController.allSchools) {
+      addedSchools.add(school);
+    }
+  }
+
+  List<SchoolDetails> addedSchools = [];
+  final List<Widget> _allSchools = [
+    const SchoolCard(
+      schoolImage: AppImages.bedirLogo,
+      name: 'Bedir International Schools',
+      schoolLevel: 'Primary',
+      location: 'Lilongwe',
+    ),
+    const SchoolCard(
+      schoolImage: AppImages.jpiiLogo,
+      name: 'John Paul II College',
+      schoolLevel: 'College',
+      location: 'Blantyre',
+    ),
+  ];
+
+  List<String> destinations = [
+    'Local',
+    'International',
+  ];
+  List<String> levels = [
+    'High School',
+    'Bachelor\'s',
+    'Master\'s',
+    'Doctrorate',
+  ];
+  List<String> curriculums = [
+    'MSCE',
+    'IGCSE',
+    'ALL',
+  ];
 }
-
-List<Widget> _allSchools = [
-  const SchoolCard(
-    schoolImage: AppImages.bedirLogo,
-    name: 'Bedir International Schools',
-    schoolLevel: 'Primary',
-    location: 'Lilongwe',
-  ),
-  const SchoolCard(
-    schoolImage: AppImages.jpiiLogo,
-    name: 'John Paul II College',
-    schoolLevel: 'College',
-    location: 'Blantyre',
-  ),
-];
-
-List<String> destinations = [
-  'Local',
-  'International',
-];
-List<String> levels = [
-  'High School',
-  'Bachelor\'s',
-  'Master\'s',
-  'Doctrorate',
-];
-List<String> curriculums = [
-  'MSCE',
-  'IGCSE',
-  'ALL',
-];

@@ -4,8 +4,8 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 
-class ScholarshipDetails extends StatelessWidget {
-  const ScholarshipDetails({Key? key}) : super(key: key);
+class Scholarship extends StatelessWidget {
+  const Scholarship({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

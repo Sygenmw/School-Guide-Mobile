@@ -23,6 +23,11 @@ dependencies:
   url_launcher: ^6.1.6
   intl: ^0.17.0
   timeago: ^3.3.0
+  image: ^3.2.2
+  cached_network_image: ^3.2.2
+  shimmer: ^2.0.0
+  youtube_player_flutter: ^8.1.1
+  flutter_html: ^3.0.0-alpha.6
 
 dev_dependencies:
   flutter_test:
