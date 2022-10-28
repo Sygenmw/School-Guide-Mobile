@@ -6,7 +6,7 @@ class SchoolsNearController extends GetxController {
   var allSchools = <SchoolDetails>[].obs;
   @override
   void onInit() {
-    // allSchools.bindStream(_getAllSchools());
+    allSchools.bindStream(_getAllSchools());
 
     notifyChildrens();
     super.onInit();

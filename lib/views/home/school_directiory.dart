@@ -207,37 +207,21 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                 : Container(),
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
-              child: Column(
-                children: _allSchools,
-              ),
+              child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:schoolController.allSchools.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SchoolCard(
+                            school: schoolController.allSchools[index],
+                          );
+                        })
             )
           ],
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
 
-  void addSchools() {
-    for (var school in schoolController.allSchools) {
-      addedSchools.add(school);
-    }
-  }
-
-  List<SchoolDetails> addedSchools = [];
-  final List<Widget> _allSchools = [
-    const SchoolCard(
-      schoolImage: AppImages.bedirLogo,
-      name: 'Bedir International Schools',
-      schoolLevel: 'Primary',
-      location: 'Lilongwe',
-    ),
-    const SchoolCard(
-      schoolImage: AppImages.jpiiLogo,
-      name: 'John Paul II College',
-      schoolLevel: 'College',
-      location: 'Blantyre',
-    ),
-  ];
-
+ 
   List<String> destinations = [
     'Local',
     'International',

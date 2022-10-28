@@ -1,15 +1,12 @@
-
 import 'package:flutter/material.dart';
+import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class SchoolCard extends StatelessWidget {
-  const SchoolCard({Key? key, required this.schoolImage, required this.name, required this.schoolLevel, required this.location, this.distance = 0.0, this.showDistance = false}) : super(key: key);
-  final String schoolImage;
-  final String name;
-  final String schoolLevel;
-  final String location;
-  final double distance;
+  const SchoolCard({Key? key, required this.school, this.showDistance = false}) : super(key: key);
+  final SchoolDetails school;
   final bool showDistance;
 
   @override
@@ -25,7 +22,9 @@ class SchoolCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const SchoolInfo();
+                  return SchoolInfo(
+                    school: school,
+                  );
                 },
               ),
             );
@@ -37,10 +36,19 @@ class SchoolCard extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0, left: 12, right: 12, bottom: 0),
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primaryColor,
-                      backgroundImage: AssetImage(schoolImage),
-                      radius: 35,
+                    child: SizedBox(
+                      height: 70,
+                      width: 70,
+                      child: Hero(
+                        tag: 'school',
+                        child: ClipRRect(
+                          clipBehavior: Clip.antiAlias,
+                          borderRadius: BorderRadius.circular(70),
+                          child: CachedImage(
+                            imageUrl: school.schoolLogo,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -53,7 +61,7 @@ class SchoolCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            name,
+                            school.schoolName,
                             style: const TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
@@ -71,53 +79,59 @@ class SchoolCard extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 2.0),
                                 child: Text(
-                                  schoolLevel,
+                                  school.curriculum.first,
                                   style: const TextStyle(color: Colors.white, fontSize: 16),
                                 ),
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              const ImageIcon(
-                                AssetImage(
-                                  AppImages.location,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Row(
+                              children: [
+                                const ImageIcon(
+                                  AssetImage(
+                                    AppImages.location,
+                                  ),
+                                  color: AppColors.white,
+                                  size: 14,
                                 ),
-                                color: AppColors.white,
-                                size: 14,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 2.0),
-                                child: Text(
-                                  location,
-                                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 2.0),
+                                  child: Text(
+                                    school.address.substring(0, 40),
+                                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
                       showDistance
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                const Icon(
-                                  Icons.map,
-                                  size: 12,
-                                  color: AppColors.white,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 4.0, right: 10),
-                                  child: Text(
-                                    '$distance km',
-                                    style: const TextStyle(
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: const [
+                                  Icon(
+                                    Icons.map,
+                                    size: 12,
+                                    color: AppColors.white,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4.0, right: 10),
+                                    child: Text(
+                                      '12 km from you',
+                                      style: TextStyle(
+                                        color: AppColors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             )
                           : Container()
                     ],

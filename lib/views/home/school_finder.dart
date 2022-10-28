@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:school_guide/style/app_styles.dart';
+import 'package:get/get.dart';
+import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/school_card.dart';
@@ -7,7 +8,8 @@ import 'package:school_guide/views/widgets/school_card.dart';
 import '../widgets/custom_body.dart';
 
 class SchoolFinder extends StatelessWidget {
-  const SchoolFinder({Key? key}) : super(key: key);
+  SchoolFinder({Key? key}) : super(key: key);
+  final SchoolsNearController schoolController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -17,25 +19,21 @@ class SchoolFinder extends StatelessWidget {
         isHomeAppBar: true,
       ),
       body: CustomBody(
-        needsHeader: false,
+        needsHeader: true,
+        text: 'Schools near you',
         children: [
-          Column(
-            children: _allSchools,
-          ),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: schoolController.allSchools.length,
+              itemBuilder: (BuildContext context, int index) {
+                return SchoolCard(
+                  school: schoolController.allSchools[index],
+                  showDistance: true,
+                );
+              })
         ],
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }
-
-List<Widget> _allSchools = [
-  const SchoolCard(
-    schoolImage: AppImages.bedirLogo,
-    name: 'Bedir International Primary',
-    schoolLevel: 'Primary',
-    location: 'Lilongwe',
-    distance: 22.2,
-    showDistance: true,
-  ),
-];

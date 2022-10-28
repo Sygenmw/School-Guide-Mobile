@@ -66,7 +66,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
                           launchUrl(Uri.parse(validBanners[index].bannerLink), mode: LaunchMode.externalApplication);
                         }
                       : () {
-                          Get.to(() => const SchoolInfo());
+                          // Get.to(() => const SchoolInfo());
                         },
                   child: Container(
                     width: 420,

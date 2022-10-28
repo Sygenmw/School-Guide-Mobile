@@ -10,7 +10,6 @@ import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog.dart';
 import 'package:school_guide/views/home/scholarships.dart';
 import 'package:school_guide/views/home/school_directiory.dart';
-import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:school_guide/views/home/school_finder.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
@@ -56,7 +55,7 @@ class Home extends StatelessWidget {
                                     launchUrl(Uri.parse(bannerController.allBanners[index].bannerLink), mode: LaunchMode.externalApplication);
                                   }
                                 : () {
-                                    Get.to(() => const SchoolInfo());
+                                    // Get.to(() => const SchoolInfo());
                                   },
                             child: Container(
                               width: 420,
@@ -112,7 +111,7 @@ class Home extends StatelessWidget {
                                   items: schoolNames.length > 1 ? schoolNames.sublist(0, 2) : schoolNames,
                                   needDots: false,
                                   onPressed: () {
-                                    Get.to(() => const SchoolFinder());
+                                    Get.to(() => SchoolFinder());
                                   },
                                 );
                               } else {

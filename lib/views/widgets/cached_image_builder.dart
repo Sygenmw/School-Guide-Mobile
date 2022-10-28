@@ -4,13 +4,14 @@ import 'package:shimmer/shimmer.dart';
 
 class CachedImage extends StatelessWidget {
   final String imageUrl;
+  final BoxFit fit;
 
-  const CachedImage({super.key, required this.imageUrl});
+  const CachedImage({super.key, required this.imageUrl, this.fit = BoxFit.cover});
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      fit: BoxFit.cover,
+      fit: fit,
       placeholder: (context, url) => SizedBox(
         width: 200.0,
         height: 90.0,

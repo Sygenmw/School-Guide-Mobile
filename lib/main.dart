@@ -42,6 +42,7 @@ class SchoolGuide extends StatelessWidget {
     ]);
     return GetMaterialApp(
       defaultTransition: Transition.fadeIn,
+      
       theme: ThemeData(
         fontFamily: 'quicksand',
       ),
