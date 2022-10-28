@@ -3,6 +3,7 @@ import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/scholarships/scholarship_details.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class ScholarshipCard extends StatelessWidget {
   const ScholarshipCard({Key? key, required this.scholarship}) : super(key: key);
@@ -22,7 +23,7 @@ class ScholarshipCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return   Scholarship(
+                  return Scholarship(
                     scholarship: scholarship,
                   );
                 },
@@ -47,10 +48,19 @@ class ScholarshipCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(scholarship.scholarshipLogo),
-                        backgroundColor: AppColors.primaryColor,
-                        radius: 30,
+                      child: SizedBox(
+                        height: 90,
+                        width: 90,
+                        child: Hero(
+                          tag: 'scholarship',
+                          child: ClipRRect(
+                            clipBehavior: Clip.antiAlias,
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedImage(
+                              imageUrl: scholarship.scholarshipLogo,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Padding(

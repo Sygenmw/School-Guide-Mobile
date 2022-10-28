@@ -53,11 +53,14 @@ class Scholarship extends StatelessWidget {
                       SizedBox(
                         height: 120,
                         width: 120,
-                        child: ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedImage(
-                            imageUrl: scholarship.scholarshipLogo,
+                        child: Hero(
+                          tag: 'scholarship',
+                          child: ClipRRect(
+                            clipBehavior: Clip.antiAlias,
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedImage(
+                              imageUrl: scholarship.scholarshipLogo,
+                            ),
                           ),
                         ),
                       ),
