@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 
 class Scholarship extends StatelessWidget {
-  const Scholarship({Key? key}) : super(key: key);
-
+  const Scholarship({Key? key, required this.scholarship}) : super(key: key);
+  final ScholarshipDetails scholarship;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,20 +25,20 @@ class Scholarship extends StatelessWidget {
                   flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       // First Column generated Picture
                       Text(
-                        'International Student Scholarship',
-                        style: TextStyle(
+                        '${scholarship.destination} Student Scholarship',
+                        style: const TextStyle(
                           fontSize: 30,
                         ),
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(top: 8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'Rhodes Scholarship at Oxford University',
-                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          scholarship.scholarshipName,
+                          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -48,10 +50,16 @@ class Scholarship extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // Second Column generated Picture
-                      Image.network(
-                        'https://th.bing.com/th/id/R.486f1764f961de3df42c5ef175617f9f?rik=3G1Z2eo7vlRBTA&riu=http%3a%2f%2fwww.ranklogos.com%2fwp-content%2fuploads%2f2012%2f05%2foxford.png&ehk=YX8yI5GIvlMlfwVa%2fTj4pXdVyFl6N37BrqCvarDmOco%3d&risl=&pid=ImgRaw&r=0',
-                        height: 110,
-                        width: 110,
+                      SizedBox(
+                        height: 120,
+                        width: 120,
+                        child: ClipRRect(
+                          clipBehavior: Clip.antiAlias,
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedImage(
+                            imageUrl: scholarship.scholarshipLogo,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -65,9 +73,9 @@ class Scholarship extends StatelessWidget {
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
-            const Text(
-              'The Rhodes Scholarships are postgraduate awards supporting exceptional all-round students at the University of Oxford. Established in the will of Cecil Rhodes in 1902, the Rhodes is the oldest and perhaps the most prestigious international scholarship program in the world. ',
-              style: TextStyle(fontSize: 16, wordSpacing: 2.2),
+            Text(
+              scholarship.scholarshipDescription,
+              style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
@@ -76,9 +84,9 @@ class Scholarship extends StatelessWidget {
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
-            const Text(
-              'Oxford University in UK',
-              style: TextStyle(fontSize: 16, wordSpacing: 2.2),
+            Text(
+              scholarship.hostUniversity,
+              style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
@@ -87,9 +95,9 @@ class Scholarship extends StatelessWidget {
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
-            const Text(
-              'Subject to limited restrictions, Rhodes Scholars may study any full-time postgraduate degree at the University of Oxford.',
-              style: TextStyle(fontSize: 16, wordSpacing: 2.2),
+            Text(
+              scholarship.level,
+              style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
@@ -98,9 +106,9 @@ class Scholarship extends StatelessWidget {
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
-            const Text(
-              'A class of 95 Scholars is selected each year',
-              style: TextStyle(fontSize: 16, wordSpacing: 2.2),
+            Text(
+              'A class of ${scholarship.numberOfScholarschips} Scholars is selected each year',
+              style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
@@ -109,9 +117,9 @@ class Scholarship extends StatelessWidget {
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
-            const Text(
-              'Lesotho, Malawi, Namibia and eSwatini), Syria, Jordan, Lebanon, Palestine, United Arab Emirates, United States (50 states of the US, the District of Columbia, and the U.S. territories of American Samoa, Guam, Northern Mariana Islands, Puerto Rico and the U.S. Virgin Islands), West Africa (Benin, Burkina Faso, Cape Verde, Gambia, Ghana, Guinea, Guinea-Bissau, Ivory Coast, Liberia, Mali, Mauritania, Niger, Nigeria, the island of Saint Helena, Senegal, Sierra Leone, São Tomé and Principe and Togo), Zambia, and Zimbabwe',
-              style: TextStyle(fontSize: 16, wordSpacing: 2.2),
+            Text(
+              scholarship.targetGroup,
+              style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),

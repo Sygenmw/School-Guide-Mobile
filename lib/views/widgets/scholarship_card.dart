@@ -1,25 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:school_guide/controllers/time_controller.dart';
+import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/scholarships/scholarship_details.dart';
 
 class ScholarshipCard extends StatelessWidget {
-  const ScholarshipCard(
-      {Key? key,
-      required this.title,
-      required this.subtitle,
-      required this.scholarshipLevels,
-      required this.deadline,
-      required this.countryOfScholarship,
-      required this.commencementDates,
-      required this.image})
-      : super(key: key);
-  final String title;
-  final String image;
-  final String subtitle;
-  final String scholarshipLevels;
-  final String deadline;
-  final String countryOfScholarship;
-  final String commencementDates;
+  const ScholarshipCard({Key? key, required this.scholarship}) : super(key: key);
+
+  final ScholarshipDetails scholarship;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +22,9 @@ class ScholarshipCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const Scholarship();
+                  return   Scholarship(
+                    scholarship: scholarship,
+                  );
                 },
               ),
             );
@@ -48,7 +38,7 @@ class ScholarshipCard extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: FittedBox(
                     child: Text(
-                      title,
+                      scholarship.scholarshipName,
                       style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 20),
                     ),
                   ),
@@ -58,7 +48,7 @@ class ScholarshipCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(image),
+                        backgroundImage: NetworkImage(scholarship.scholarshipLogo),
                         backgroundColor: AppColors.primaryColor,
                         radius: 30,
                       ),
@@ -73,11 +63,11 @@ class ScholarshipCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                subtitle,
+                                scholarship.scholarshipDescription,
                                 style: const TextStyle(color: Colors.white, fontSize: 16),
                               ),
                               Text(
-                                scholarshipLevels,
+                                scholarship.level,
                                 style: const TextStyle(color: Colors.white, fontSize: 16),
                               ),
                             ],
@@ -90,15 +80,15 @@ class ScholarshipCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Deadline : $deadline',
+                                'Deadline : ${TimeConversion.convertTimeStamp(scholarship.createdAt)}',
                                 style: const TextStyle(color: Colors.white, fontSize: 16),
                               ),
                               Text(
-                                'Study in : $countryOfScholarship',
+                                'Study in : ${scholarship.destination}',
                                 style: const TextStyle(color: Colors.white, fontSize: 16),
                               ),
                               Text(
-                                'Course starts : $commencementDates',
+                                'Course starts :  ${TimeConversion.convertTimeStamp(scholarship.createdAt)}',
                                 style: const TextStyle(color: Colors.white, fontSize: 16),
                               ),
                             ],

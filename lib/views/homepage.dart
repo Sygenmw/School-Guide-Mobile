@@ -13,12 +13,11 @@ import 'package:school_guide/views/home/school_directiory.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:school_guide/views/home/school_finder.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -63,29 +62,11 @@ class Home extends StatelessWidget {
                               width: 420,
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                               child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: CachedNetworkImage(
-                                    imageUrl: bannerController.allBanners[index].bannerImage,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => SizedBox(
-                                      width: 200.0,
-                                      height: 100.0,
-                                      child: Shimmer.fromColors(
-                                        baseColor: Colors.black12,
-                                        highlightColor: Colors.black,
-                                        child: Column(
-                                          children: const [
-                                            SizedBox(
-                                              height: 20,
-                                              width: double.infinity,
-                                              // color: Colors.grey,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                  )),
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedImage(
+                                  imageUrl: bannerController.allBanners[index].bannerImage,
+                                ),
+                              ),
                             ),
                           ),
                         );

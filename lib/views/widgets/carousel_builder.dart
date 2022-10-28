@@ -145,9 +145,26 @@ class EduCarousel extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 3,
-                      child: Image.network(
-                        blogItems[index].postCover,
+                      child: CachedNetworkImage(
+                        imageUrl: blogItems[index].postCover,
                         fit: BoxFit.cover,
+                        placeholder: (context, url) => SizedBox(
+                          width: 200.0,
+                          height: 100.0,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.black12,
+                            highlightColor: Colors.black,
+                            child: Column(
+                              children: const [
+                                SizedBox(
+                                  height: 20,
+                                  width: double.infinity,
+                                  // color: Colors.grey,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
+import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/controllers/video_controller.dart';
 import 'package:school_guide/style/app_styles.dart';
@@ -20,6 +21,7 @@ void main() async {
     Get.put(SchoolsNearController());
     Get.put(EduBlogController());
     Get.put(VideoController());
+    Get.put(ScholarshipController());
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
