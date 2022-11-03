@@ -23,15 +23,15 @@ class BannerDetails {
   final String schoolID;
   final Timestamp updatedAt;
 
-  factory BannerDetails.fromDocument(DocumentSnapshot doc) => BannerDetails(
-        bannerDescription: doc["bannerDescription"],
-        bannerImage: doc["bannerImage"],
-        bannerLink: doc["bannerLink"],
-        schoolID: doc["schoolID"],
-        bannerTitle: doc["bannerTitle"],
-        createdAt: doc["createdAt"],
-        linkType: doc["linkType"],
-        updatedAt: doc["updatedAt"],
-        dateLine: doc["dateLine"],
+  factory BannerDetails.fromDocument(DocumentSnapshot? doc) => BannerDetails(
+        bannerDescription: doc!["bannerDescription"] ?? '',
+        bannerImage: doc["bannerImage"] ?? '',
+        bannerLink: doc["bannerLink"] ?? '',
+        schoolID: doc["schoolID"] ?? '',
+        bannerTitle: doc["bannerTitle"] ?? '',
+        createdAt: doc["createdAt"] ?? Timestamp.now(),
+        linkType: doc["linkType"] ?? '',
+        updatedAt: doc["updatedAt"] ?? Timestamp.now(),
+        dateLine: doc["dateline"] ?? Timestamp.now(),
       );
 }

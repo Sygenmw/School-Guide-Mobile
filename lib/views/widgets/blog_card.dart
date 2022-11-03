@@ -45,6 +45,7 @@ class BlogArticleCard extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: blog.postCover,
                         fit: BoxFit.cover,
+                        height:130,
                       ),
                     ),
                   ),

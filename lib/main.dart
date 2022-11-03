@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/controllers/agent_controller.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
 import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
@@ -22,6 +23,7 @@ void main() async {
     Get.put(EduBlogController());
     Get.put(VideoController());
     Get.put(ScholarshipController());
+    Get.put(AgentController());
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -42,7 +44,6 @@ class SchoolGuide extends StatelessWidget {
     ]);
     return GetMaterialApp(
       defaultTransition: Transition.fadeIn,
-      
       theme: ThemeData(
         fontFamily: 'quicksand',
       ),

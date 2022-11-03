@@ -110,6 +110,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     child: GestureDetector(
                                       onTap: () {
                                         HapticFeedback.vibrate();
+                                        // scrollController.animateTo(2.2, duration: Duration(seconds: 1), curve: Curve.ease0,  );
                                       },
                                       child: Image.asset(
                                         AppImages.infoHand,
@@ -226,6 +227,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     }),
                               ),
                               const Divider(),
+                            //  end of first
                               Row(
                                 children: [
                                   Image.asset(
@@ -288,6 +290,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                 ),
                               ),
                               const Divider(),
+                              // end of second
                               Row(
                                 children: [
                                   Image.asset(
@@ -330,6 +333,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                 },
                                 child: CustomText(school.website, icon: Icons.circle),
                               ),
+                          
+                          //  end of third
                             ],
                           ),
                         ),

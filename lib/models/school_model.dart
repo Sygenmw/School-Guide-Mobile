@@ -16,6 +16,7 @@ class SchoolDetails {
     required this.curriculum,
     required this.updatedAt,
     required this.website,
+    required this.id,
   });
 
   final String address;
@@ -32,6 +33,7 @@ class SchoolDetails {
   final String status;
   final Timestamp updatedAt;
   final String website;
+  final String id;
 
   factory SchoolDetails.fromDocument(DocumentSnapshot doc) => SchoolDetails(
         address: doc["address"],
@@ -48,6 +50,7 @@ class SchoolDetails {
         status: doc["status"],
         updatedAt: doc["updatedAt"],
         website: doc["website"],
+        id: doc.id,
       );
 }
 

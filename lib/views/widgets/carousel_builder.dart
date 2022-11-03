@@ -10,7 +10,6 @@ import 'package:school_guide/models/banner.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
-import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -185,7 +184,7 @@ class EduCarousel extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    blogItems[index].postTitle,
+                                    blogItems[index].postTitle.length < 30 ? blogItems[index].postTitle : blogItems[index].postTitle.substring(0, 30),
                                     style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
                                   ),
                                   Material(

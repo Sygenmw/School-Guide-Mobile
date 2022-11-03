@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/banner_controller.dart';
+import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/models/school_model.dart';
@@ -10,6 +11,7 @@ import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog.dart';
 import 'package:school_guide/views/home/scholarships.dart';
 import 'package:school_guide/views/home/school_directiory.dart';
+import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:school_guide/views/home/school_finder.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
@@ -18,13 +20,55 @@ import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final BannerController bannerController = Get.find();
+
+  final SchoolsNearController schoolController = Get.find();
+
+  final xgirlfriend = '';
+
+  SchoolDetails currentSchool = SchoolDetails(
+      address: '',
+      city: '',
+      country: '',
+      createdAt: Timestamp.now(),
+      details: [],
+      email: '',
+      phone: '',
+      schoolLogo: '',
+      schoolName: '',
+      showInApp: false,
+      status: '',
+      curriculum: [],
+      updatedAt: Timestamp.now(),
+      website: '',
+      id: '');
+
+  getSchool() {
+    for (var banner in bannerController.allBanners) {
+      for (var school in schoolController.allSchools) {
+        if (school.id == banner.schoolID) {
+          currentSchool = school;
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    getSchool();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(bannerController.allBanners.length);
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: false,
@@ -47,15 +91,16 @@ class Home extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index, int pageViewIndex) {
                         // final diff = DateTime.now().difference(TimeConversion.convertToDateTime(banners[index].dateLine));
                         // print(diff);
+                        // print(bannerController.allBanners[1].linkType);
                         return Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: GestureDetector(
-                            onTap: bannerController.allBanners[index].linkType == 'External'
+                            onTap: bannerController.allBanners[index].linkType.toLowerCase() == 'external'
                                 ? () {
                                     launchUrl(Uri.parse(bannerController.allBanners[index].bannerLink), mode: LaunchMode.externalApplication);
                                   }
                                 : () {
-                                    // Get.to(() => const SchoolInfo());
+                                    Get.to(() => SchoolInfo(school: currentSchool));
                                   },
                             child: Container(
                               width: 420,

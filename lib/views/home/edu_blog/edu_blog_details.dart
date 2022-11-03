@@ -144,15 +144,41 @@ class EduBlogItemDetails extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text(
+                          'By: ',
+                          style: TextStyle(),
+                        ),
+                        Text(
+                          eduBlog.postAuthor,
+                          style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
                     child: Html(
                       data: eduBlog.postContent,
                       style: {
                         "h3": Style(
-                          fontSize: FontSize(25),
+                          letterSpacing: 1.2,
+                          fontSize: FontSize(30),
                           backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
                         ),
                         "p": Style(
-                          fontSize: FontSize(22),
+                          letterSpacing: 1.2,
+                          fontSize: FontSize(30),
+                        ),
+                        "ol": Style(
+                          letterSpacing: 1.2,
+                          fontSize: FontSize(30),
+                        ),
+                        "li": Style(
+                          letterSpacing: 1.2,
+                          fontSize: FontSize(30),
                         ),
                       },
                     ),

@@ -44,7 +44,7 @@ class _VideosState extends State<Videos> {
         SizedBox(
           height: Get.size.height,
           child: ListView.builder(
-            itemCount: 2,
+            itemCount: videos.length,
             itemBuilder: (BuildContext context, int index) {
               return VideoCard(video: videos[index]);
             },
@@ -89,6 +89,7 @@ class VideoCard extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: video.thumbNail,
                         fit: BoxFit.cover,
+                        height: 95,
                       ),
                     ),
                   ),
@@ -102,7 +103,7 @@ class VideoCard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 6.0),
                             child: Text(
-                              video.title,
+                              video.title.length < 30 ? video.title : '${video.title.substring(0, 30)}...',
                               style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 18),
                             ),
                           ),
