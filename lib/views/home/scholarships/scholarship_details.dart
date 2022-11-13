@@ -6,8 +6,8 @@ import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 
-class Scholarship extends StatelessWidget {
-  const Scholarship({Key? key, required this.scholarship}) : super(key: key);
+class ScholarshipDetailsView extends StatelessWidget {
+  const ScholarshipDetailsView({Key? key, required this.scholarship}) : super(key: key);
   final ScholarshipDetails scholarship;
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class Scholarship extends StatelessWidget {
                         height: 120,
                         width: 120,
                         child: Hero(
-                          tag: 'scholarship',
+                          tag: scholarship.scholarshipName,
                           child: ClipRRect(
                             clipBehavior: Clip.antiAlias,
                             borderRadius: BorderRadius.circular(100),

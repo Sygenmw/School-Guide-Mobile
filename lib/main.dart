@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/agent_controller.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
+import 'package:school_guide/controllers/font_controller.dart';
 import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/controllers/video_controller.dart';
@@ -24,10 +25,11 @@ void main() async {
     Get.put(VideoController());
     Get.put(ScholarshipController());
     Get.put(AgentController());
+    Get.put(FontController());
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: AppColors.grey,
+    statusBarColor: AppColors.white,
     statusBarIconBrightness: Brightness.dark,
   ));
   runApp(const SchoolGuide());

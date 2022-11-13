@@ -30,6 +30,7 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   firebase_core: ^1.24.0
   firebase_core_platform_interface: 4.5.1
+  scroll_to_index: ^3.0.1
 
 dev_dependencies:
   flutter_test:

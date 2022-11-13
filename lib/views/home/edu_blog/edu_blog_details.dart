@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:school_guide/controllers/font_controller.dart';
 import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
@@ -9,8 +11,9 @@ import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class EduBlogItemDetails extends StatelessWidget {
-  const EduBlogItemDetails({Key? key, required this.eduBlog}) : super(key: key);
+  EduBlogItemDetails({Key? key, required this.eduBlog}) : super(key: key);
   final EduBlogDetails eduBlog;
+  final FontController fontController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -36,26 +39,9 @@ class EduBlogItemDetails extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          eduBlog.postTitle,
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              'By: ',
-                              style: TextStyle(),
-                            ),
-                            Text(
-                              eduBlog.postAuthor,
-                              style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
-                            ),
-                          ],
-                        ),
-                      ],
+                    child: Text(
+                      '${eduBlog.postTitle}',
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                   ),
                   Padding(
@@ -160,32 +146,55 @@ class EduBlogItemDetails extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: Html(
-                      data: eduBlog.postContent,
-                      style: {
-                        "h3": Style(
-                          letterSpacing: 1.2,
-                          fontSize: FontSize(30),
-                          backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
-                        ),
-                        "p": Style(
-                          letterSpacing: 1.2,
-                          fontSize: FontSize(30),
-                        ),
-                        "ol": Style(
-                          letterSpacing: 1.2,
-                          fontSize: FontSize(30),
-                        ),
-                        "li": Style(
-                          letterSpacing: 1.2,
-                          fontSize: FontSize(30),
-                        ),
-                      },
+                    child: Obx(
+                      () => Html(
+                        data: eduBlog.postContent,
+                        style: {
+                          "h3": Style(
+                            letterSpacing: 1.2,
+                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
+                            backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                          ),
+                          "p": Style(
+                            letterSpacing: 1.2,
+                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
+                          ),
+                          "ol": Style(
+                            letterSpacing: 1.2,
+                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
+                          ),
+                          "li": Style(
+                            letterSpacing: 1.2,
+                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
+                          ),
+                        },
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+          ],
+        ),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton.small(
+                child: Center(
+                  child: Text(
+                    '+',
+                    style: TextStyle(fontSize: 30),
+                  ),
+                ),
+                onPressed: fontController.increase),
+            FloatingActionButton.small(
+                child: Text(
+                  '-',
+                  style: TextStyle(fontSize: 30),
+                ),
+                onPressed: fontController.decrease),
           ],
         ),
         bottomNavigationBar: const CustomBottomNavBar());

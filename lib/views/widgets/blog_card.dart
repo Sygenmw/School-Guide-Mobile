@@ -5,8 +5,8 @@ import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
 
-class BlogArticleCard extends StatelessWidget {
-  const BlogArticleCard({Key? key, required this.blog}) : super(key: key);
+class EduBlogCard extends StatelessWidget {
+  const EduBlogCard({Key? key, required this.blog}) : super(key: key);
   final EduBlogDetails blog;
 
   @override
@@ -45,7 +45,7 @@ class BlogArticleCard extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: blog.postCover,
                         fit: BoxFit.cover,
-                        height:130,
+                        height: 130,
                       ),
                     ),
                   ),

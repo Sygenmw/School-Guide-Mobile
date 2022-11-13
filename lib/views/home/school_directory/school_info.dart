@@ -43,7 +43,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
             fit: StackFit.expand,
             children: [
               Hero(
-                tag: 'school',
+                tag: school.schoolName,
                 child: CachedImage(
                   imageUrl: school.schoolLogo,
                 ),
@@ -110,7 +110,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     child: GestureDetector(
                                       onTap: () {
                                         HapticFeedback.vibrate();
-                                        // scrollController.animateTo(2.2, duration: Duration(seconds: 1), curve: Curve.ease0,  );
+                                        // controller.scrollToIndex(5, preferPosition: AutoScrollPosition.begin);
                                       },
                                       child: Image.asset(
                                         AppImages.infoHand,
@@ -123,6 +123,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     child: GestureDetector(
                                       onTap: () {
                                         HapticFeedback.vibrate();
+                                        // controller.scrollToIndex(13, preferPosition: AutoScrollPosition.begin);
+
                                         // print('');
                                       },
                                       child: Padding(
@@ -139,7 +141,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     child: GestureDetector(
                                       onTap: () {
                                         HapticFeedback.vibrate();
-                                        // print('');
+                                        // controller.scrollToIndex(16, preferPosition: AutoScrollPosition.begin);
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(18.0),
@@ -159,7 +161,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   school.schoolName.toUpperCase(),
-                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
                                 ),
                               )),
                               Row(
@@ -172,7 +174,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   const Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      'School Info',
+                                      'School info',
                                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
                                     ),
                                   ),
@@ -181,53 +183,54 @@ class _SchoolInfoState extends State<SchoolInfo> {
                               CustomText(
                                 school.city,
                                 icon: Icons.location_city,
+                                fontSize: 14,
                               ),
                               Column(
                                 children: [
-                                  CustomText(school.address.substring(0, 40), icon: Icons.maps_home_work),
+                                  CustomText(school.address.length < 40 ? school.address : school.address.substring(0, 40), fontSize: 14, icon: Icons.maps_home_work),
                                 ],
                               ),
-                              CustomText(
-                                school.country,
-                                icon: Icons.map,
-                              ),
+                              CustomText(school.country, fontSize: 14, icon: Icons.map),
                               const CustomText('Curriculums offered', needsIcon: false, color: AppColors.primaryColor),
                               SizedBox(
                                 height: 40,
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: school.curriculum.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 4.0,
-                                          top: 4.0,
-                                          bottom: 4.0,
-                                        ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: AppColors.primaryColor,
-                                            borderRadius: BorderRadius.circular(10.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 26.0),
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: school.curriculum.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 4.0,
+                                            top: 4.0,
+                                            bottom: 4.0,
                                           ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                            child: Center(
-                                              child: Text(
-                                                school.curriculum[index],
-                                                style: const TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: AppColors.white,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.primaryColor,
+                                              borderRadius: BorderRadius.circular(10.0),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                              child: Center(
+                                                child: Text(
+                                                  school.curriculum[index],
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.white,
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    }),
+                                        );
+                                      }),
+                                ),
                               ),
                               const Divider(),
-                            //  end of first
+                              //  end of first
                               Row(
                                 children: [
                                   Image.asset(
@@ -315,26 +318,23 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   launchUrl(Uri.parse(query));
                                   // launchUrl(Uri.parse(school.email), mode: LaunchMode.externalApplication);
                                 },
-                                child: CustomText(
-                                  school.email,
-                                  icon: Icons.email,
-                                ),
+                                child: CustomText(school.email, fontSize: 14, icon: Icons.email),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   launchUrl(Uri.parse('tel:${school.phone}'), mode: LaunchMode.externalApplication);
                                 },
-                                child: CustomText(school.phone, icon: Icons.phone_android),
+                                child: CustomText(school.phone, fontSize: 14, icon: Icons.phone_android),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   HapticFeedback.selectionClick();
                                   launchUrl(Uri.parse(school.website), mode: LaunchMode.externalApplication);
                                 },
-                                child: CustomText(school.website, icon: Icons.circle),
+                                child: CustomText(school.website, fontSize: 14, icon: Icons.circle),
                               ),
-                          
-                          //  end of third
+
+                              //  end of third
                             ],
                           ),
                         ),
@@ -369,12 +369,13 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      padding: const EdgeInsets.only(left: 26.0, top: 2, bottom: 12),
       child: needsIcon
           ? Row(
               children: [
                 Icon(
                   icon,
+                  size: 20,
                   color: AppColors.primaryColor,
                 ),
                 const SizedBox(

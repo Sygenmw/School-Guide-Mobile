@@ -24,18 +24,19 @@ class HomeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = Get.size;
+    debugPrint('${size.height / 3.5}');
     return Container(
-      constraints: isSmall ? BoxConstraints(minHeight: 100, maxHeight: 150, minWidth: size.width / 2.3) : BoxConstraints(minHeight: 200, maxHeight: 220, minWidth: size.width / 2.3),
+      constraints:
+          isSmall ? BoxConstraints(minHeight: size.height / 5.8, maxHeight: size.height / 5.2, minWidth: size.width / 2.3) : BoxConstraints(minHeight: 200, maxHeight: 220, minWidth: size.width / 2.3),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Material(
         color: AppColors.primaryColor,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         elevation: 2,
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           onTap: () {
             HapticFeedback.vibrate();
             onPressed();
@@ -60,47 +61,51 @@ class HomeButton extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: CircleAvatar(radius: 30, backgroundColor: AppColors.primaryColor, backgroundImage: AssetImage(image)),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...items.map(
-                        (text) => Padding(
-                          padding: const EdgeInsets.only(bottom: 3.0),
-                          child: Row(
-                            children: needDots
-                                ? [
-                                    const Icon(
-                                      Icons.fiber_manual_record,
-                                      size: 8,
-                                      color: AppColors.white,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4.0),
-                                      child: Text(
-                                        text,
-                                        style: const TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 14,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...items.map(
+                          (text) => Padding(
+                            padding: const EdgeInsets.only(bottom: 3.0),
+                            child: Row(
+                              children: needDots
+                                  ? [
+                                      const Icon(
+                                        Icons.fiber_manual_record,
+                                        size: 8,
+                                        color: AppColors.white,
+                                      ),
+                                      FittedBox(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 4.0),
+                                          child: Text(
+                                            text,
+                                            style: const TextStyle(
+                                              color: AppColors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ]
-                                : [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4.0),
-                                      child: Text(
-                                        text,
-                                        style: const TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 14,
+                                    ]
+                                  : [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 4.0),
+                                        child: Text(
+                                          text,
+                                          style: const TextStyle(
+                                            color: AppColors.white,
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

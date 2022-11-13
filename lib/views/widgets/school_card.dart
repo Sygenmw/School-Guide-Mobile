@@ -40,7 +40,7 @@ class SchoolCard extends StatelessWidget {
                       height: 70,
                       width: 70,
                       child: Hero(
-                        tag: 'school',
+                        tag: school.schoolName,
                         child: ClipRRect(
                           clipBehavior: Clip.antiAlias,
                           borderRadius: BorderRadius.circular(70),
@@ -79,7 +79,7 @@ class SchoolCard extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 2.0),
                                 child: Text(
-                                  school.curriculum.first,
+                                  school.details[0].type,
                                   style: const TextStyle(color: Colors.white, fontSize: 16),
                                 ),
                               ),

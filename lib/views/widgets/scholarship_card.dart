@@ -23,7 +23,7 @@ class ScholarshipCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return Scholarship(
+                  return ScholarshipDetailsView(
                     scholarship: scholarship,
                   );
                 },
@@ -52,7 +52,7 @@ class ScholarshipCard extends StatelessWidget {
                         height: 90,
                         width: 90,
                         child: Hero(
-                          tag: 'scholarship',
+                          tag: scholarship.scholarshipName,
                           child: ClipRRect(
                             clipBehavior: Clip.antiAlias,
                             borderRadius: BorderRadius.circular(100),

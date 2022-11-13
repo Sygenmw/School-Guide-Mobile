@@ -15,6 +15,14 @@ class BannerController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    allBanners.bindStream(_getAllBanners());
+
+    notifyChildrens();
+    super.onReady();
+  }
+
   // void getBanners() {
   //   for (var banner in allBanners) {
   //     if (banner.dateLine.compareTo(Timestamp.now()) > 0) {

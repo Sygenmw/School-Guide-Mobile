@@ -23,7 +23,6 @@ class _ScholarshipsState extends State<Scholarships> {
 
   @override
   Widget build(BuildContext context) {
-    print(scholarshipController.allScholarships.length);
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: true,

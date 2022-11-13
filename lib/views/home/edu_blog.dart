@@ -51,10 +51,7 @@ class _EducationBlogState extends State<EducationBlog> {
               shrinkWrap: true,
               itemCount: currentBlogs.length,
               itemBuilder: (BuildContext context, int index) {
-                return BlogArticleCard(
-                  blog: currentBlogs[index]
-                   
-                );
+                return EduBlogCard(blog: currentBlogs[index]);
               },
             ),
           ],

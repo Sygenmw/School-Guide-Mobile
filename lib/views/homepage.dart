@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +34,6 @@ class _HomeState extends State<Home> {
 
   final SchoolsNearController schoolController = Get.find();
 
-  final xgirlfriend = '';
-
   SchoolDetails currentSchool = SchoolDetails(
       address: '',
       city: '',
@@ -63,7 +63,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    getSchool();
+    Timer.periodic(Duration(seconds: 3), (callback) {
+      getSchool();
+    });
     super.initState();
   }
 
@@ -129,6 +131,7 @@ class _HomeState extends State<Home> {
                         scrollDirection: Axis.horizontal,
                       ),
                     ),
+              // HomeCarousel(),
               Padding(
                 padding: const EdgeInsets.only(top: 12.0),
                 child: Row(
@@ -252,7 +255,7 @@ class _HomeState extends State<Home> {
                                   image: AppImages.eduBlog,
                                   isSmall: true,
                                   needDots: false,
-                                  items: blogTitles.length > 1 ? blogTitles.sublist(0, 2) : blogTitles,
+                                  items: blogTitles.length > 1 ? blogTitles.sublist(0, 1) : blogTitles,
                                   onPressed: () {
                                     Get.to(() => const EducationBlog());
                                   },
