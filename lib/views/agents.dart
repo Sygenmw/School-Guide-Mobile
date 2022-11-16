@@ -47,7 +47,7 @@ class _AgentsState extends State<Agents> {
         isHomeAppBar: true,
       ),
       body: CustomBody(
-        text: agents.isEmpty ? 'HEMPTY' : 'Agents',
+        text: agents.isEmpty ? '' : 'Agents (${agents.length})',
         children: [
           SizedBox(
             height: Get.size.height,
@@ -114,13 +114,13 @@ class AgentCard extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 6.0),
                             child: Text(
                               agent.name,
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 18),
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 15),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 6.0),
                             child: Text(
-                              agent.description.length < 100 ? agent.description : agent.description.substring(0, 80),
+                              agent.description.length < 40 ? agent.description : agent.description.substring(0, 40),
                               style: const TextStyle(color: AppColors.black, fontSize: 14),
                             ),
                           ),
@@ -208,6 +208,13 @@ class AgentInformation extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      'Contact info',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
+                  ),
                   const SizedBox(
                     height: 12,
                   ),
@@ -235,7 +242,7 @@ class AgentInformation extends StatelessWidget {
                       HapticFeedback.selectionClick();
                       launchUrl(Uri.parse(agent.website), mode: LaunchMode.externalApplication);
                     },
-                    child: CustomText(agent.website, icon: Icons.circle),
+                    child: CustomText(agent.website, icon: Icons.circle,color: AppColors.primaryColor),
                   ),
                 ],
               ),

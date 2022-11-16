@@ -7,14 +7,16 @@ class CustomBody extends StatelessWidget {
     required this.children,
     this.text = '',
     this.needsHeader = true,
+    this.hPadding = 8.0,
   }) : super(key: key);
   final List<Widget> children;
   final String text;
   final bool needsHeader;
+  final double hPadding;
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: hPadding),
         child: needsHeader
             ? ListView(
                 children: [

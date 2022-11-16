@@ -96,12 +96,16 @@ class SchoolCard extends StatelessWidget {
                                   color: AppColors.white,
                                   size: 14,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 2.0),
-                                  child: Text(
-                                    school.address.substring(0, 40),
-                                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                                  ),
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 2.0),
+                                      child: Text(
+                                        school.address.substring(0, 26),
+                                        style: const TextStyle(color: Colors.white, fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

@@ -47,8 +47,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 child: BottomNavItem(
                     onPressed: () {
                       HapticFeedback.vibrate();
-
-                      Get.offAll(() => Home());
+                      Get.offAll(() => const Home());
                     },
                     image: AppImages.home,
                     label: 'Home'),

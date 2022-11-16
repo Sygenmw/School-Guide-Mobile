@@ -358,6 +358,11 @@ class CustomText extends StatelessWidget {
     this.color = AppColors.black,
     this.icon = Icons.abc,
     this.needsIcon = true,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.pLeft = 26,
+    this.pBottom = 12,
+    this.pRight = 0,
+    this.pTop = 2,
   }) : super(key: key);
 
   final String text;
@@ -365,13 +370,19 @@ class CustomText extends StatelessWidget {
   final Color color;
   final IconData icon;
   final bool needsIcon;
+  final MainAxisAlignment mainAxisAlignment;
+  final double pLeft;
+  final double pRight;
+  final double pBottom;
+  final double pTop;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 26.0, top: 2, bottom: 12),
+      padding: EdgeInsets.only(left: pLeft, top: pTop, bottom: pBottom, right: pRight),
       child: needsIcon
           ? Row(
+              mainAxisAlignment: mainAxisAlignment,
               children: [
                 Icon(
                   icon,

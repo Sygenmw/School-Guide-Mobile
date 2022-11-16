@@ -1,17 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/controllers/video_controller.dart';
 import 'package:school_guide/models/video_model.dart';
-import 'package:school_guide/style/app_styles.dart';
-import 'package:school_guide/views/videos/video_info.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/video_card.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
 class Videos extends StatefulWidget {
   const Videos({Key? key}) : super(key: key);
 
