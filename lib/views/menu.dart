@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/style/app_styles.dart';
-import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:school_guide/views/menu/about_us.dart';
+import 'package:school_guide/views/menu/advertise_school.dart';
+import 'package:school_guide/views/menu/become_a_tutor.dart';
+import 'package:school_guide/views/menu/become_an_agent.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/menu_card.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:share_plus/share_plus.dart';
@@ -32,7 +35,7 @@ class Menu extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   MenuCardItem(
                     onTap: () {},
                     icon: Icons.settings,
@@ -62,15 +65,28 @@ class Menu extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   TopText(text: 'Tutoring', fontSize: 16),
-                  MenuCardItem(onTap: () {}, icon: Icons.person_add_sharp, text: 'Become a tutor.'),
                   SizedBox(height: 10),
+                  MenuCardItem(
+                      onTap: () {
+                        Get.to(() => BecomeATutor());
+                      },
+                      icon: Icons.person_add_sharp,
+                      text: 'Become a tutor.'),
+                  SizedBox(height: 20),
                   TopText(text: 'Advertisement', fontSize: 16),
-                  MenuCardItem(onTap: () {}, icon: Icons.branding_watermark, text: 'Advertise your school with us.'),
                   SizedBox(height: 10),
+                  MenuCardItem(
+                      onTap: () {
+                        Get.to(() => AdvertiseSchool());
+                      },
+                      icon: Icons.branding_watermark,
+                      text: 'Advertise your school with us.'),
+                  SizedBox(height: 20),
                   TopText(text: 'Agents', fontSize: 16),
+                  SizedBox(height: 10),
                   MenuCardItem(
                     onTap: () {
-                      displayDialog();
+                      Get.to(() => BecomeAnAgent());
                     },
                     text: 'Become an agent',
                     icon: Icons.support_agent,
@@ -93,7 +109,7 @@ class Menu extends StatelessWidget {
 
   void displayDialog() {
     Get.defaultDialog(
-      title: 'Talk to our agent',
+      title: 'Talk to us',
       confirm: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -179,7 +195,7 @@ class Menu extends StatelessWidget {
             ),
           ),
           const Text(
-            'Click any button below to get in touch with our agent.',
+            'Click any button below to get in touch with us now.',
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.w400),
           ),

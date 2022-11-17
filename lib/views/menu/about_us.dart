@@ -4,6 +4,7 @@ import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutUs extends StatelessWidget {
   AboutUs({super.key});
@@ -31,7 +32,6 @@ class AboutUs extends StatelessWidget {
             height: 5,
           ),
           Container(
-            height: Get.size.height - Get.size.height / 2.878,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(bRadius),
@@ -73,7 +73,7 @@ class AboutUs extends StatelessWidget {
                           'assets/images/sygen_logo.png',
                           color: AppColors.white,
                         )),
-                    SizedBox(height: 5),
+                    SizedBox(height: 25),
                   ],
                 ),
               ],
@@ -100,7 +100,11 @@ class AboutUs extends StatelessWidget {
     ),
     Padding(
       padding: const EdgeInsets.all(2.0),
-      child: GestureDetector(onTap: () {}, child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.facebook_outlined, color: AppColors.primaryColor))),
+      child: GestureDetector(
+          onTap: () {
+            launchUrl(Uri.parse('https://web.facebook.com/profile.php?id=100086416987904'), mode: LaunchMode.externalApplication);
+          },
+          child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.facebook_outlined, color: AppColors.primaryColor))),
     ),
     Padding(
       padding: const EdgeInsets.all(2.0),

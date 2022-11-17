@@ -16,7 +16,7 @@ class CurriculumCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0, top: 8),
       child: Container(
         height: 95,
-        // decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: NetworkImage(curriculum.logo))),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),),
         child: Material(
           borderRadius: BorderRadius.circular(8),
           color: AppColors.grey,

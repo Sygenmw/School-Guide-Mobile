@@ -6,14 +6,15 @@ class SchoolDetails {
     required this.city,
     required this.country,
     required this.createdAt,
-    required this.details,
+    required this.curriculums,
     required this.email,
+    required this.gallery,
     required this.phone,
     required this.schoolLogo,
     required this.schoolName,
     required this.showInApp,
     required this.status,
-    required this.curriculum,
+    required this.type,
     required this.updatedAt,
     required this.website,
     required this.id,
@@ -23,14 +24,15 @@ class SchoolDetails {
   final String city;
   final String country;
   final Timestamp createdAt;
-  final List<String> curriculum;
-  final List<Detail> details;
+  final List<CarriculumDets> curriculums;
+  final List<String> gallery;
   final String email;
   final String phone;
   final String schoolLogo;
   final String schoolName;
   final bool showInApp;
   final String status;
+  final String type;
   final Timestamp updatedAt;
   final String website;
   final String id;
@@ -40,34 +42,32 @@ class SchoolDetails {
         city: doc["city"],
         country: doc["country"],
         createdAt: doc["createdAt"],
-        curriculum: List<String>.from(doc["curriculum"].map((x) => x)),
-        details: List<Detail>.from(doc["details"].map((detail) => Detail.fromMap(detail))).toList(),
+        curriculums: List<CarriculumDets>.from(doc["curriculums"].map((detail) => CarriculumDets.fromMap(detail))).toList(),
+        gallery: List<String>.from(doc["gallery"].map((x) => x)),
         email: doc["email"],
         phone: doc["phone"],
         schoolLogo: doc["schoolLogo"],
         schoolName: doc["schoolName"],
         showInApp: doc["showInApp"],
         status: doc["status"],
+        type: doc["type"],
         updatedAt: doc["updatedAt"],
         website: doc["website"],
         id: doc.id,
       );
 }
 
-class Detail {
-  Detail({
-    required this.level,
+class CarriculumDets {
+  CarriculumDets({
+    required this.name,
     required this.price,
-    required this.type,
   });
 
-  final String level;
+  final String name;
   final String price;
-  final String type;
 
-  factory Detail.fromMap(Map<String, dynamic> doc) => Detail(
-        level: doc["level"],
+  factory CarriculumDets.fromMap(Map<String, dynamic> doc) => CarriculumDets(
+        name: doc["name"],
         price: doc["price"],
-        type: doc["type"],
       );
 }

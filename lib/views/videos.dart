@@ -6,6 +6,7 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/video_card.dart';
+
 class Videos extends StatefulWidget {
   const Videos({Key? key}) : super(key: key);
 
@@ -51,5 +52,3 @@ class _VideosState extends State<Videos> {
     );
   }
 }
-
-

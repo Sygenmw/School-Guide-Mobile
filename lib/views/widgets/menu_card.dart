@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_guide/style/app_styles.dart';
-import 'package:school_guide/views/home/school_directory/school_info.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 
 class MenuCardItem extends StatelessWidget {
   const MenuCardItem({Key? key, required this.onTap, required this.text, required this.icon}) : super(key: key);

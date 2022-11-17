@@ -20,24 +20,35 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             BorderRadius.only(bottomRight: isHomeAppBar ? const Radius.circular(0) : const Radius.circular(30), bottomLeft: isHomeAppBar ? const Radius.circular(0) : const Radius.circular(30)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              onTap: backIconAvailable
-                  ? () {
-                      HapticFeedback.vibrate();
-                      Get.back();
-                    }
-                  : () {},
-              child: Image.asset(
-                'assets/images/logo.png',
-                height: 40,
-                width: 40,
-              ),
-            ),
+            backIconAvailable
+                ? Material(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: () {
+                          HapticFeedback.vibrate();
+                          Get.back();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(
+                            Icons.keyboard_arrow_left,
+                            size: 35,
+                            color: AppColors.primaryColor,
+                          ),
+                        )),
+                  )
+                : Image.asset(
+                    'assets/images/logo.png',
+                    height: 40,
+                    width: 40,
+                  ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,17 +63,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 )
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                HapticFeedback.vibrate();
-                // search
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              },
-              child: const Icon(
-                Icons.search,
-                color: AppColors.primaryColor,
-                size: 27,
-              ),
+            Material(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    HapticFeedback.vibrate();
+                    showSearch(context: context, delegate: CustomSearchDelegate());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Icon(
+                      Icons.search,
+                      size: 35,
+                      color: AppColors.primaryColor,
+                    ),
+                  )),
             ),
           ],
         ),

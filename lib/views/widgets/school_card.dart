@@ -79,7 +79,7 @@ class SchoolCard extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 2.0),
                                 child: Text(
-                                  school.details[0].type,
+                                  school.type,
                                   style: const TextStyle(color: Colors.white, fontSize: 16),
                                 ),
                               ),

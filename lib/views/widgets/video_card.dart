@@ -28,23 +28,23 @@ class VideoCard extends StatelessWidget {
               Get.to(() => VideoInformation(video: video));
             },
             child: SizedBox(
-              height: 95,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              height: 230,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 5,
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                       child: CachedNetworkImage(
                         imageUrl: video.thumbNail,
-                        fit: BoxFit.cover,
-                        height: 95,
+                        fit: BoxFit.fitWidth,
+                        height: 200,
                       ),
                     ),
                   ),
                   Expanded(
-                    flex: 5,
+                    flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: Column(
@@ -53,7 +53,7 @@ class VideoCard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 3.0),
                             child: Text(
-                              video.title.length < 20 ? video.title : '${video.title.substring(0, 20)}...',
+                              video.title.length < 40 ? video.title : '${video.title.substring(0, 40)}...',
                               style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
                             ),
                           ),
@@ -69,18 +69,13 @@ class VideoCard extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 4.0),
                             child: Align(
                                 alignment: Alignment.bottomRight,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      TimeConversion.convertTimeStamp(video.createdAt),
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                    ),
-                                  ],
+                                child: Text(
+                                  TimeConversion.convertTimeStamp(video.createdAt),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.primaryColor,
+                                  ),
                                 )),
                           ),
                         ],

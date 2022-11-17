@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
+import 'package:school_guide/views/home/school_directory/gallery.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SchoolInfo extends StatefulWidget {
@@ -44,9 +46,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
             children: [
               Hero(
                 tag: school.schoolName,
-                child: CachedImage(
-                  imageUrl: school.schoolLogo,
-                ),
+                child: CachedImage(imageUrl: school.gallery[2]),
               ),
               Positioned(
                 left: 0,
@@ -198,7 +198,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   padding: const EdgeInsets.only(left: 26.0),
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: school.curriculum.length,
+                                      itemCount: school.curriculums.length,
                                       itemBuilder: (BuildContext context, int index) {
                                         return Padding(
                                           padding: const EdgeInsets.only(
@@ -215,7 +215,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                               padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                               child: Center(
                                                 child: Text(
-                                                  school.curriculum[index],
+                                                  school.curriculums[index].name,
                                                   style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.bold,
@@ -254,7 +254,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)), // Image border
                                 ),
                                 child: CarouselSlider.builder(
-                                  itemCount: 6,
+                                  itemCount: school.gallery.length,
                                   itemBuilder: (BuildContext context, int index, int pageViewIndex) {
                                     return Padding(
                                       padding: const EdgeInsets.all(2.0),
@@ -269,7 +269,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(10),
                                             child: CachedNetworkImage(
-                                              imageUrl: school.schoolLogo,
+                                              imageUrl: school.gallery[index],
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -282,8 +282,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     aspectRatio: 16 / 9,
                                     viewportFraction: 0.3,
                                     initialPage: 0,
-                                    enableInfiniteScroll: true,
-                                    autoPlay: true,
+                                    enableInfiniteScroll: school.gallery.length < 3 ? false : true,
+                                    autoPlay: school.gallery.length < 3 ? false : true,
                                     autoPlayInterval: const Duration(seconds: 3),
                                     autoPlayAnimationDuration: const Duration(milliseconds: 800),
                                     autoPlayCurve: Curves.fastOutSlowIn,
@@ -331,7 +331,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   HapticFeedback.selectionClick();
                                   launchUrl(Uri.parse(school.website), mode: LaunchMode.externalApplication);
                                 },
-                                child: CustomText(school.website, fontSize: 14, icon: Icons.circle),
+                                child: CustomText(school.website, color: AppColors.primaryColor, fontSize: 14, icon: Icons.circle),
                               ),
 
                               //  end of third
@@ -347,125 +347,5 @@ class _SchoolInfoState extends State<SchoolInfo> {
           ),
         ),
         bottomNavigationBar: const CustomBottomNavBar());
-  }
-}
-
-class CustomText extends StatelessWidget {
-  const CustomText(
-    this.text, {
-    Key? key,
-    this.fontSize = 16,
-    this.color = AppColors.black,
-    this.icon = Icons.abc,
-    this.needsIcon = true,
-    this.mainAxisAlignment = MainAxisAlignment.start,
-    this.pLeft = 26,
-    this.pBottom = 12,
-    this.pRight = 0,
-    this.pTop = 2,
-  }) : super(key: key);
-
-  final String text;
-  final double fontSize;
-  final Color color;
-  final IconData icon;
-  final bool needsIcon;
-  final MainAxisAlignment mainAxisAlignment;
-  final double pLeft;
-  final double pRight;
-  final double pBottom;
-  final double pTop;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: pLeft, top: pTop, bottom: pBottom, right: pRight),
-      child: needsIcon
-          ? Row(
-              mainAxisAlignment: mainAxisAlignment,
-              children: [
-                Icon(
-                  icon,
-                  size: 20,
-                  color: AppColors.primaryColor,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  text,
-                  style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: color),
-                ),
-              ],
-            )
-          : Text(
-              text,
-              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: color),
-            ),
-    );
-  }
-}
-
-class DisplayGallery extends StatelessWidget {
-  const DisplayGallery({Key? key, this.title, this.school, required this.imageIndex}) : super(key: key);
-  final String? title;
-  final SchoolDetails? school;
-  final int imageIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    var controller = PageController(keepPage: true, initialPage: imageIndex);
-
-    return Scaffold(
-      appBar: const CustomAppBar(backIconAvailable: true, showAbout: true, isHomeAppBar: true),
-      body: PageView.builder(
-          controller: controller,
-          itemCount: 6,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return Stack(
-              fit: StackFit.expand,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 120,
-                    height: 60,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: InteractiveViewer(
-                      panEnabled: false,
-                      boundaryMargin: const EdgeInsets.all(2),
-                      minScale: 0.5,
-                      maxScale: 20,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: CachedNetworkImage(
-                          imageUrl: school!.schoolLogo,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 10,
-                  right: 15,
-                  child: Card(
-                    margin: const EdgeInsets.all(0),
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '${index + 1} / 6',
-                        style: const TextStyle(color: AppColors.primaryColor, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }),
-      bottomNavigationBar: const CustomBottomNavBar(),
-    );
   }
 }
