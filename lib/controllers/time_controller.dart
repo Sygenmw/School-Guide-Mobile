@@ -9,6 +9,12 @@ class TimeConversion {
     return date;
   }
 
+  static String convertDateTime(DateTime datetime) {
+    DateFormat formatter = DateFormat.yMMMMd();
+    var date = formatter.format(datetime);
+    return date;
+  }
+
   static String convertToTimeAgo(Timestamp timestamp) {
     var date = convertToDateTime(timestamp);
     var formattedTime = timeago.format(date);

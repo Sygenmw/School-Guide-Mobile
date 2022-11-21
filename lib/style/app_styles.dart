@@ -10,6 +10,7 @@ class AppColors {
   static const Color black = Colors.black;
   static const Color white = Colors.white;
   static const Color grey = Color.fromARGB(255, 239, 239, 239);
+  static const Color errorColor = Color.fromARGB(255, 195, 25, 25);
 }
 
 class AppImages {

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
+import 'package:school_guide/views/widgets/custom_snackbar.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BecomeATutor extends StatefulWidget {
   BecomeATutor({super.key});
@@ -16,31 +21,88 @@ class BecomeATutor extends StatefulWidget {
 }
 
 class _BecomeATutorState extends State<BecomeATutor> {
-  var controller = PageController(keepPage: true, initialPage: 1);
-
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   String date = '';
+  DateTime nDate = DateTime.now();
   // Gender
   var selectedGender;
   List<String> genders = ["Male", "Female"];
-  var selectedDistrict;
-  List<String> districts = ["Blantyre", "Chiradzulu", "Balaka", "Zomba", "Mzuzu", "Lilongwe"];
+  var selectedLocation;
+
+  List<String> location = ["Blantyre", "Chiradzulu", "Balaka", "Zomba", "Mzuzu", "Lilongwe"];
 
   // curriculum
   bool igsceChoice = false;
   bool manebChoice = false;
 
+  List<String> curriculums = ["IGCSE", "MANEB"];
+  String selectedCurriculum = '';
+  List<String> selectedCurriculumChoices = [];
   // subjects
-  bool physics = false;
-  bool chemistry = false;
-  bool biology = false;
-  bool math = false;
-  bool ict = false;
-  bool geography = false;
-  bool history = false;
-  bool english = false;
-  bool business = false;
-  bool economics = false;
-  bool accounting = false;
+
+  List<String> subjects = ["Physics", "Chemistry", "Biology", "Mathematics", "ICT", "Geography", "History", "English", "Business", "Economics", "Accounting"];
+  String selectedSubject = '';
+  List<String> selectedChoices = [];
+
+  _buildSubjectsChoiceList() {
+    List<Widget> choices = [];
+    subjects.forEach((item) {
+      choices.add(Container(
+        padding: const EdgeInsets.all(2.0),
+        child: ChoiceChip(
+          backgroundColor: Color.fromARGB(255, 170, 170, 170),
+          label: CustomText(
+            item,
+            pLeft: 0,
+            pTop: 0,
+            pBottom: 0,
+            pRight: 0,
+            color: AppColors.white,
+            needsIcon: false,
+          ),
+          selected: selectedChoices.contains(item),
+          selectedColor: AppColors.primaryColor,
+          onSelected: (selected) {
+            setState(() {
+              selectedChoices.contains(item) ? selectedChoices.remove(item) : selectedChoices.add(item);
+            });
+          },
+        ),
+      ));
+    });
+    return choices;
+  }
+
+  _buildCurriculumChoicesList() {
+    List<Widget> choices = [];
+    curriculums.forEach((item) {
+      choices.add(Container(
+        padding: const EdgeInsets.all(2.0),
+        child: ChoiceChip(
+          backgroundColor: Color.fromARGB(255, 170, 170, 170),
+          label: CustomText(
+            item,
+            pLeft: 0,
+            pTop: 0,
+            pBottom: 0,
+            pRight: 0,
+            color: AppColors.white,
+            needsIcon: false,
+          ),
+          selected: selectedCurriculumChoices.contains(item),
+          selectedColor: AppColors.primaryColor,
+          onSelected: (selected) {
+            setState(() {
+              selectedCurriculumChoices.contains(item) ? selectedCurriculumChoices.remove(item) : selectedCurriculumChoices.add(item);
+            });
+          },
+        ),
+      ));
+    });
+    return choices;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +132,11 @@ class _BecomeATutorState extends State<BecomeATutor> {
             ],
           ),
           SizedBox(height: 6),
-          TopBlackText(text: 'Please, fill in the form below, to register into being a tutor.'),
+          TopBlackText(text: 'Please, fill in the form below, to register as a tutor.'),
           SizedBox(height: 6),
-          CustomFormField(controller: TextEditingController(), hintText: 'enter full name', keyboardType: TextInputType.name, labelText: 'full name'),
-          CustomFormField(controller: TextEditingController(), hintText: 'phone number', keyboardType: TextInputType.phone, labelText: 'phone number'),
-          CustomFormField(controller: TextEditingController(), hintText: 'email address', keyboardType: TextInputType.emailAddress, labelText: 'email address'),
+          CustomFormField(controller: nameController, hintText: 'enter full name', keyboardType: TextInputType.name, labelText: 'full name'),
+          CustomFormField(controller: phoneController, hintText: 'phone number', keyboardType: TextInputType.phone, labelText: 'phone number'),
+          CustomFormField(controller: emailController, hintText: 'email address', keyboardType: TextInputType.emailAddress, labelText: 'email address'),
           SizedBox(height: 5),
           Container(
             height: 40,
@@ -132,8 +194,8 @@ class _BecomeATutorState extends State<BecomeATutor> {
                         iconSize: 30,
                         decoration: const InputDecoration(enabledBorder: InputBorder.none),
                         hint: const Text('Location'),
-                        value: selectedDistrict,
-                        items: districts.map((value) {
+                        value: selectedLocation,
+                        items: location.map((value) {
                           return DropdownMenuItem(
                             value: value,
                             child: Text(value),
@@ -141,7 +203,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
                         }).toList(),
                         onChanged: (value) {
                           setState(() {
-                            selectedDistrict = value as String;
+                            selectedLocation = value as String;
                           });
                         },
                       ),
@@ -156,21 +218,58 @@ class _BecomeATutorState extends State<BecomeATutor> {
             onTap: () {
               Get.bottomSheet(
                 Container(
-                  height: 200,
-                  color: Colors.white,
-                  child: CupertinoDatePicker(
-                    mode: CupertinoDatePickerMode.date,
-                    initialDateTime: DateTime(2002),
-                    // use24hFormat: true,
-                    minimumDate: DateTime(1955),
-                    maximumDate: DateTime(2005),
-                    onDateTimeChanged: (DateTime newDateTime) {
-                      setState(() {
-                        date = newDateTime.toLocal().toString().substring(0, 10);
-                      });
-                    },
-                  ),
-                ),
+                    height: 250,
+                    color: Colors.transparent,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                            top: 2,
+                            left: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Material(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                child: InkWell(
+                                    borderRadius: BorderRadius.circular(8),
+                                    onTap: () {
+                                      HapticFeedback.vibrate();
+                                      Get.back();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 35,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    )),
+                              ),
+                            )),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            height: 200,
+                            color: Colors.white,
+                            child: CupertinoDatePicker(
+                              mode: CupertinoDatePickerMode.date,
+                              initialDateTime: DateTime(2002),
+                              // use24hFormat: true,
+                              minimumDate: DateTime(1955),
+                              maximumDate: DateTime(2005),
+                              onDateTimeChanged: (DateTime newDateTime) {
+                                setState(() {
+                                  date = newDateTime.toLocal().toString().substring(0, 10);
+                                  nDate = newDateTime;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
               );
             },
             child: Container(
@@ -180,7 +279,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(date.isEmpty ? 'Birthdate' : date),
+                    child: Text(date.isEmpty ? 'Birthdate' : TimeConversion.convertDateTime(nDate)),
                   )),
             ),
           ),
@@ -188,7 +287,6 @@ class _BecomeATutorState extends State<BecomeATutor> {
             height: 10,
           ),
           Container(
-            height: 150,
             decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(8)),
             child: Align(
                 alignment: Alignment.topLeft,
@@ -197,41 +295,13 @@ class _BecomeATutorState extends State<BecomeATutor> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TopBlackText(text: 'Curriculum'),
+                      TopBlackText(text: 'Curriculums'),
                       SizedBox(
                         height: 2,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TopBlackText(text: 'IGCSE'),
-                          Checkbox(
-                              splashRadius: 8,
-                              value: igsceChoice,
-                              onChanged: (value) {
-                                setState(() {
-                                  igsceChoice = value as bool;
-                                });
-                              })
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TopBlackText(text: 'MANEB'),
-                            Checkbox(
-                                splashRadius: 8,
-                                value: manebChoice,
-                                onChanged: (value) {
-                                  setState(() {
-                                    manebChoice = value as bool;
-                                  });
-                                })
-                          ],
-                        ),
-                      ),
+                      Wrap(
+                        children: _buildCurriculumChoicesList(),
+                      )
                     ],
                   ),
                 )),
@@ -256,105 +326,61 @@ class _BecomeATutorState extends State<BecomeATutor> {
                       ),
                     )),
                 Container(
-                  height: 220,
-                  child: PageView.builder(
-                      controller: controller,
-                      itemCount: 5,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: 120,
-                                height: 60,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                                child: InteractiveViewer(
-                                  panEnabled: false,
-                                  boundaryMargin: const EdgeInsets.all(2),
-                                  minScale: 0.5,
-                                  maxScale: 20,
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TopBlackText(text: 'Physical science'),
-                                            Checkbox(
-                                                splashRadius: 8,
-                                                value: physics,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    physics = value as bool;
-                                                  });
-                                                })
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 4.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              TopBlackText(text: 'Chemistry'),
-                                              Checkbox(
-                                                  splashRadius: 8,
-                                                  value: chemistry,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      chemistry = value as bool;
-                                                    });
-                                                  })
-                                            ],
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TopBlackText(text: 'Biology'),
-                                            Checkbox(
-                                                splashRadius: 8,
-                                                value: biology,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    biology = value as bool;
-                                                  });
-                                                })
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 4.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              TopBlackText(text: 'Mathematics'),
-                                              Checkbox(
-                                                  splashRadius: 8,
-                                                  value: math,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      math = value as bool;
-                                                    });
-                                                  })
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
+                  child: Wrap(
+                    children: _buildSubjectsChoiceList(),
+                  ),
                 )
               ],
             ),
           ),
+          SizedBox(height: 10),
+
+          // button to send the values above to an email
+          Container(
+            height: 40,
+            width: Get.size.width / 3,
+            margin: const EdgeInsets.only(left: 60, right: 60),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+            child: Material(
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  bool notEmpty = nameController.text.isNotEmpty ||
+                      emailController.text.isNotEmpty ||
+                      phoneController.text.isNotEmpty ||
+                      date.isNotEmpty ||
+                      selectedChoices.isNotEmpty ||
+                      selectedCurriculumChoices.isNotEmpty;
+                  bool notBlank = (selectedGender.toString().isNotEmpty || selectedLocation.toString().isNotEmpty);
+                  if (notEmpty && notBlank) {
+                    HapticFeedback.vibrate();
+                    String subject = 'APPLICATION FOR A TUTORSHIP';
+                    String body =
+                        'Respected Sir. \nThe above subject matters. I am ${nameController.text.trim()}, a ${((DateTime.now().difference(nDate).inDays) / 365).floor()} year old Malawian, Born $selectedGender, currently residing in $selectedLocation.\nI henceforth write you this email in reference to the above subject.\nThe Subjects that i can easily be tutoring on are ${selectedChoices.join(',')}, mainly of the ${selectedCurriculumChoices.join(',')} Curriculum.\nI will be glad if my application is taken into consideration at your earliest inconvenience.\nFor any further inquiries, please contact me on this same email address or on my mobile phone on ${phoneController.text.trim()}.\n\nKind Regards\n${nameController.text.trim()}.';
+                    String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
+                    launchUrl(Uri.parse(query));
+                  } else {
+                    // show snackbar
+                    CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
+                  }
+                },
+                child: Center(
+                  child: CustomText(
+                    'Send',
+                    pLeft: 0,
+                    pTop: 0,
+                    pBottom: 0,
+                    pRight: 0,
+                    color: AppColors.white,
+                    needsIcon: false,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           SizedBox(height: 10),
         ],
       ),
