@@ -5,6 +5,7 @@ import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.backIconAvailable = true, this.isHomeAppBar = false, this.showAbout = true}) : super(key: key);
@@ -148,9 +149,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return SchoolInfo(
-      school: allSchools.elementAt(schoolNames.indexOf(query)),
-    );
+    return ListView();
   }
 
   @override
@@ -167,20 +166,53 @@ class CustomSearchDelegate extends SearchDelegate {
       return result.contains(input);
     }).toList();
 
-    return ListView.builder(
-      itemCount: suggestions.length,
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          onTap: () {
-            query = suggestions[index];
-            Get.back();
-            Get.to(() => SchoolInfo(
-                  school: allSchools.elementAt(schoolNames.indexOf(query)),
-                ));
-          },
-          title: Text(suggestions[index]),
-        );
-      },
+    return suggestions.isEmpty
+        ? Container(
+            child: Center(child: CustomText('$query does not match any of our records! Pleases try again!', textAlign: TextAlign.center, needsIcon: false, color: AppColors.primaryColor)),
+          )
+        : ListView.builder(
+            itemCount: suggestions.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                color: AppColors.primaryColor,
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  leading: SizedBox(
+                      width: 60,
+                      height: 100,
+                      child: Icon(
+                        Icons.school_rounded,
+                        color: AppColors.white,
+                      )),
+                  onTap: () {
+                    query = suggestions[index];
+                    Get.back();
+                    Get.to(() => SchoolInfo(
+                          school: allSchools.elementAt(schoolNames.indexOf(query)),
+                        ));
+                  },
+                  title: CustomText(
+                    suggestions[index],
+                    pLeft: 0,
+                    pTop: 0,
+                    pBottom: 0,
+                    needsIcon: false,
+                    textAlign: TextAlign.left,
+                    color: AppColors.white,
+                  ),
+                ),
+              );
+            },
+          );
+  }
+}
+
+class SuggestionCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: AppColors.primaryColor,
+      child: ListTile(),
     );
   }
 }

@@ -14,6 +14,7 @@ class CustomText extends StatelessWidget {
     this.pBottom = 12,
     this.pRight = 0,
     this.pTop = 2,
+    this.textAlign = TextAlign.left,
   }) : super(key: key);
 
   final String text;
@@ -26,6 +27,7 @@ class CustomText extends StatelessWidget {
   final double pRight;
   final double pBottom;
   final double pTop;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +47,14 @@ class CustomText extends StatelessWidget {
                 ),
                 Text(
                   text,
+                  textAlign: textAlign,
                   style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: color),
                 ),
               ],
             )
           : Text(
               text,
+              textAlign: textAlign,
               style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: color),
             ),
     );
