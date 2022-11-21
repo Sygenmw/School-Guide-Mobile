@@ -14,10 +14,11 @@ class SchoolDetails {
     required this.schoolName,
     required this.showInApp,
     required this.status,
-    required this.type,
+    required this.levelOfStudy,
     required this.updatedAt,
     required this.website,
     required this.id,
+    required this.destination,
   });
 
   final String address;
@@ -25,6 +26,7 @@ class SchoolDetails {
   final String country;
   final Timestamp createdAt;
   final List<CarriculumDets> curriculums;
+  final String destination;
   final List<String> gallery;
   final String email;
   final String phone;
@@ -32,7 +34,7 @@ class SchoolDetails {
   final String schoolName;
   final bool showInApp;
   final String status;
-  final String type;
+  final String levelOfStudy;
   final Timestamp updatedAt;
   final String website;
   final String id;
@@ -45,12 +47,13 @@ class SchoolDetails {
         curriculums: List<CarriculumDets>.from(doc["curriculums"].map((detail) => CarriculumDets.fromMap(detail))).toList(),
         gallery: List<String>.from(doc["gallery"].map((x) => x)),
         email: doc["email"],
+        destination: doc["destination"],
         phone: doc["phone"],
         schoolLogo: doc["schoolLogo"],
         schoolName: doc["schoolName"],
         showInApp: doc["showInApp"],
         status: doc["status"],
-        type: doc["type"],
+        levelOfStudy: doc["levelOfStudy"],
         updatedAt: doc["updatedAt"],
         website: doc["website"],
         id: doc.id,

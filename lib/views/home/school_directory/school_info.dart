@@ -79,6 +79,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
 
                     // snap: true,
                     builder: (BuildContext context, ScrollController scrollController) {
+                      int number = 9;
                       return Card(
                         margin: const EdgeInsets.all(0),
                         color: Colors.white,
@@ -101,6 +102,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     height: 5,
                                     decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(8)),
                                     padding: const EdgeInsets.only(top: 2.0),
+                                    child: Text(number.toString()),
                                   ),
                                 ),
                               ),

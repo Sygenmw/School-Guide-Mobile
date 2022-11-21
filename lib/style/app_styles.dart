@@ -16,6 +16,7 @@ class AppImages {
   static const String home = 'assets/images/home.png';
   static const String agents = 'assets/images/agents.png';
   static const String curriculum = 'assets/images/curriculum.png';
+  static const String logo = 'assets/images/logo.png';
   static const String menu = 'assets/images/squared_menu.png';
   static const String videos = 'assets/images/videos.png';
   static const String infoHand = 'assets/images/info.png';

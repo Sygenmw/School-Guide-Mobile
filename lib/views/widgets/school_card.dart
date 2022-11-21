@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
-import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class SchoolCard extends StatelessWidget {
   const SchoolCard({Key? key, required this.school, this.showDistance = false}) : super(key: key);
@@ -37,16 +36,11 @@ class SchoolCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0, left: 12, right: 12, bottom: 0),
                     child: SizedBox(
-                      height: 70,
-                      width: 70,
                       child: Hero(
                         tag: school.schoolName,
-                        child: ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          borderRadius: BorderRadius.circular(70),
-                          child: CachedImage(
-                            imageUrl: school.schoolLogo,
-                          ),
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(school.schoolLogo),
                         ),
                       ),
                     ),
@@ -79,7 +73,7 @@ class SchoolCard extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 2.0),
                                 child: Text(
-                                  school.type,
+                                  school.levelOfStudy,
                                   style: const TextStyle(color: Colors.white, fontSize: 16),
                                 ),
                               ),
@@ -101,7 +95,7 @@ class SchoolCard extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 2.0),
                                       child: Text(
-                                        school.address.substring(0, 26),
+                                        school.address.length < 26 ? school.address : school.address.substring(0, 26),
                                         style: const TextStyle(color: Colors.white, fontSize: 16),
                                       ),
                                     ),

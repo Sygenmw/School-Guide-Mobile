@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
+import 'package:school_guide/views/home/school_directory/school_info.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.backIconAvailable = true, this.isHomeAppBar = false, this.showAbout = true}) : super(key: key);
@@ -92,48 +95,71 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
+  final SchoolsNearController schoolController = Get.find();
+  final List<SchoolDetails> allSchools = [];
+  final List<String> schoolNames = [];
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(
-          onPressed: () {
+      Material(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {
+            HapticFeedback.vibrate();
             query.isEmpty ? Get.back() : query = '';
           },
-          icon: const Icon(
-            Icons.clear,
-            color: AppColors.primaryColor,
-          ))
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Icon(
+              Icons.clear,
+              size: 35,
+              color: AppColors.primaryColor,
+            ),
+          ),
+        ),
+      )
     ];
   }
 
   @override
   Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        Get.back();
-      },
-      icon: const Icon(
-        Icons.arrow_back,
-        color: AppColors.primaryColor,
+    return Material(
+      color: AppColors.white,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () {
+          HapticFeedback.vibrate();
+          Get.back();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Icon(
+            Icons.keyboard_arrow_left,
+            size: 35,
+            color: AppColors.primaryColor,
+          ),
+        ),
       ),
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return Center(child: Text(query));
+    return SchoolInfo(
+      school: allSchools.elementAt(schoolNames.indexOf(query)),
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> searchResultsList = [
-      'Sygen Tim',
-      'Sygen Tony',
-      'Sygen Sebastian',
-      'Sygen Dan',
-      'Sygen Everyone',
-      'Sygen Apps',
-    ];
+    schoolController.allSchools.forEach((element) {
+      schoolNames.contains(element.schoolName) ? {} : schoolNames.add(element.schoolName);
+      allSchools.contains(element) ? {} : allSchools.add(element);
+    });
+    List<String> searchResultsList = schoolNames;
 
     List<String> suggestions = searchResultsList.where((searchResult) {
       final result = searchResult.toLowerCase();
@@ -147,7 +173,10 @@ class CustomSearchDelegate extends SearchDelegate {
         return ListTile(
           onTap: () {
             query = suggestions[index];
-            showResults(context);
+            Get.back();
+            Get.to(() => SchoolInfo(
+                  school: allSchools.elementAt(schoolNames.indexOf(query)),
+                ));
           },
           title: Text(suggestions[index]),
         );

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
-import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/school_card.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 
@@ -19,15 +19,36 @@ class SchoolDirectory extends StatefulWidget {
 }
 
 class _SchoolDirectoryState extends State<SchoolDirectory> {
-  int? destinationSelectedIndex;
-
-  int? levelSelectedIndex;
-  int? curriculumSelectedIndex;
-
   final SchoolsNearController schoolController = Get.find();
+  int? destinationSelectedIndex = 0;
+
+  int? levelSelectedIndex = 0;
+  int? curriculumSelectedIndex = 0;
+
+  List selectedSchools = [];
+  void getSchools({required String destination, required String level}) {
+    selectedSchools.clear();
+    schoolController.allSchools.forEach((school) {
+      if (destination.toLowerCase() == 'all' && school.levelOfStudy.toLowerCase() == level.toLowerCase()) {
+        setState(() {
+          selectedSchools.add(school);
+        });
+      } else if (level.toLowerCase() == 'all' && school.destination.toLowerCase() == destination.toLowerCase()) {
+        setState(() {
+          selectedSchools.add(school);
+        });
+      } else if (school.destination.toLowerCase() == destination.toLowerCase() && school.levelOfStudy.toLowerCase() == level.toLowerCase()) {
+        setState(() {
+          selectedSchools.add(school);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    // when rebuilding
+    print(selectedSchools);
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: true,
@@ -61,6 +82,7 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                                   setState(() {
                                     destinationSelectedIndex = index;
                                   });
+                                  getSchools(destination: destinations.elementAt(destinationSelectedIndex!), level: levels.elementAt(levelSelectedIndex!));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -97,9 +119,9 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                       ),
                       onPressed: () {
                         setState(() {
-                          levelSelectedIndex = null;
-                          destinationSelectedIndex = null;
-                          curriculumSelectedIndex = null;
+                          levelSelectedIndex = 0;
+                          destinationSelectedIndex = 0;
+                          curriculumSelectedIndex = 0;
                         });
                       },
                     ),
@@ -129,6 +151,7 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                           setState(() {
                             levelSelectedIndex = index;
                           });
+                          getSchools(destination: destinations.elementAt(destinationSelectedIndex!), level: levels.elementAt(levelSelectedIndex!));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -154,13 +177,13 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                     );
                   }),
             ),
-            destinationSelectedIndex == 0 && levelSelectedIndex == 0
+            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && levelSelectedIndex == 1
                 ? const Padding(
                     padding: EdgeInsets.only(top: 12.0),
                     child: TopBlackText(text: 'CURRICULUM'),
                   )
                 : Container(),
-            destinationSelectedIndex == 0 && levelSelectedIndex == 0
+            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && levelSelectedIndex == 1
                 ? SizedBox(
                     height: 40,
                     child: ListView.builder(
@@ -205,36 +228,64 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                         }),
                   )
                 : Container(),
-            Padding(
-              padding: const EdgeInsets.only(top: 12.0),
-              child: ListView.builder(
+            destinationSelectedIndex == 0 && levelSelectedIndex == 0
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount:schoolController.allSchools.length,
+                        primary: false,
+                        itemCount: schoolController.allSchools.length,
                         itemBuilder: (BuildContext context, int index) {
                           return SchoolCard(
                             school: schoolController.allSchools[index],
                           );
-                        })
-            )
+                        }))
+                : selectedSchools.isEmpty
+                    ? Container(
+                        height: Get.size.height / 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(AppImages.logo))),
+                            ),
+                            CustomText('No items match your filter!', needsIcon: false, color: Colors.black38)
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: selectedSchools.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return SchoolCard(
+                                school: selectedSchools[index],
+                              );
+                            }))
           ],
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
 
- 
   List<String> destinations = [
+    'All',
     'Local',
     'International',
   ];
   List<String> levels = [
+    'All',
     'High School',
-    'Bachelor\'s',
-    'Master\'s',
-    'Doctrorate',
+    'Bachelors',
+    'Masters',
+    'Doctorate',
   ];
   List<String> curriculums = [
+    'ALL',
     'MSCE',
     'IGCSE',
-    'ALL',
   ];
 }
