@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/style/app_styles.dart';
+import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
@@ -27,7 +28,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
 
   var selectedLocation;
 
-  List<String> location = ["Blantyre", "Chiradzulu", "Balaka", "Zomba", "Mzuzu", "Lilongwe"];
+  List<String> location = ["Blantyre", "Zomba", "Mzuzu", "Lilongwe"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +80,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
                       child: DropdownButtonFormField(
                         iconSize: 30,
                         decoration: const InputDecoration(enabledBorder: InputBorder.none),
-                        hint: const Text('Location'),
+                        hint: const Text(''),
                         value: selectedLocation,
                         items: location.map((value) {
                           return DropdownMenuItem(
@@ -92,6 +93,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
                             selectedLocation = value as String;
                           });
                         },
+                        alignment: Alignment.center,
                       ),
                     ),
                   ],
@@ -101,7 +103,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
             height: 10,
           ),
           SizedBox(height: 5),
-          CustomDescFormField(controller: servicesController, hintText: 'Services you provide', labelText: 'Services you Provide'),
+          CustomDescFormField(controller: servicesController, hintText: 'Services you provide', labelText: 'Services you provide'),
           SizedBox(height: 10),
 
           // button to send the values above to an email
@@ -149,6 +151,8 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
           SizedBox(height: 10),
         ],
       ),
+      bottomNavigationBar: CustomBottomNavBar(),
+
     );
   }
 }

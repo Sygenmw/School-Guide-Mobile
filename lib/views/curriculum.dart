@@ -7,6 +7,7 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/curriculum_card.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/empty_list.dart';
 
 class Curriculum extends StatefulWidget {
   const Curriculum({Key? key}) : super(key: key);
@@ -60,15 +61,16 @@ class _CurriculumState extends State<Curriculum> {
           ],
         ),
         SizedBox(height: 6),
-        SizedBox(
-          height: Get.size.height,
-          child: ListView.builder(
-            itemCount: curriculums.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CurriculumCard(curriculum: curriculums[index]);
-            },
-          ),
-        ),
+        curriculums.isEmpty
+            ? EmptyList(text: 'Sorry we have no curriculums at present! Please come back later.')
+            : ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: curriculums.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return CurriculumCard(curriculum: curriculums[index]);
+                },
+              ),
       ]),
       bottomNavigationBar: const CustomBottomNavBar(),
     );

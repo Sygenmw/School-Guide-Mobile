@@ -38,14 +38,13 @@ class _VideosState extends State<Videos> {
         isHomeAppBar: true,
       ),
       body: CustomBody(text: 'Videos', children: [
-        SizedBox(
-          height: Get.size.height,
-          child: ListView.builder(
-            itemCount: videos.length,
-            itemBuilder: (BuildContext context, int index) {
-              return VideoCard(video: videos[index]);
-            },
-          ),
+        ListView.builder(
+          primary: false,
+          shrinkWrap: true,
+          itemCount: videos.length,
+          itemBuilder: (BuildContext context, int index) {
+            return VideoCard(video: videos[index]);
+          },
         ),
       ]),
       bottomNavigationBar: const CustomBottomNavBar(),

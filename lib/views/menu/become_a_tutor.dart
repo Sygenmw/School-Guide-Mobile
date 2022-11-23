@@ -28,10 +28,10 @@ class _BecomeATutorState extends State<BecomeATutor> {
   DateTime nDate = DateTime.now();
   // Gender
   var selectedGender;
-  List<String> genders = ["Male", "Female"];
+  List<String> genders = ["Male", "Female", "Other"];
   var selectedLocation;
 
-  List<String> location = ["Blantyre", "Chiradzulu", "Balaka", "Zomba", "Mzuzu", "Lilongwe"];
+  List<String> location = ["Blantyre", "Zomba", "Mzuzu", "Lilongwe"];
 
   // curriculum
   bool igsceChoice = false;
@@ -126,7 +126,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
               Expanded(
                 flex: 5,
                 child: Text(
-                  'A tutor\'s role is to offer Video/Educational content',
+                  'A tutor\'s role is to offer part time lessons to different pupils.',
                 ),
               ),
             ],
@@ -134,9 +134,9 @@ class _BecomeATutorState extends State<BecomeATutor> {
           SizedBox(height: 6),
           TopBlackText(text: 'Please, fill in the form below, to register as a tutor.'),
           SizedBox(height: 6),
-          CustomFormField(controller: nameController, hintText: 'enter full name', keyboardType: TextInputType.name, labelText: 'full name'),
-          CustomFormField(controller: phoneController, hintText: 'phone number', keyboardType: TextInputType.phone, labelText: 'phone number'),
-          CustomFormField(controller: emailController, hintText: 'email address', keyboardType: TextInputType.emailAddress, labelText: 'email address'),
+          CustomFormField(controller: nameController, hintText: 'Enter full name', keyboardType: TextInputType.name, labelText: 'Full name'),
+          CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.phone, labelText: 'Phone number'),
+          CustomFormField(controller: emailController, hintText: 'Email address', keyboardType: TextInputType.emailAddress, labelText: 'Email address'),
           SizedBox(height: 5),
           Container(
             height: 40,
@@ -152,22 +152,28 @@ class _BecomeATutorState extends State<BecomeATutor> {
                       ),
                     ),
                     Expanded(
-                      child: DropdownButtonFormField(
-                        iconSize: 30,
-                        decoration: const InputDecoration(enabledBorder: InputBorder.none),
-                        hint: const Text('select gender'),
-                        value: selectedGender,
-                        items: genders.map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGender = value as String;
-                          });
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 2.0),
+                        child: DropdownButtonFormField(
+                          iconSize: 30,
+                          decoration: const InputDecoration(enabledBorder: InputBorder.none),
+                          hint: const Text(''),
+                          value: selectedGender,
+                          items: genders.map((value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedGender = value as String;
+                            });
+                          },
+                          // icon: Center(
+                          //   child: Icon(Icons.keyboard_arrow_down),
+                          // ),
+                        ),
                       ),
                     ),
                   ],
@@ -191,9 +197,10 @@ class _BecomeATutorState extends State<BecomeATutor> {
                     ),
                     Expanded(
                       child: DropdownButtonFormField(
+                        isExpanded: false,
                         iconSize: 30,
                         decoration: const InputDecoration(enabledBorder: InputBorder.none),
-                        hint: const Text('Location'),
+                        hint: const Text(''),
                         value: selectedLocation,
                         items: location.map((value) {
                           return DropdownMenuItem(
@@ -206,6 +213,9 @@ class _BecomeATutorState extends State<BecomeATutor> {
                             selectedLocation = value as String;
                           });
                         },
+                        icon: Center(
+                          child: Icon(Icons.keyboard_arrow_down),
+                        ),
                       ),
                     ),
                   ],

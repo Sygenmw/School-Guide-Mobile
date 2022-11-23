@@ -177,13 +177,13 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                     );
                   }),
             ),
-            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && levelSelectedIndex == 1
+            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
                 ? const Padding(
                     padding: EdgeInsets.only(top: 12.0),
                     child: TopBlackText(text: 'CURRICULUM'),
                   )
                 : Container(),
-            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && levelSelectedIndex == 1
+            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
                 ? SizedBox(
                     height: 40,
                     child: ListView.builder(
@@ -278,14 +278,13 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
   ];
   List<String> levels = [
     'All',
+    'Primary',
     'High School',
-    'Bachelors',
-    'Masters',
-    'Doctorate',
+    'Tertiary',
   ];
   List<String> curriculums = [
     'ALL',
-    'MSCE',
+    'MANEB',
     'IGCSE',
   ];
 }

@@ -1,0 +1,235 @@
+// ignore_for_file: unnecessary_statements
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:school_guide/style/app_styles.dart';
+import 'package:school_guide/views/widgets/bottom_navbar.dart';
+import 'package:school_guide/views/widgets/custom_appbar.dart';
+import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_form_field.dart';
+import 'package:school_guide/views/widgets/custom_snackbar.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
+import 'package:school_guide/views/widgets/premium_item_card.dart';
+import 'package:school_guide/views/widgets/top_text_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class Premium extends StatefulWidget {
+  const Premium({super.key});
+
+  @override
+  State<Premium> createState() => _PremiumState();
+}
+
+class _PremiumState extends State<Premium> {
+  // Premium features
+  List<Feature> features = [
+    Feature(featureName: 'Have 10+ Images', featurePrice: 5000, icon: Icons.browse_gallery),
+    Feature(featureName: 'Have school on banner', featurePrice: 4000, icon: Icons.branding_watermark),
+    Feature(featureName: 'Have advert on banner', featurePrice: 3000, icon: FontAwesomeIcons.adversal),
+    Feature(featureName: 'Video Ad of the school', featurePrice: 10000, icon: FontAwesomeIcons.video),
+    Feature(featureName: 'Have a School brochure(with design)', featurePrice: 7000, icon: FontAwesomeIcons.boxArchive),
+    Feature(featureName: 'Map and directions to school', featurePrice: 15000, icon: FontAwesomeIcons.mapLocation),
+  ];
+
+  String selectedFeature = '';
+  List<String> selectedFeaturesChoices = [];
+  List<Feature> selectedFeatures = [];
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    List<String> featureStrings = features.map((e) => e.featureName).toList();
+    _buildPremiumFeatures() {
+      List<Widget> choices = [];
+      featureStrings.forEach((item) {
+        choices.add(Container(
+          padding: const EdgeInsets.all(2.0),
+          child: ChoiceChip(
+            backgroundColor: Color.fromARGB(255, 170, 170, 170),
+            label: CustomText(
+              item,
+              pLeft: 0,
+              pTop: 0,
+              pBottom: 0,
+              pRight: 0,
+              color: AppColors.white,
+              needsIcon: false,
+            ),
+            selected: selectedFeaturesChoices.contains(item),
+            selectedColor: AppColors.primaryColor,
+            onSelected: (selected) {
+              setState(() {
+                selectedFeaturesChoices.contains(item)
+                    ? {
+                        features.forEach((element) {
+                          if (element.featureName == item) {
+                            totalAmount -= element.featurePrice;
+                            selectedFeatures.remove(element);
+                          }
+                        })
+                      }
+                    : {
+                        features.forEach((element) {
+                          if (element.featureName == item) {
+                            totalAmount += element.featurePrice;
+                            selectedFeatures.add(element);
+                          }
+                        })
+                      };
+                selectedFeaturesChoices.contains(item) ? selectedFeaturesChoices.remove(item) : selectedFeaturesChoices.add(item);
+              });
+            },
+          ),
+        ));
+      });
+      return choices;
+    }
+
+    return Scaffold(
+      appBar: CustomAppBar(),
+      body: CustomBody(
+        text: 'Premium',
+        needsHeader: true,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: Card(
+                    margin: const EdgeInsets.only(top: 8, right: 8, bottom: 8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Icon(
+                        Icons.workspace_premium_outlined,
+                        color: AppColors.primaryColor,
+                        size: 35,
+                      ),
+                    ),
+                  )),
+              Expanded(
+                flex: 5,
+                child: Text(
+                  'Register for premium features. including having a Map to your school and more information of your school.',
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 6),
+          TopBlackText(text: 'Select premium features.'),
+          Divider(),
+          CustomFormField(controller: nameController, hintText: 'School/Company name', keyboardType: TextInputType.name, labelText: 'School/Company name'),
+          CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.phone, labelText: 'Phone number'),
+          SizedBox(height: 6),
+          Wrap(
+            children: _buildPremiumFeatures(),
+          ),
+          selectedFeatures.isEmpty
+              ? Container()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Divider(),
+                    CustomText(
+                      'Quote',
+                      needsIcon: false,
+                      textAlign: TextAlign.left,
+                      pLeft: 0,
+                    ),
+                    Column(
+                      children: selectedFeatures.map((e) => PremiumItemCard(feature: e)).toList(),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(flex: 4, child: Container()),
+                        Expanded(flex: 3, child: Divider(thickness: 2)),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: CustomText(
+                              'Total (K)         ',
+                              needsIcon: false,
+                              textAlign: TextAlign.left,
+                              pLeft: 0,
+                              pBottom: 0,
+                            ),
+                          ),
+                        ),
+                        CustomText(
+                          totalAmount.toString(),
+                          textAlign: TextAlign.right,
+                          needsIcon: false,
+                          pBottom: 0,
+                          pLeft: 0,
+                          pRight: 11,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Container(
+                        height: 40,
+                        width: Get.size.width / 3,
+                        margin: const EdgeInsets.only(left: 60, right: 60),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                        child: Material(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: () {
+                              bool notEmpty = nameController.text.isNotEmpty;
+
+                              if (notEmpty) {
+                                HapticFeedback.vibrate();
+                                String subject = 'REGISTRATION FOR PREMIUM FEATURES.';
+                                String body =
+                                    'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()} and are writing you this email, applying for the following premium features :${selectedFeaturesChoices.join(',')} in School guide app.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.';
+                                String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
+                                launchUrl(Uri.parse(query));
+                              } else {
+                                // show snackbar
+                                CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
+                              }
+                            },
+                            child: Center(
+                              child: CustomText(
+                                'Send',
+                                pLeft: 0,
+                                pTop: 0,
+                                pBottom: 0,
+                                pRight: 0,
+                                color: AppColors.white,
+                                needsIcon: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                )
+        ],
+      ),
+      bottomNavigationBar: CustomBottomNavBar(),
+    );
+  }
+
+  double totalAmount = 0;
+  List<double> amountList = [];
+}
+
+class Feature {
+  final String featureName;
+  final double featurePrice;
+  final IconData icon;
+
+  Feature({required this.featureName, required this.featurePrice, this.icon = Icons.workspace_premium});
+}

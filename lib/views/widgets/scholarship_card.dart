@@ -73,9 +73,10 @@ class ScholarshipCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                scholarship.scholarshipDescription,
+                                scholarship.scholarshipDescription.length > 30 ? scholarship.scholarshipDescription.substring(0, 30) : scholarship.scholarshipDescription,
                                 style: const TextStyle(color: Colors.white, fontSize: 16),
                               ),
+                              SizedBox(height: 8),
                               Text(
                                 scholarship.level,
                                 style: const TextStyle(color: Colors.white, fontSize: 16),

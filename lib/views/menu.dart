@@ -7,6 +7,7 @@ import 'package:school_guide/views/menu/about_us.dart';
 import 'package:school_guide/views/menu/advertise_school.dart';
 import 'package:school_guide/views/menu/become_a_tutor.dart';
 import 'package:school_guide/views/menu/become_an_agent.dart';
+import 'package:school_guide/views/menu/premium.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
@@ -51,15 +52,18 @@ class Menu extends StatelessWidget {
                       text: 'About us'),
                   MenuCardItem(
                       onTap: () {
+                        String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
                         Share.share(
-                          'Hi, did you know you can access best schools to enroll into and many latest scholarships using the School Guide App?\nTap on the link to download it now.',
+                          'Hi, did you know you can access best schools to enroll into and many latest scholarships using the School Guide App?\nTap on this $link link to download it now.',
                           subject: 'Share School Guide App',
                         );
                       },
                       icon: Icons.share,
                       text: 'Share app'),
                   MenuCardItem(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(() => Premium());
+                    },
                     text: 'Premium',
                     icon: Icons.workspace_premium_outlined,
                   ),

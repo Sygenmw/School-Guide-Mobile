@@ -1,4 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
@@ -48,11 +51,8 @@ class AboutUs extends StatelessWidget {
                     AboutText(
                         title: 'The App',
                         description:
-                            'Gaza Man Crazy, we insane but we know what we are doing. Gaza Man Crazy, we insane but we know what we are doing. Gaza Man Crazy, we insane but we know what we  '),
-                    AboutText(
-                        title: 'The Developers',
-                        description:
-                            'Gaza Man Crazy, we insane but we know what we are doing. In any way things will be betterGaza Man Crazy, we insane but we know what we are doing. In any way things will be  In any way things will be better'),
+                            'The mobile app was developed to simplify the search for private schools in Malawi. Apart from having information on private schools accross the warm heart of Africa, we have also included scholarships and articles tailored for Malawian students.'),
+                    AboutText(title: 'The Developers', description: 'The app was designed and build with love by Sygen, a Tech startup that develops mobile, web and desktop systems.'),
                     Padding(
                       padding: const EdgeInsets.only(left: 40.0, right: 40),
                       child: Row(
@@ -86,35 +86,24 @@ class AboutUs extends StatelessWidget {
   }
 
   List<Widget> rowIcons = [
-    Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: GestureDetector(onTap: () {}, child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.play_arrow, color: AppColors.primaryColor))),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: GestureDetector(onTap: () {}, child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.phone, color: AppColors.primaryColor))),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: GestureDetector(onTap: () {}, child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.mail_outline, color: AppColors.primaryColor))),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: GestureDetector(
-          onTap: () {
-            launchUrl(Uri.parse('https://web.facebook.com/profile.php?id=100086416987904'), mode: LaunchMode.externalApplication);
-          },
-          child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.facebook_outlined, color: AppColors.primaryColor))),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: GestureDetector(onTap: () {}, child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.web, color: AppColors.primaryColor))),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: GestureDetector(onTap: () {}, child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(Icons.play_arrow, color: AppColors.primaryColor))),
-    ),
+    buildRowIcon(icon: FontAwesomeIcons.youtube, link: 'https://www.youtube.com'),
+    buildRowIcon(icon: FontAwesomeIcons.phone, link: 'tel:+265880012674'),
+    buildRowIcon(icon: Icons.mail_outline, link: 'https://info@sygen.com'),
+    buildRowIcon(icon: FontAwesomeIcons.linkedin, link: 'https://www.sygen.com'),
+    buildRowIcon(icon: FontAwesomeIcons.facebook, link: 'https://web.facebook.com/profile.php?id=100086416987904'),
+    buildRowIcon(icon: FontAwesomeIcons.instagram, link: 'https://youtube.com'),
   ];
+}
+
+buildRowIcon({required String link, required IconData icon}) {
+  return Padding(
+    padding: const EdgeInsets.all(4.0),
+    child: GestureDetector(
+        onTap: () {
+          launchUrl(Uri.parse(link), mode: LaunchMode.externalApplication);
+        },
+        child: CircleAvatar(radius: 20, backgroundColor: AppColors.white, child: Icon(icon, color: AppColors.primaryColor))),
+  );
 }
 
 class AboutText extends StatelessWidget {
@@ -130,7 +119,7 @@ class AboutText extends StatelessWidget {
           child: Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w400, fontFamily: 'leguespartan'),
+            style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w900),
           ),
         ),
         Padding(

@@ -49,6 +49,7 @@ class _EducationBlogState extends State<EducationBlog> {
             ),
             ListView.builder(
               shrinkWrap: true,
+              primary: false,
               itemCount: currentBlogs.length,
               itemBuilder: (BuildContext context, int index) {
                 return EduBlogCard(blog: currentBlogs[index]);

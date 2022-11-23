@@ -20,7 +20,7 @@ class SchoolFinder extends StatelessWidget {
       ),
       body: CustomBody(
         needsHeader: true,
-        text: 'Schools near you',
+        text: '',
         children: [
           ListView.builder(
               shrinkWrap: true,

@@ -10,7 +10,7 @@ class BannerDetails {
     required this.linkType,
     required this.updatedAt,
     required this.bannerImage,
-    required this.dateLine,
+    required this.deadline,
   });
 
   final String bannerDescription;
@@ -18,7 +18,7 @@ class BannerDetails {
   final String bannerLink;
   final String bannerTitle;
   final Timestamp createdAt;
-  final Timestamp dateLine;
+  final Timestamp deadline;
   final String linkType;
   final String schoolID;
   final Timestamp updatedAt;
@@ -32,6 +32,6 @@ class BannerDetails {
         createdAt: doc["createdAt"] ?? Timestamp.now(),
         linkType: doc["linkType"] ?? '',
         updatedAt: doc["updatedAt"] ?? Timestamp.now(),
-        dateLine: doc["dateline"] ?? Timestamp.now(),
+        deadline: doc["deadline"] ?? Timestamp.now(),
       );
 }

@@ -221,10 +221,4 @@ List<String> destinations = [
   'Local',
   'International',
 ];
-List<String> levels = [
-  'All',
-  'High School',
-  'Bachelors',
-  'Masters',
-  'Doctrorate',
-];
+List<String> levels = ['All', 'Primary', 'High School', 'Tertiary'];

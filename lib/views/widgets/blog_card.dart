@@ -41,9 +41,7 @@ class EduBlogCard extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          bottomLeft: Radius.circular(8)),
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
                       child: CachedNetworkImage(
                         imageUrl: blog.postCover,
                         fit: BoxFit.cover,
@@ -61,17 +59,12 @@ class EduBlogCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6.0),
                               child: Text(
-                                blog.postTitle,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primaryColor,
-                                    fontSize: 15),
+                                blog.postTitle.length > 40 ? "${blog.postTitle.substring(0, 40)}..." : blog.postTitle,
+                                style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 15),
                               ),
                             ),
                             Text(
-                              blog.postDescription.length > 90
-                                  ? "${blog.postDescription.substring(0, 60)}..."
-                                  : blog.postDescription,
+                              blog.postDescription.length > 90 ? "${blog.postDescription.substring(0, 60)}..." : blog.postDescription,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: AppColors.black,
@@ -83,8 +76,7 @@ class EduBlogCard extends StatelessWidget {
                               child: Align(
                                   alignment: Alignment.bottomRight,
                                   child: Text(
-                                    TimeConversion.convertToTimeAgo(
-                                        blog.createdAt),
+                                    TimeConversion.convertToTimeAgo(blog.createdAt),
                                     style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w700,

@@ -2,18 +2,14 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/agent_controller.dart';
 import 'package:school_guide/models/agent_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/agents/agent_information.dart';
-import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
-import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Agents extends StatefulWidget {
   const Agents({Key? key}) : super(key: key);
@@ -50,14 +46,13 @@ class _AgentsState extends State<Agents> {
       body: CustomBody(
         text: agents.isEmpty ? '' : 'Agents (${agents.length})',
         children: [
-          SizedBox(
-            height: Get.size.height,
-            child: ListView.builder(
-              itemCount: agents.length,
-              itemBuilder: (BuildContext context, int index) {
-                return AgentCard(agent: agents[index]);
-              },
-            ),
+          ListView.builder(
+            primary: false,
+            shrinkWrap: true,
+            itemCount: agents.length,
+            itemBuilder: (BuildContext context, int index) {
+              return AgentCard(agent: agents[index]);
+            },
           ),
         ],
       ),
@@ -66,6 +61,7 @@ class _AgentsState extends State<Agents> {
   }
 }
 
+// ignore: must_be_immutable
 class AgentCard extends StatelessWidget {
   AgentCard({Key? key, required this.agent}) : super(key: key);
   final AgentDetails agent;
@@ -106,47 +102,46 @@ class AgentCard extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 6.0),
-                            child: Text(
-                              agent.name,
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 15),
-                            ),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                agent.name,
+                                style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 15),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
+                                child: Text(
+                                  agent.description.length < 40 ? agent.description : agent.description.substring(0, 40),
+                                  style: const TextStyle(color: AppColors.black, fontSize: 14),
+                                ),
+                              ),
+                              const Spacer(),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 6.0),
-                            child: Text(
-                              agent.description.length < 40 ? agent.description : agent.description.substring(0, 40),
-                              style: const TextStyle(color: AppColors.black, fontSize: 14),
-                            ),
-                          ),
-                          const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 6.0, right: 12),
-                            child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Card(
-                                  color: rColor,
-                                  margin: const EdgeInsets.all(0),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'More info',
-                                      style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                        ),
+                        Positioned(
+                            bottom: 6,
+                            right: 8,
+                            child: Card(
+                              color: rColor,
+                              margin: const EdgeInsets.all(0),
+                              child: const Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text(
+                                  'More info',
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 16,
                                   ),
-                                )),
-                          ),
-                        ],
-                      ),
+                                ),
+                              ),
+                            ))
+                      ],
                     ),
                   )
                 ],
@@ -166,4 +161,3 @@ class AgentCard extends StatelessWidget {
     return cardColors.elementAt(rand);
   }
 }
-
