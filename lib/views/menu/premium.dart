@@ -1,19 +1,16 @@
 // ignore_for_file: unnecessary_statements
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
-import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/premium_item_card.dart';
+import 'package:school_guide/views/widgets/submit_button.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Premium extends StatefulWidget {
   const Premium({super.key});
@@ -171,47 +168,11 @@ class _PremiumState extends State<Premium> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                      child: Container(
-                        height: 40,
-                        width: Get.size.width / 3,
-                        margin: const EdgeInsets.only(left: 60, right: 60),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                        child: Material(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(8),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(8),
-                            onTap: () {
-                              bool notEmpty = nameController.text.isNotEmpty;
-
-                              if (notEmpty) {
-                                HapticFeedback.vibrate();
-                                String subject = 'REGISTRATION FOR PREMIUM FEATURES.';
-                                String body =
-                                    'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()} and are writing you this email, applying for the following premium features :${selectedFeaturesChoices.join(',')} in School guide app.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.';
-                                String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
-                                launchUrl(Uri.parse(query));
-                              } else {
-                                // show snackbar
-                                CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
-                              }
-                            },
-                            child: Center(
-                              child: CustomText(
-                                'Send',
-                                pLeft: 0,
-                                pTop: 0,
-                                pBottom: 0,
-                                pRight: 0,
-                                color: AppColors.white,
-                                needsIcon: false,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    SubmitButton(
+                      subject: 'REGISTRATION FOR PREMIUM FEATURES.',
+                      body:
+                          'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()} and are writing you this email, applying for the following premium features :${selectedFeaturesChoices.join(',')} in School guide app.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.',
+                      controllers: [nameController, phoneController],
                     ),
                     SizedBox(height: 10),
                   ],
