@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/views/agents.dart';
-import 'package:school_guide/views/curriculum.dart';
+import 'package:school_guide/views/tutors.dart';
 import 'package:school_guide/views/homepage.dart';
 import 'package:school_guide/views/menu.dart';
 import 'package:school_guide/views/videos.dart';
@@ -28,10 +28,10 @@ class CustomBottomNavBar extends StatelessWidget {
                     onPressed: () {
                       HapticFeedback.vibrate();
 
-                      Get.offAll(() => const Curriculum());
+                      Get.offAll(() => const Tutor());
                     },
                     image: AppImages.curriculum,
-                    label: 'Curriculum'),
+                    label: 'Tutors'),
               ),
               Expanded(
                 child: BottomNavItem(

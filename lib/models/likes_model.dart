@@ -7,7 +7,7 @@ class LikeDetails {
 
   factory LikeDetails.fromDocument(DocumentSnapshot? doc) => LikeDetails(
         blogID: doc!.id,
-        allLikes: List<_Like>.from(doc["allLikes"].map((e) => _Like.fromMap(e))).toList() ?? [],
+        allLikes: List<_Like>.from(doc["allLikes"].map((e) => _Like.fromMap(e))).toList(),
       );
 
   Map<String, dynamic> toDocument() => {

@@ -185,8 +185,6 @@ class _HomeState extends State<Home> {
                                   Get.to(() => SchoolFinder());
                                 },
                               );
-                            } else {
-                              print(snapshot.error.toString());
                             }
                             return Container();
                           }),
@@ -215,8 +213,6 @@ class _HomeState extends State<Home> {
                                   Get.to(() => const SchoolDirectory());
                                 },
                               );
-                            } else {
-                              print(snapshot.error.toString());
                             }
                             return Container();
                           }),
@@ -253,9 +249,8 @@ class _HomeState extends State<Home> {
                                 },
                               );
                             } else {
-                              print(snapshot.error.toString());
+                              return Container();
                             }
-                            return Container();
                           }),
                       const SizedBox(
                         height: 10,
@@ -285,8 +280,6 @@ class _HomeState extends State<Home> {
                                   Get.to(() => const EducationBlog());
                                 },
                               );
-                            } else {
-                              print(snapshot.error.toString());
                             }
                             return Container();
                           }),

@@ -56,139 +56,105 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
         ),
         body: CustomBody(
           text: 'School directory',
-          children: [
-            const TopBlackText(text: 'DESTINATION'),
-            SizedBox(
-              height: 40,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 6,
-                    child: SizedBox(
-                      height: 38,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: destinations.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                right: 4.0,
-                                top: 4.0,
-                                bottom: 4.0,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  HapticFeedback.vibrate();
-                                  setState(() {
-                                    destinationSelectedIndex = index;
-                                  });
-                                  getSchools(destination: destinations.elementAt(destinationSelectedIndex!), level: levels.elementAt(levelSelectedIndex!));
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: destinationSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
-                                    border: Border.all(color: destinationSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                    child: Center(
-                                      child: Text(
-                                        destinations[index],
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          color: destinationSelectedIndex == index ? AppColors.white : AppColors.black,
+          children: schoolController.allSchools.isEmpty
+              ? [
+                  Container(
+                    height: Get.size.height / 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(AppImages.logo))),
+                        ),
+                        CustomText('We do not have schools at present! Try again sometime...', textAlign: TextAlign.center, needsIcon: false, color: Colors.black38)
+                      ],
+                    ),
+                  )
+                ]
+              : [
+                  const TopBlackText(text: 'DESTINATION'),
+                  SizedBox(
+                    height: 40,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 6,
+                          child: SizedBox(
+                            height: 38,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: destinations.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 4.0,
+                                      top: 4.0,
+                                      bottom: 4.0,
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        HapticFeedback.vibrate();
+                                        setState(() {
+                                          destinationSelectedIndex = index;
+                                        });
+                                        getSchools(destination: destinations.elementAt(destinationSelectedIndex!), level: levels.elementAt(levelSelectedIndex!));
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: destinationSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
+                                          border: Border.all(color: destinationSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
+                                          borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                          child: Center(
+                                            child: Text(
+                                              destinations[index],
+                                              style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold,
+                                                color: destinationSelectedIndex == index ? AppColors.white : AppColors.black,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: IconButton(
-                      splashRadius: 20,
-                      icon: const Icon(
-                        Icons.refresh,
-                        color: AppColors.primaryColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          levelSelectedIndex = 0;
-                          destinationSelectedIndex = 0;
-                          curriculumSelectedIndex = 0;
-                        });
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 12.0),
-              child: TopBlackText(text: 'LEVEL OF STUDY'),
-            ),
-            SizedBox(
-              height: 40,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: levels.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                        right: 4.0,
-                        top: 4.0,
-                        bottom: 4.0,
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          HapticFeedback.vibrate();
-                          setState(() {
-                            levelSelectedIndex = index;
-                          });
-                          getSchools(destination: destinations.elementAt(destinationSelectedIndex!), level: levels.elementAt(levelSelectedIndex!));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: levelSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
-                            border: Border.all(color: levelSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Center(
-                              child: Text(
-                                levels[index],
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: levelSelectedIndex == index ? AppColors.white : AppColors.black,
-                                ),
-                              ),
-                            ),
+                                  );
+                                }),
                           ),
                         ),
-                      ),
-                    );
-                  }),
-            ),
-            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
-                ? const Padding(
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            splashRadius: 20,
+                            icon: const Icon(
+                              Icons.refresh,
+                              color: AppColors.primaryColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                levelSelectedIndex = 0;
+                                destinationSelectedIndex = 0;
+                                curriculumSelectedIndex = 0;
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const Padding(
                     padding: EdgeInsets.only(top: 12.0),
-                    child: TopBlackText(text: 'CURRICULUM'),
-                  )
-                : Container(),
-            (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
-                ? SizedBox(
+                    child: TopBlackText(text: 'LEVEL OF STUDY'),
+                  ),
+                  SizedBox(
                     height: 40,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: curriculums.length,
+                        itemCount: levels.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.only(
@@ -200,24 +166,25 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                               onTap: () {
                                 HapticFeedback.vibrate();
                                 setState(() {
-                                  curriculumSelectedIndex = index;
+                                  levelSelectedIndex = index;
                                 });
+                                getSchools(destination: destinations.elementAt(destinationSelectedIndex!), level: levels.elementAt(levelSelectedIndex!));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: curriculumSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
-                                  border: Border.all(color: curriculumSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
+                                  color: levelSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
+                                  border: Border.all(color: levelSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                   child: Center(
                                     child: Text(
-                                      curriculums[index],
+                                      levels[index],
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
-                                        color: curriculumSelectedIndex == index ? AppColors.white : AppColors.black,
+                                        color: levelSelectedIndex == index ? AppColors.white : AppColors.black,
                                       ),
                                     ),
                                   ),
@@ -226,47 +193,97 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                             ),
                           );
                         }),
-                  )
-                : Container(),
-            destinationSelectedIndex == 0 && levelSelectedIndex == 0
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 12.0),
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: schoolController.allSchools.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return SchoolCard(
-                            school: schoolController.allSchools[index],
-                          );
-                        }))
-                : selectedSchools.isEmpty
-                    ? Container(
-                        height: Get.size.height / 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(AppImages.logo))),
-                            ),
-                            CustomText('No items match your filter!', needsIcon: false, color: Colors.black38)
-                          ],
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            primary: false,
-                            itemCount: selectedSchools.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return SchoolCard(
-                                school: selectedSchools[index],
-                              );
-                            }))
-          ],
+                  ),
+                  (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 12.0),
+                          child: TopBlackText(text: 'CURRICULUM'),
+                        )
+                      : Container(),
+                  (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
+                      ? SizedBox(
+                          height: 40,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: curriculums.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 4.0,
+                                    top: 4.0,
+                                    bottom: 4.0,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      HapticFeedback.vibrate();
+                                      setState(() {
+                                        curriculumSelectedIndex = index;
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: curriculumSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
+                                        border: Border.all(color: curriculumSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                        child: Center(
+                                          child: Text(
+                                            curriculums[index],
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold,
+                                              color: curriculumSelectedIndex == index ? AppColors.white : AppColors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        )
+                      : Container(),
+                  destinationSelectedIndex == 0 && levelSelectedIndex == 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 12.0),
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: schoolController.allSchools.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return SchoolCard(
+                                  school: schoolController.allSchools[index],
+                                );
+                              }))
+                      : selectedSchools.isEmpty
+                          ? Container(
+                              height: Get.size.height / 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(AppImages.logo))),
+                                  ),
+                                  CustomText('No items match your filter!', textAlign: TextAlign.center, needsIcon: false, color: Colors.black38)
+                                ],
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  itemCount: selectedSchools.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return SchoolCard(
+                                      school: selectedSchools[index],
+                                    );
+                                  }))
+                ],
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }

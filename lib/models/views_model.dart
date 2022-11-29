@@ -6,8 +6,8 @@ class ViewDetails {
   final List<View> allViews;
 
   factory ViewDetails.fromDocument(DocumentSnapshot? doc) => ViewDetails(
-        blogID: doc!.id ?? '',
-        allViews: List<View>.from(doc["allViews"].map((e) => View.fromMap(e))).toList() ?? [],
+        blogID: doc!.id,
+        allViews: List<View>.from(doc["allViews"].map((e) => View.fromMap(e))).toList(),
       );
 
   Map<String, dynamic> toDocument() => {

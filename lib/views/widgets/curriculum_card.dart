@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/models/curriculum_model.dart';
 import 'package:school_guide/style/app_styles.dart';
-import 'package:school_guide/views/curriculum/curriculum_info.dart';
+import 'package:school_guide/views/menu/curriculum/curriculum_info.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class CurriculumCard extends StatelessWidget {

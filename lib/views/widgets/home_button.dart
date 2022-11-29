@@ -24,7 +24,6 @@ class HomeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = Get.size;
-    debugPrint('${size.height / 3.5}');
     return Container(
       constraints:
           isSmall ? BoxConstraints(minHeight: size.height / 5.8, maxHeight: size.height / 5.2, minWidth: size.width / 2.3) : BoxConstraints(minHeight: 200, maxHeight: 220, minWidth: size.width / 2.3),

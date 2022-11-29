@@ -7,6 +7,7 @@ import 'package:school_guide/views/menu/about_us.dart';
 import 'package:school_guide/views/menu/advertise_school.dart';
 import 'package:school_guide/views/menu/become_a_tutor.dart';
 import 'package:school_guide/views/menu/become_an_agent.dart';
+import 'package:school_guide/views/menu/curriculums.dart';
 import 'package:school_guide/views/menu/premium.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
@@ -22,7 +23,6 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String valuse = '';
     return Scaffold(
       appBar: CustomAppBar(
         backIconAvailable: false,
@@ -40,19 +40,18 @@ class Menu extends StatelessWidget {
                   SizedBox(height: 10),
                   MenuCardItem(
                     onTap: () {
-                      print('VALUE IS :$valuse');
+                      Get.to(() => Curriculums());
                     },
-                    icon: Icons.settings,
+                    icon: Icons.book,
                     text: 'Curriculums',
                   ),
                   MenuCardItem(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                          return AboutUs();
-                        }));
-                      },
-                      icon: Icons.info_outline,
-                      text: 'About us'),
+                    onTap: () {
+                      Get.to(() => Premium());
+                    },
+                    text: 'Premium',
+                    icon: Icons.workspace_premium_outlined,
+                  ),
                   MenuCardItem(
                       onTap: () {
                         String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
@@ -64,12 +63,13 @@ class Menu extends StatelessWidget {
                       icon: Icons.share,
                       text: 'Share app'),
                   MenuCardItem(
-                    onTap: () {
-                      Get.to(() => Premium());
-                    },
-                    text: 'Premium',
-                    icon: Icons.workspace_premium_outlined,
-                  ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                          return AboutUs();
+                        }));
+                      },
+                      icon: Icons.info_outline,
+                      text: 'About us'),
                   SizedBox(height: 20),
                   TopText(text: 'Tutoring', fontSize: 16),
                   SizedBox(height: 10),

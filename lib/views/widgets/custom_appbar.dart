@@ -96,7 +96,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  
   final SchoolsNearController schoolController = Get.find();
   final List<SchoolDetails> allSchools = [];
   final List<String> schoolNames = [];
@@ -168,9 +167,17 @@ class CustomSearchDelegate extends SearchDelegate {
     }).toList();
 
     return suggestions.isEmpty
-        ? Container(
-            child: Center(child: CustomText('$query does not match any of our records! Pleases try again!', textAlign: TextAlign.center, needsIcon: false, color: AppColors.primaryColor)),
-          )
+        ? query.isEmpty
+            ? Container(
+                child: Center(
+                    child: CustomText('We do not have schools at present! Try sometime',
+                        textAlign: TextAlign.center, pLeft: 0, pRight: 0, pBottom: 0, pTop: 0, needsIcon: false, color: AppColors.primaryColor)),
+              )
+            : Container(
+                child: Center(
+                    child: CustomText('$query does not match any of our records! Pleases try again!',
+                        textAlign: TextAlign.center, pLeft: 0, pRight: 0, pBottom: 0, pTop: 0, needsIcon: false, color: AppColors.primaryColor)),
+              )
         : ListView.builder(
             itemCount: suggestions.length,
             itemBuilder: (BuildContext context, int index) {
