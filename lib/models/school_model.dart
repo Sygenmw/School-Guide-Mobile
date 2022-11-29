@@ -15,7 +15,6 @@ class SchoolDetails {
     required this.showInApp,
     required this.status,
     required this.levelOfStudy,
-    required this.updatedAt,
     required this.website,
     required this.id,
     required this.destination,
@@ -35,7 +34,6 @@ class SchoolDetails {
   final bool showInApp;
   final String status;
   final String levelOfStudy;
-  final Timestamp updatedAt;
   final String website;
   final String id;
 
@@ -54,7 +52,6 @@ class SchoolDetails {
         showInApp: doc["showInApp"],
         status: doc["status"],
         levelOfStudy: doc["levelOfStudy"],
-        updatedAt: doc["updatedAt"],
         website: doc["website"],
         id: doc.id,
       );
@@ -70,7 +67,7 @@ class CarriculumDets {
   final String price;
 
   factory CarriculumDets.fromMap(Map<String, dynamic> doc) => CarriculumDets(
-        name: doc["name"],
+        name: doc["curriculum"],
         price: doc["price"],
       );
 }

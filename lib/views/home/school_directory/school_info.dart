@@ -22,6 +22,15 @@ class SchoolInfo extends StatefulWidget {
 
 class _SchoolInfoState extends State<SchoolInfo> {
   late SchoolDetails school;
+  GlobalKey itemKey = GlobalKey();
+  GlobalKey item1Key = GlobalKey();
+  GlobalKey item2Key = GlobalKey();
+
+  Future schrollToItem(key) async {
+    final context = key.currentContext;
+
+    await Scrollable.ensureVisible(context!);
+  }
 
   @override
   void initState() {
@@ -46,7 +55,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
             children: [
               Hero(
                 tag: school.schoolName,
-                child: CachedImage(imageUrl: school.gallery[2]),
+                child: CachedImage(imageUrl: school.schoolLogo),
               ),
               Positioned(
                 left: 0,
@@ -79,7 +88,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
 
                     // snap: true,
                     builder: (BuildContext context, ScrollController scrollController) {
-                      int number = 9;
                       return Card(
                         margin: const EdgeInsets.all(0),
                         color: Colors.white,
@@ -102,7 +110,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     height: 5,
                                     decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(8)),
                                     padding: const EdgeInsets.only(top: 2.0),
-                                    child: Text(number.toString()),
                                   ),
                                 ),
                               ),
@@ -112,6 +119,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     child: GestureDetector(
                                       onTap: () {
                                         HapticFeedback.vibrate();
+                                        schrollToItem(itemKey);
                                         // controller.scrollToIndex(5, preferPosition: AutoScrollPosition.begin);
                                       },
                                       child: Image.asset(
@@ -125,6 +133,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     child: GestureDetector(
                                       onTap: () {
                                         HapticFeedback.vibrate();
+                                        schrollToItem(item1Key);
+
                                         // controller.scrollToIndex(13, preferPosition: AutoScrollPosition.begin);
 
                                         // print('');
@@ -143,6 +153,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     child: GestureDetector(
                                       onTap: () {
                                         HapticFeedback.vibrate();
+                                        schrollToItem(item2Key);
+
                                         // controller.scrollToIndex(16, preferPosition: AutoScrollPosition.begin);
                                       },
                                       child: Padding(
@@ -157,184 +169,209 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   ),
                                 ],
                               ),
-                              const Divider(),
-                              Center(
-                                  child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  school.schoolName.toUpperCase(),
-                                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
-                                ),
-                              )),
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    AppImages.infoHand,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'School info',
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              CustomText(
-                                school.city,
-                                icon: Icons.location_city,
-                                fontSize: 14,
-                              ),
+
                               Column(
+                                key: itemKey,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CustomText(school.address.length < 40 ? school.address : school.address.substring(0, 40), fontSize: 14, icon: Icons.maps_home_work),
-                                ],
-                              ),
-                              CustomText(school.country, fontSize: 14, icon: Icons.map),
-                              const CustomText('Curriculums offered', needsIcon: false, color: AppColors.primaryColor),
-                              SizedBox(
-                                height: 40,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 26.0),
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: school.curriculums.length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 4.0,
-                                            top: 4.0,
-                                            bottom: 4.0,
-                                          ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: AppColors.primaryColor,
-                                              borderRadius: BorderRadius.circular(10.0),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                              child: Center(
-                                                child: Text(
-                                                  school.curriculums[index].name,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: AppColors.white,
+                                  const Divider(),
+                                  Center(
+                                      child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      school.schoolName.toUpperCase(),
+                                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                                    ),
+                                  )),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        AppImages.infoHand,
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'School info',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  CustomText(
+                                    school.city,
+                                    icon: Icons.location_city,
+                                    fontSize: 14,
+                                  ),
+                                  Column(
+                                    children: [
+                                      CustomText(school.address.length < 40 ? school.address : school.address.substring(0, 40), fontSize: 14, icon: Icons.maps_home_work),
+                                    ],
+                                  ),
+                                  CustomText(school.country, fontSize: 14, icon: Icons.map),
+                                  school.levelOfStudy == 'Tertiary'
+                                      ? const CustomText('Courses offered', needsIcon: false, color: AppColors.primaryColor)
+                                      : const CustomText('Curriculums offered', needsIcon: false, textAlign: TextAlign.left, color: AppColors.primaryColor),
+                                  SizedBox(
+                                    height: 40,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 26.0),
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: school.curriculums.length,
+                                          itemBuilder: (BuildContext context, int index) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 4.0,
+                                                top: 4.0,
+                                                bottom: 4.0,
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.primaryColor,
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                                  child: Center(
+                                                    child: Text(
+                                                      school.curriculums[index].name,
+                                                      style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: AppColors.white,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                ),
-                              ),
-                              const Divider(),
-                              //  end of first
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    AppImages.gallery,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Gallery',
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                                            );
+                                          }),
                                     ),
                                   ),
+                                  const Divider(),
                                 ],
                               ),
-                              Container(
-                                height: 70,
-                                margin: const EdgeInsets.only(top: 2),
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)), // Image border
-                                ),
-                                child: CarouselSlider.builder(
-                                  itemCount: school.gallery.length,
-                                  itemBuilder: (BuildContext context, int index, int pageViewIndex) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Get.to(() => DisplayGallery(imageIndex: index, title: school.schoolName, school: school));
-                                        },
-                                        child: Container(
-                                          width: 120,
-                                          height: 60,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(10),
-                                            child: CachedNetworkImage(
-                                              imageUrl: school.gallery[index],
-                                              fit: BoxFit.cover,
+                              //  end of first
+                              Column(
+                                key: item1Key,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  school.gallery.isEmpty
+                                      ? Container()
+                                      : Row(
+                                          children: [
+                                            Image.asset(
+                                              AppImages.gallery,
+                                              height: 20,
+                                              width: 20,
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Gallery',
+                                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                  school.gallery.isEmpty
+                                      ? Container()
+                                      : Container(
+                                          height: 70,
+                                          margin: const EdgeInsets.only(top: 2),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)), // Image border
+                                          ),
+                                          child: CarouselSlider.builder(
+                                            itemCount: school.gallery.length,
+                                            itemBuilder: (BuildContext context, int index, int pageViewIndex) {
+                                              return Padding(
+                                                padding: const EdgeInsets.all(2.0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Get.to(() => DisplayGallery(imageIndex: index, title: school.schoolName, school: school));
+                                                  },
+                                                  child: Container(
+                                                    width: 120,
+                                                    height: 60,
+                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: school.gallery[index],
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            options: CarouselOptions(
+                                              height: 128,
+                                              aspectRatio: 16 / 9,
+                                              viewportFraction: 0.3,
+                                              initialPage: 0,
+                                              enableInfiniteScroll: school.gallery.length < 3 ? false : true,
+                                              autoPlay: school.gallery.length < 3 ? false : true,
+                                              autoPlayInterval: const Duration(seconds: 3),
+                                              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                                              autoPlayCurve: Curves.fastOutSlowIn,
+                                              enlargeCenterPage: false,
+                                              scrollDirection: Axis.horizontal,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  options: CarouselOptions(
-                                    height: 128,
-                                    aspectRatio: 16 / 9,
-                                    viewportFraction: 0.3,
-                                    initialPage: 0,
-                                    enableInfiniteScroll: school.gallery.length < 3 ? false : true,
-                                    autoPlay: school.gallery.length < 3 ? false : true,
-                                    autoPlayInterval: const Duration(seconds: 3),
-                                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                                    autoPlayCurve: Curves.fastOutSlowIn,
-                                    enlargeCenterPage: false,
-                                    scrollDirection: Axis.horizontal,
-                                  ),
-                                ),
-                              ),
-                              const Divider(),
-                              // end of second
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    AppImages.contactUs,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'About Us',
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
-                                    ),
-                                  ),
+                                  const Divider(),
                                 ],
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  String subject = 'INQUIRY';
-                                  String body = 'Hello, ${school.schoolName}, I wanted ...';
-                                  String query = 'mailto:${school.email}?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
-                                  launchUrl(Uri.parse(query));
-                                  // launchUrl(Uri.parse(school.email), mode: LaunchMode.externalApplication);
-                                },
-                                child: CustomText(school.email, fontSize: 14, icon: Icons.email),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  launchUrl(Uri.parse('tel:${school.phone}'), mode: LaunchMode.externalApplication);
-                                },
-                                child: CustomText(school.phone, fontSize: 14, icon: Icons.phone_android),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  HapticFeedback.selectionClick();
-                                  launchUrl(Uri.parse(school.website), mode: LaunchMode.externalApplication);
-                                },
-                                child: CustomText(school.website, color: AppColors.primaryColor, fontSize: 14, icon: Icons.circle),
-                              ),
+                              // end of second
+                              Column(
+                                key: item2Key,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        AppImages.contactUs,
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'About Us',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      String subject = 'INQUIRY';
+                                      String body = 'Hello, ${school.schoolName}, I wanted ...';
+                                      String query = 'mailto:${school.email}?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
+                                      launchUrl(Uri.parse(query));
+                                      // launchUrl(Uri.parse(school.email), mode: LaunchMode.externalApplication);
+                                    },
+                                    child: CustomText(school.email, fontSize: 14, icon: Icons.email),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      launchUrl(Uri.parse('tel:${school.phone}'), mode: LaunchMode.externalApplication);
+                                    },
+                                    child: CustomText(school.phone, fontSize: 14, icon: Icons.phone_android),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      HapticFeedback.selectionClick();
+                                      launchUrl(Uri.parse(school.website), mode: LaunchMode.externalApplication);
+                                    },
+                                    child: CustomText(school.website, color: AppColors.primaryColor, fontSize: 14, icon: Icons.circle),
+                                  ),
+                                ],
+                              )
 
                               //  end of third
                             ],

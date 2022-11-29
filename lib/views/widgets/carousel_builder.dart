@@ -1,17 +1,17 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class EduCarousel extends StatelessWidget {
-  const EduCarousel({Key? key, required this.blogItems}) : super(key: key);
+  const EduCarousel({Key? key, required this.blogItems, required this.deviceID}) : super(key: key);
   final List<EduBlogDetails> blogItems;
+  final String deviceID;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,8 @@ class EduCarousel extends StatelessWidget {
             onTap: () {
               Get.to(() => EduBlogItemDetails(
                     eduBlog: blogItems[index],
+                    blogViews: 12,
+                    deviceID: deviceID,
                   ));
             },
             child: Container(
@@ -38,26 +40,9 @@ class EduCarousel extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 3,
-                      child: CachedNetworkImage(
+                      child: CachedImage(
                         imageUrl: blogItems[index].postCover,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) => SizedBox(
-                          width: 200.0,
-                          height: 100.0,
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.black12,
-                            highlightColor: Colors.black,
-                            child: Column(
-                              children: const [
-                                SizedBox(
-                                  height: 20,
-                                  width: double.infinity,
-                                  // color: Colors.grey,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                     Expanded(
@@ -119,7 +104,7 @@ class EduCarousel extends StatelessWidget {
         viewportFraction: 0.8,
         initialPage: 0,
         enableInfiniteScroll: true,
-        autoPlay: true,
+        autoPlay: false,
         autoPlayInterval: const Duration(seconds: 3),
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.fastOutSlowIn,

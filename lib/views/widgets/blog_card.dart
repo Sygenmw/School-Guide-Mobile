@@ -6,8 +6,10 @@ import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
 
 class EduBlogCard extends StatelessWidget {
-  const EduBlogCard({Key? key, required this.blog}) : super(key: key);
+  const EduBlogCard({Key? key, required this.blog, required this.deviceID}) : super(key: key);
   final EduBlogDetails blog;
+  final String deviceID;
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,8 @@ class EduBlogCard extends StatelessWidget {
                   builder: ((BuildContext context) {
                     return EduBlogItemDetails(
                       eduBlog: blog,
+                      blogViews: 12,
+                      deviceID: deviceID,
                     );
                   }),
                 ),

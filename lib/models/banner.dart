@@ -8,7 +8,6 @@ class BannerDetails {
     required this.bannerTitle,
     required this.createdAt,
     required this.linkType,
-    required this.updatedAt,
     required this.bannerImage,
     required this.deadline,
   });
@@ -21,7 +20,6 @@ class BannerDetails {
   final Timestamp deadline;
   final String linkType;
   final String schoolID;
-  final Timestamp updatedAt;
 
   factory BannerDetails.fromDocument(DocumentSnapshot? doc) => BannerDetails(
         bannerDescription: doc!["bannerDescription"] ?? '',
@@ -31,7 +29,6 @@ class BannerDetails {
         bannerTitle: doc["bannerTitle"] ?? '',
         createdAt: doc["createdAt"] ?? Timestamp.now(),
         linkType: doc["linkType"] ?? '',
-        updatedAt: doc["updatedAt"] ?? Timestamp.now(),
         deadline: doc["deadline"] ?? Timestamp.now(),
       );
 }

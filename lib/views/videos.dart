@@ -5,6 +5,7 @@ import 'package:school_guide/models/video_model.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/empty_list.dart';
 import 'package:school_guide/views/widgets/video_card.dart';
 
 class Videos extends StatefulWidget {
@@ -38,14 +39,16 @@ class _VideosState extends State<Videos> {
         isHomeAppBar: true,
       ),
       body: CustomBody(text: 'Videos', children: [
-        ListView.builder(
-          primary: false,
-          shrinkWrap: true,
-          itemCount: videos.length,
-          itemBuilder: (BuildContext context, int index) {
-            return VideoCard(video: videos[index]);
-          },
-        ),
+        videos.isEmpty
+            ? EmptyList(text: 'Sorry we have no curriculums at present! Please come back later.')
+            : ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: videos.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return VideoCard(video: videos[index]);
+                },
+              ),
       ]),
       bottomNavigationBar: const CustomBottomNavBar(),
     );

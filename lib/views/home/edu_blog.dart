@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
@@ -22,16 +23,30 @@ class _EducationBlogState extends State<EducationBlog> {
 
   void getAllBlogs() {
     for (var blog in blogController.allBlogPosts) {
-      currentBlogs.add(blog);
+      if (blog.publishPost) {
+        currentBlogs.add(blog);
+      }
     }
     print(currentBlogs.length);
   }
 
+  Future<String> getDev() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.id;
+  }
+
+  String deviceID = '';
   @override
   void initState() {
     getAllBlogs();
+    getDev().then((value) => setState(() {
+          deviceID = value;
+        }));
     super.initState();
   }
+
+  // get views
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +58,7 @@ class _EducationBlogState extends State<EducationBlog> {
         body: CustomBody(
           text: 'Education Blog',
           children: [
-            EduCarousel(blogItems: currentBlogs),
+            EduCarousel(blogItems: currentBlogs, deviceID: deviceID),
             const SizedBox(
               height: 10,
             ),
@@ -52,7 +67,7 @@ class _EducationBlogState extends State<EducationBlog> {
               primary: false,
               itemCount: currentBlogs.length,
               itemBuilder: (BuildContext context, int index) {
-                return EduBlogCard(blog: currentBlogs[index]);
+                return EduBlogCard(blog: currentBlogs[index], deviceID: deviceID);
               },
             ),
           ],

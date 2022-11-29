@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScholarshipDetailsView extends StatelessWidget {
   const ScholarshipDetailsView({Key? key, required this.scholarship}) : super(key: key);
@@ -128,20 +130,29 @@ class ScholarshipDetailsView extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
                 children: [
-                  Container(
-                    decoration: const BoxDecoration(color: AppColors.primaryColor),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Text(
-                            'MORE INFORMATION',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                  Material(
+                    child: InkWell(
+                      onTap: (() {
+                        //
+                        HapticFeedback.mediumImpact();
+                        launchUrl(Uri.parse(scholarship.linkToTheScholarshipSite));
+                      }),
+                      child: Container(
+                        decoration: const BoxDecoration(color: AppColors.primaryColor),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'MORE INFORMATION',
+                                style: TextStyle(fontSize: 16, color: Colors.white),
+                              ),
+                              Icon(Icons.keyboard_arrow_right, color: Colors.white),
+                            ],
                           ),
-                          Icon(Icons.keyboard_arrow_right, color: Colors.white),
-                        ],
+                        ),
                       ),
                     ),
                   ),

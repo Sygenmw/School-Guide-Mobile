@@ -10,6 +10,7 @@ class EduBlogDetails {
     required this.postDescription,
     required this.publishPost,
     required this.postTitle,
+    required this.id,
   });
 
   final Timestamp createdAt;
@@ -20,6 +21,7 @@ class EduBlogDetails {
   final String postDescription;
   final bool publishPost;
   final String postTitle;
+  final String id;
 
   factory EduBlogDetails.fromDocument(DocumentSnapshot doc) => EduBlogDetails(
         createdAt: doc["createdAt"],
@@ -30,5 +32,6 @@ class EduBlogDetails {
         postDescription: doc["postDescription"],
         postTitle: doc["postTitle"],
         publishPost: doc["publishPost"],
+        id: doc.id,
       );
 }

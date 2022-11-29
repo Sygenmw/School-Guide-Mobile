@@ -96,6 +96,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
+  
   final SchoolsNearController schoolController = Get.find();
   final List<SchoolDetails> allSchools = [];
   final List<String> schoolNames = [];
@@ -173,32 +174,35 @@ class CustomSearchDelegate extends SearchDelegate {
         : ListView.builder(
             itemCount: suggestions.length,
             itemBuilder: (BuildContext context, int index) {
-              return Card(
-                color: AppColors.primaryColor,
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  leading: SizedBox(
-                      width: 60,
-                      height: 100,
-                      child: Icon(
-                        Icons.school_rounded,
-                        color: AppColors.white,
-                      )),
-                  onTap: () {
-                    query = suggestions[index];
-                    Get.back();
-                    Get.to(() => SchoolInfo(
-                          school: allSchools.elementAt(schoolNames.indexOf(query)),
-                        ));
-                  },
-                  title: CustomText(
-                    suggestions[index],
-                    pLeft: 0,
-                    pTop: 0,
-                    pBottom: 0,
-                    needsIcon: false,
-                    textAlign: TextAlign.left,
-                    color: AppColors.white,
+              return Padding(
+                padding: index == 0 ? const EdgeInsets.only(top: 20.0) : const EdgeInsets.only(top: 0.0),
+                child: Card(
+                  color: AppColors.primaryColor,
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(0),
+                    leading: SizedBox(
+                        width: 60,
+                        height: 100,
+                        child: Icon(
+                          Icons.school_rounded,
+                          color: AppColors.white,
+                        )),
+                    onTap: () {
+                      query = suggestions[index];
+                      Get.back();
+                      Get.to(() => SchoolInfo(
+                            school: allSchools.elementAt(schoolNames.indexOf(query)),
+                          ));
+                    },
+                    title: CustomText(
+                      suggestions[index],
+                      pLeft: 0,
+                      pTop: 0,
+                      pBottom: 0,
+                      needsIcon: false,
+                      textAlign: TextAlign.left,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
               );

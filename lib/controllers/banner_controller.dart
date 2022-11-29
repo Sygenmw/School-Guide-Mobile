@@ -9,7 +9,11 @@ class BannerController extends GetxController {
 
   @override
   void onInit() {
-    allBanners.bindStream(_getAllBanners());
+    allBanners.forEach((banner) {
+      if (banner.deadline.compareTo(Timestamp.now()) > 0) {
+        allBanners.bindStream(_getAllBanners());
+      } else {}
+    });
 
     notifyChildrens();
     super.onInit();

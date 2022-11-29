@@ -58,7 +58,7 @@ class _AdvertiseSchoolState extends State<AdvertiseSchool> {
           CustomFormField(controller: nameController, hintText: 'Full name', keyboardType: TextInputType.name, labelText: 'Full name'),
           CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.phone, labelText: 'Phone number'),
           CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.emailAddress, labelText: 'Email address'),
-          CustomDescFormField(hintText: 'Describe your banner idea', controller: descController, labelText: 'Banner idea'),
+          CustomDescFormField(hintText: 'Describe your banner idea', controller: descController, labelText: 'Description'),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Container(
@@ -73,13 +73,7 @@ class _AdvertiseSchoolState extends State<AdvertiseSchool> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Checkbox(
-                        value: value,
-                        onChanged: (val) {
-                          setState(() {
-                            value = val as bool;
-                          });
-                        }),
+                    child: Checkbox(value: true, onChanged: (val) {}),
                   ),
                   Expanded(
                     flex: 4,
@@ -115,13 +109,7 @@ class _AdvertiseSchoolState extends State<AdvertiseSchool> {
           children: [
             Expanded(
               flex: 1,
-              child: Checkbox(
-                  value: value,
-                  onChanged: (val) {
-                    setState(() {
-                      value = val as bool;
-                    });
-                  }),
+              child: Checkbox(value: true, onChanged: (val) {}),
             ),
             Expanded(
               flex: 4,

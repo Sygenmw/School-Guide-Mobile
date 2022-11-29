@@ -8,7 +8,6 @@ import 'package:school_guide/controllers/font_controller.dart';
 import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/controllers/video_controller.dart';
-import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controllers/all_controllers.dart';
@@ -31,9 +30,10 @@ void main() async {
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: AppColors.white,
+    statusBarColor: Color.fromARGB(22, 255, 255, 255),
     statusBarIconBrightness: Brightness.dark,
   ));
+
   runApp(const SchoolGuide());
 }
 

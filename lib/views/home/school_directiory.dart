@@ -26,6 +26,8 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
   int? curriculumSelectedIndex = 0;
 
   List selectedSchools = [];
+
+  getCurrentSchools() {}
   void getSchools({required String destination, required String level}) {
     selectedSchools.clear();
     schoolController.allSchools.forEach((school) {
@@ -47,8 +49,6 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
 
   @override
   Widget build(BuildContext context) {
-    // when rebuilding
-    print(selectedSchools);
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: true,

@@ -14,6 +14,7 @@ class AppColors {
 }
 
 class AppImages {
+  static const String advertise = 'assets/images/advert.jpg';
   static const String home = 'assets/images/home.png';
   static const String agents = 'assets/images/agents.png';
   static const String curriculum = 'assets/images/curriculum.png';

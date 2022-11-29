@@ -22,6 +22,7 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String valuse = '';
     return Scaffold(
       appBar: CustomAppBar(
         backIconAvailable: false,
@@ -38,9 +39,11 @@ class Menu extends StatelessWidget {
                 children: [
                   SizedBox(height: 10),
                   MenuCardItem(
-                    onTap: () {},
+                    onTap: () {
+                      print('VALUE IS :$valuse');
+                    },
                     icon: Icons.settings,
-                    text: 'Settings',
+                    text: 'Curriculums',
                   ),
                   MenuCardItem(
                       onTap: () {

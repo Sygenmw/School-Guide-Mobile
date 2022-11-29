@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:school_guide/controllers/font_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/style/app_styles.dart';
@@ -10,11 +9,17 @@ import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-class EduBlogItemDetails extends StatelessWidget {
-  EduBlogItemDetails({Key? key, required this.eduBlog}) : super(key: key);
+class EduBlogItemDetails extends StatefulWidget {
+  EduBlogItemDetails({Key? key, required this.eduBlog, required this.blogViews, required this.deviceID}) : super(key: key);
   final EduBlogDetails eduBlog;
-  final FontController fontController = Get.find();
+  final int blogViews;
+  final String deviceID;
 
+  @override
+  State<EduBlogItemDetails> createState() => _EduBlogItemDetailsState();
+}
+
+class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +28,12 @@ class EduBlogItemDetails extends StatelessWidget {
           isHomeAppBar: true,
         ),
         body: CustomBody(
-          text: 'Education blog/${eduBlog.postTitle}',
+          text: 'Education blog/${widget.eduBlog.postTitle}',
           children: [
             SizedBox(
               height: 170,
               child: CachedNetworkImage(
-                imageUrl: eduBlog.postCover,
+                imageUrl: widget.eduBlog.postCover,
                 fit: BoxFit.cover,
               ),
             ),
@@ -40,7 +45,7 @@ class EduBlogItemDetails extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      '${eduBlog.postTitle}',
+                      '${widget.eduBlog.postTitle}',
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                   ),
@@ -53,7 +58,7 @@ class EduBlogItemDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Row(
-                              children: const [
+                              children: [
                                 Icon(
                                   Icons.favorite,
                                   size: 17,
@@ -61,7 +66,7 @@ class EduBlogItemDetails extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(left: 4.0),
                                   child: Text(
-                                    '29',
+                                    '0',
                                     style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
                                   ),
                                 ),
@@ -73,29 +78,7 @@ class EduBlogItemDetails extends StatelessWidget {
                             Row(
                               children: [
                                 Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.forum,
-                                      size: 17,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 4.0),
-                                      child: Text(
-                                        '323',
-                                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Row(
-                              children: [
-                                Row(
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.remove_red_eye,
                                       size: 17,
@@ -103,7 +86,7 @@ class EduBlogItemDetails extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.only(left: 4.0),
                                       child: Text(
-                                        '21129',
+                                        '${widget.blogViews}',
                                         style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
                                       ),
                                     ),
@@ -120,7 +103,7 @@ class EduBlogItemDetails extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Text(
-                              TimeConversion.convertToTimeAgo(eduBlog.createdAt),
+                              TimeConversion.convertToTimeAgo(widget.eduBlog.createdAt),
                               style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
                             ),
                           ],
@@ -138,7 +121,7 @@ class EduBlogItemDetails extends StatelessWidget {
                           style: TextStyle(),
                         ),
                         Text(
-                          eduBlog.postAuthor,
+                          widget.eduBlog.postAuthor,
                           style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
                         ),
                       ],
@@ -146,29 +129,23 @@ class EduBlogItemDetails extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: Obx(
-                      () => Html(
-                        data: eduBlog.postContent,
-                        style: {
-                          "h3": Style(
-                            letterSpacing: 1.2,
-                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
-                            backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
-                          ),
-                          "p": Style(
-                            letterSpacing: 1.2,
-                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
-                          ),
-                          "ol": Style(
-                            letterSpacing: 1.2,
-                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
-                          ),
-                          "li": Style(
-                            letterSpacing: 1.2,
-                            fontSize: FontSize(fontController.fontSize.value.toDouble()),
-                          ),
-                        },
-                      ),
+                    child: Html(
+                      data: widget.eduBlog.postContent,
+                      style: {
+                        "h3": Style(
+                          letterSpacing: 1.2,
+                          backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                        ),
+                        "p": Style(
+                          letterSpacing: 1.2,
+                        ),
+                        "ol": Style(
+                          letterSpacing: 1.2,
+                        ),
+                        "li": Style(
+                          letterSpacing: 1.2,
+                        ),
+                      },
                     ),
                   ),
                 ],
@@ -181,20 +158,15 @@ class EduBlogItemDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            FloatingActionButton.small(
+            FloatingActionButton(
+                backgroundColor: AppColors.errorColor,
                 child: Center(
-                  child: Text(
-                    '+',
-                    style: TextStyle(fontSize: 30),
+                  child: Icon(
+                    FontAwesomeIcons.heart,
+                    size: 35,
                   ),
                 ),
-                onPressed: fontController.increase),
-            FloatingActionButton.small(
-                child: Text(
-                  '-',
-                  style: TextStyle(fontSize: 30),
-                ),
-                onPressed: fontController.decrease),
+                onPressed: () async {}),
           ],
         ),
         bottomNavigationBar: const CustomBottomNavBar());
