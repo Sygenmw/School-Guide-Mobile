@@ -22,12 +22,12 @@ class Premium extends StatefulWidget {
 class _PremiumState extends State<Premium> {
   // Premium features
   List<Feature> features = [
-    Feature(featureName: 'Have 10+ Images', featurePrice: 5000, icon: Icons.browse_gallery),
-    Feature(featureName: 'Have school on banner', featurePrice: 4000, icon: Icons.branding_watermark),
-    Feature(featureName: 'Have advert on banner', featurePrice: 3000, icon: FontAwesomeIcons.adversal),
-    Feature(featureName: 'Video Ad of the school', featurePrice: 10000, icon: FontAwesomeIcons.video),
-    Feature(featureName: 'Have a School brochure(with design)', featurePrice: 7000, icon: FontAwesomeIcons.boxArchive),
-    Feature(featureName: 'Map and directions to school', featurePrice: 15000, icon: FontAwesomeIcons.mapLocation),
+    Feature(featureName: '10+ Images', featurePrice: 10000, icon: Icons.browse_gallery),
+    Feature(featureName: 'school on banner', featurePrice: 40000, icon: Icons.branding_watermark),
+    Feature(featureName: 'advert on banner', featurePrice: 50000, icon: FontAwesomeIcons.adversal),
+    Feature(featureName: 'Video Ad of the school', featurePrice: 50000, icon: FontAwesomeIcons.video),
+    Feature(featureName: 'School brochure(with design)', featurePrice: 45000, icon: FontAwesomeIcons.boxArchive),
+    Feature(featureName: 'Map and directions to school', featurePrice: 40000, icon: FontAwesomeIcons.mapLocation),
   ];
 
   String selectedFeature = '';
@@ -108,7 +108,7 @@ class _PremiumState extends State<Premium> {
               Expanded(
                 flex: 5,
                 child: Text(
-                  'Register for premium features. including having a Map to your school and more information of your school.',
+                  'Register for premium features including having a map to your school and many more.',
                 ),
               ),
             ],
@@ -171,7 +171,7 @@ class _PremiumState extends State<Premium> {
                     SubmitButton(
                       subject: 'REGISTRATION FOR PREMIUM FEATURES.',
                       body:
-                          'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()} and are writing you this email, applying for the following premium features :${selectedFeaturesChoices.join(',')} in School guide app.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.',
+                          'Dear Sir/Madam, \nThe above subject in reference matters. We are ${nameController.text.trim()} and are writing you this email, applying for the following premium features :${selectedFeaturesChoices.join(',')} in School guide app.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.',
                       controllers: [nameController, phoneController],
                     ),
                     SizedBox(height: 10),

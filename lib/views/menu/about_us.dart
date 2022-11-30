@@ -51,8 +51,8 @@ class AboutUs extends StatelessWidget {
                     AboutText(
                         title: 'The App',
                         description:
-                            'The mobile app was developed to simplify the search for private schools in Malawi. Apart from having information on private schools accross the warm heart of Africa, we have also included scholarships and articles tailored for Malawian students.'),
-                    AboutText(title: 'The Developers', description: 'The app was designed and build with love by Sygen, a Tech startup that develops mobile, web and desktop systems.'),
+                            'The mobile app was developed to simplify the search for private schools in Malawi. Apart from having information on private schools across the warm heart of Africa, we have also included scholarships and articles tailored for Malawian students.'),
+                    AboutText(title: 'The Developers', description: 'The app was designed and build with love by Sygen, a tech startup that develops mobile, web and desktop systems.'),
                     Padding(
                       padding: const EdgeInsets.only(left: 40.0, right: 40),
                       child: Row(
@@ -86,12 +86,12 @@ class AboutUs extends StatelessWidget {
   }
 
   List<Widget> rowIcons = [
-    buildRowIcon(icon: FontAwesomeIcons.youtube, link: 'https://www.youtube.com'),
+    buildRowIcon(icon: FontAwesomeIcons.youtube, link: 'https://www.youtube.com/@sygen8722'),
     buildRowIcon(icon: FontAwesomeIcons.phone, link: 'tel:+265880012674'),
-    buildRowIcon(icon: Icons.mail_outline, link: 'https://info@sygen.com'),
-    buildRowIcon(icon: FontAwesomeIcons.linkedin, link: 'https://www.sygen.com'),
-    buildRowIcon(icon: FontAwesomeIcons.facebook, link: 'https://web.facebook.com/profile.php?id=100086416987904'),
-    buildRowIcon(icon: FontAwesomeIcons.instagram, link: 'https://youtube.com'),
+    buildRowIcon(icon: Icons.mail_outline, link: 'https://info@sygenmw.com'),
+    buildRowIcon(icon: FontAwesomeIcons.linkedin, link: 'https://www.linkedin.com/in/sygen'),
+    buildRowIcon(icon: FontAwesomeIcons.facebook, link: 'https://web.facebook.com/sygenmw'),
+    buildRowIcon(icon: FontAwesomeIcons.instagram, link: 'https://instagram.com/sygenmw/'),
   ];
 }
 

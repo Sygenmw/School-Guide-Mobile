@@ -57,7 +57,7 @@ class _TutorState extends State<Tutor> {
             Expanded(
               flex: 5,
               child: Text(
-                'Tutors offer various kinds of services including but not limited to: .',
+                'Tutors help students learn and understand curriculum based concepts and help in studying, assigenments and many more.',
               ),
             ),
           ],

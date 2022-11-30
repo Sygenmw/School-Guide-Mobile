@@ -52,7 +52,8 @@ class _HomeState extends State<Home> {
       status: '',
       curriculums: [],
       website: '',
-      id: '');
+      id: '',
+      location: Location(lat: 0.0, lng: 0.0));
 
   List<BannerDetails> banners = [];
 
@@ -180,7 +181,6 @@ class _HomeState extends State<Home> {
                                 image: AppImages.scholsNear,
                                 isSmall: true,
                                 items: schoolNames.length > 1 ? schoolNames.sublist(0, 2) : schoolNames,
-                                needDots: true,
                                 onPressed: () {
                                   Get.to(() => SchoolFinder());
                                 },
@@ -274,7 +274,6 @@ class _HomeState extends State<Home> {
                                 title: 'Edu blog',
                                 image: AppImages.eduBlog,
                                 isSmall: true,
-                                needDots: true,
                                 items: blogTitles.length > 1 ? blogTitles.sublist(0, 1) : blogTitles,
                                 onPressed: () {
                                   Get.to(() => const EducationBlog());

@@ -126,7 +126,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
               Expanded(
                 flex: 5,
                 child: Text(
-                  'A tutor\'s role is to offer part time lessons to different pupils.',
+                  'Tutors help students learn and understand curriculum based concepts and help in studying, assigenments and many more.',
                 ),
               ),
             ],

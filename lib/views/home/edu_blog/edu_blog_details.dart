@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/edu_blog.dart';
@@ -158,15 +159,18 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            FloatingActionButton(
+            FloatingActionButton.small(
                 backgroundColor: AppColors.errorColor,
                 child: Center(
                   child: Icon(
                     FontAwesomeIcons.heart,
-                    size: 35,
+                    size: 25,
                   ),
                 ),
-                onPressed: () async {}),
+                onPressed: () async {
+                  // add like to firebase
+                  HapticFeedback.heavyImpact();
+                }),
           ],
         ),
         bottomNavigationBar: const CustomBottomNavBar());

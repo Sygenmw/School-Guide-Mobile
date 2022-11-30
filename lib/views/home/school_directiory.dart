@@ -54,26 +54,24 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
           backIconAvailable: true,
           isHomeAppBar: true,
         ),
-        body: CustomBody(
-          text: 'School directory',
-          children: schoolController.allSchools.isEmpty
-              ? [
-                  Container(
-                    height: Get.size.height / 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 80,
-                          width: 80,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(AppImages.logo))),
-                        ),
-                        CustomText('We do not have schools at present! Try again sometime...', textAlign: TextAlign.center, needsIcon: false, color: Colors.black38)
-                      ],
+        body: schoolController.allSchools.isEmpty
+            ? Container(
+                height: Get.size.height / 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(AppImages.logo))),
                     ),
-                  )
-                ]
-              : [
+                    CustomText('We do not have schools at present! Try again later.', textAlign: TextAlign.center, needsIcon: false, color: Colors.black38)
+                  ],
+                ),
+              )
+            : CustomBody(
+                text: 'School directory',
+                children: [
                   const TopBlackText(text: 'DESTINATION'),
                   SizedBox(
                     height: 40,
@@ -284,7 +282,7 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                                     );
                                   }))
                 ],
-        ),
+              ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
 

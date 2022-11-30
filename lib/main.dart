@@ -35,6 +35,7 @@ void main() async {
     statusBarColor: Color.fromARGB(22, 255, 255, 255),
     statusBarIconBrightness: Brightness.dark,
   ));
+  await EduBlogController.init();
 
   runApp(const SchoolGuide());
 }

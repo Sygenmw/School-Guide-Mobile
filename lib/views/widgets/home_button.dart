@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
+import 'package:school_guide/views/home/school_directory/school_info.dart';
 
 class HomeButton extends StatelessWidget {
   const HomeButton({
@@ -11,7 +13,8 @@ class HomeButton extends StatelessWidget {
     required this.image,
     required this.title,
     required this.isSmall,
-    this.needDots = true,
+    this.school,
+    this.isSchool = false,
   }) : super(key: key);
 
   final VoidCallback onPressed;
@@ -19,7 +22,8 @@ class HomeButton extends StatelessWidget {
   final String image;
   final String title;
   final bool isSmall;
-  final bool needDots;
+  final bool isSchool;
+  final SchoolDetails? school;
 
   @override
   Widget build(BuildContext context) {
@@ -67,39 +71,31 @@ class HomeButton extends StatelessWidget {
                         ...items.map(
                           (text) => Padding(
                             padding: const EdgeInsets.only(bottom: 3.0),
-                            child: Row(
-                              children: needDots
-                                  ? [
-                                      const Icon(
-                                        Icons.fiber_manual_record,
-                                        size: 8,
+                            child: InkWell(
+                              onTap: isSchool
+                                  ? () {
+                                      Get.to(() => SchoolInfo(school: school!));
+                                    }
+                                  : null,
+                              child: Row(children: [
+                                const Icon(
+                                  Icons.fiber_manual_record,
+                                  size: 8,
+                                  color: AppColors.white,
+                                ),
+                                FittedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: Text(
+                                      text,
+                                      style: const TextStyle(
                                         color: AppColors.white,
+                                        fontSize: 14,
                                       ),
-                                      FittedBox(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 4.0),
-                                          child: Text(
-                                            text,
-                                            style: const TextStyle(
-                                              color: AppColors.white,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ]
-                                  : [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          text,
-                                          style: const TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
+                                  ),
+                                ),
+                              ]),
                             ),
                           ),
                         ),

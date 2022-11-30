@@ -27,7 +27,6 @@ class _EducationBlogState extends State<EducationBlog> {
         currentBlogs.add(blog);
       }
     }
-    print(currentBlogs.length);
   }
 
   Future<String> getDev() async {
@@ -43,13 +42,13 @@ class _EducationBlogState extends State<EducationBlog> {
     getDev().then((value) => setState(() {
           deviceID = value;
         }));
+
     super.initState();
   }
 
-  // get views
-
   @override
   Widget build(BuildContext context) {
+    print(currentBlogs.length);
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: true,
@@ -58,7 +57,13 @@ class _EducationBlogState extends State<EducationBlog> {
         body: CustomBody(
           text: 'Education Blog',
           children: [
-            EduCarousel(blogItems: currentBlogs, deviceID: deviceID),
+            EduCarousel(
+              blogItems: currentBlogs,
+              deviceID: deviceID,
+              addFavourite: () async {
+                // implement adding to favourite
+              },
+            ),
             const SizedBox(
               height: 10,
             ),

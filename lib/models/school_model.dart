@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchoolDetails {
-  SchoolDetails({
+  SchoolDetails( {
     required this.address,
     required this.city,
     required this.country,
@@ -16,6 +16,7 @@ class SchoolDetails {
     required this.status,
     required this.levelOfStudy,
     required this.website,
+    required this.location,
     required this.id,
     required this.destination,
   });
@@ -28,6 +29,7 @@ class SchoolDetails {
   final String destination;
   final List<String> gallery;
   final String email;
+  final Location location;
   final String phone;
   final String schoolLogo;
   final String schoolName;
@@ -53,6 +55,7 @@ class SchoolDetails {
         status: doc["status"],
         levelOfStudy: doc["levelOfStudy"],
         website: doc["website"],
+        location: Location.fromMap(doc["location"]),
         id: doc.id,
       );
 }
@@ -70,4 +73,17 @@ class CarriculumDets {
         name: doc["curriculum"],
         price: doc["price"],
       );
+}
+
+class Location {
+  final double lat;
+  final double lng;
+
+  Location({required this.lat, required this.lng});
+
+  factory Location.fromMap(Map<String, dynamic>? doc) => Location(lat: doc!['lat'], lng: doc['lng']);
+  Map<String, dynamic> toMap() => {
+        "lat": lat,
+        "lng": lng,
+      };
 }

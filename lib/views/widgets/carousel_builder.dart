@@ -9,9 +9,10 @@ import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class EduCarousel extends StatelessWidget {
-  const EduCarousel({Key? key, required this.blogItems, required this.deviceID}) : super(key: key);
+  const EduCarousel({Key? key, required this.blogItems, required this.deviceID, required this.addFavourite}) : super(key: key);
   final List<EduBlogDetails> blogItems;
   final String deviceID;
+  final VoidCallback addFavourite;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class EduCarousel extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(4),
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(4),
-                                      onTap: () {},
+                                      onTap: () async {},
                                       child: const Padding(
                                         padding: EdgeInsets.all(2.0),
                                         child: Icon(

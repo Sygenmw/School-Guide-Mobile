@@ -6,6 +6,7 @@ import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.backIconAvailable = true, this.isHomeAppBar = false, this.showAbout = true}) : super(key: key);
@@ -48,10 +49,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                         )),
                   )
-                : Image.asset(
-                    'assets/images/logo.png',
-                    height: 40,
-                    width: 40,
+                : GestureDetector(
+                    onTap: (() {
+                      launchUrl(Uri.parse('https://sygenmw.com/'), mode: LaunchMode.externalApplication);
+                    }),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: 40,
+                      width: 40,
+                    ),
                   ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +176,7 @@ class CustomSearchDelegate extends SearchDelegate {
         ? query.isEmpty
             ? Container(
                 child: Center(
-                    child: CustomText('We do not have schools at present! Try sometime',
+                    child: CustomText('We do not have schools at present! Try again later.',
                         textAlign: TextAlign.center, pLeft: 0, pRight: 0, pBottom: 0, pTop: 0, needsIcon: false, color: AppColors.primaryColor)),
               )
             : Container(

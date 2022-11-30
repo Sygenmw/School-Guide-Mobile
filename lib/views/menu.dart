@@ -56,7 +56,7 @@ class Menu extends StatelessWidget {
                       onTap: () {
                         String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
                         Share.share(
-                          'Hi, did you know you can access best schools to enroll into and many latest scholarships using the School Guide App?\nTap on this $link link to download it now.',
+                          'Hello there!! did you know you can access the best schools to enroll into and view latest scholarships using the School Guide App? Tap on this link $link to download the app.',
                           subject: 'Share School Guide App',
                         );
                       },
