@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchoolDetails {
-  SchoolDetails( {
+  SchoolDetails({
     required this.address,
     required this.city,
     required this.country,
-    required this.createdAt,
     required this.curriculums,
     required this.email,
     required this.gallery,
@@ -24,7 +23,6 @@ class SchoolDetails {
   final String address;
   final String city;
   final String country;
-  final Timestamp createdAt;
   final List<CarriculumDets> curriculums;
   final String destination;
   final List<String> gallery;
@@ -43,7 +41,6 @@ class SchoolDetails {
         address: doc["address"],
         city: doc["city"],
         country: doc["country"],
-        createdAt: doc["createdAt"],
         curriculums: List<CarriculumDets>.from(doc["curriculums"].map((detail) => CarriculumDets.fromMap(detail))).toList(),
         gallery: List<String>.from(doc["gallery"].map((x) => x)),
         email: doc["email"],

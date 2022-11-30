@@ -40,7 +40,6 @@ class _HomeState extends State<Home> {
       address: '',
       city: '',
       country: '',
-      createdAt: Timestamp.now(),
       gallery: [],
       email: '',
       phone: '',
@@ -82,7 +81,7 @@ class _HomeState extends State<Home> {
                   getSchool() {
                     for (var banner in allBanners) {
                       for (var school in schoolController.allSchools) {
-                        if (school.id == banner.schoolID) {
+                        if (school.id == banner.schoolID && school.showInApp) {
                           currentSchool = school;
                         }
                       }
@@ -170,10 +169,12 @@ class _HomeState extends State<Home> {
                               var allSchools = snapshot.data!;
                               List<String> schoolNames = [];
                               for (var school in allSchools) {
-                                if (school.schoolName.length < 15) {
-                                  schoolNames.add(school.schoolName);
-                                } else {
-                                  schoolNames.add('${school.schoolName.substring(0, 15)}...');
+                                if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
+                                  if (school.schoolName.length < 15) {
+                                    schoolNames.add(school.schoolName);
+                                  } else {
+                                    schoolNames.add('${school.schoolName.substring(0, 15)}...');
+                                  }
                                 }
                               }
                               return HomeButton(
@@ -198,10 +199,12 @@ class _HomeState extends State<Home> {
                               var allSchools = snapshot.data!;
                               List<String> schoolNames = [];
                               for (var school in allSchools) {
-                                if (school.schoolName.length < 15) {
-                                  schoolNames.add(school.schoolName);
-                                } else {
-                                  schoolNames.add('${school.schoolName.substring(0, 15)}...');
+                                if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
+                                  if (school.schoolName.length < 15) {
+                                    schoolNames.add(school.schoolName);
+                                  } else {
+                                    schoolNames.add('${school.schoolName.substring(0, 15)}...');
+                                  }
                                 }
                               }
                               return HomeButton(

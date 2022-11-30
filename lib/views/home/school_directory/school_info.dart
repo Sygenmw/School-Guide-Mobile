@@ -2,15 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/gallery.dart';
+import 'package:school_guide/views/home/school_directory/school_map.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
+import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:async'; 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SchoolInfo extends StatefulWidget {
   const SchoolInfo({Key? key, required this.school}) : super(key: key);
@@ -32,6 +37,10 @@ class _SchoolInfoState extends State<SchoolInfo> {
     await Scrollable.ensureVisible(context!);
   }
 
+  // MAP
+  final Completer<GoogleMapController> _controller = Completer();
+  Iterable markers = [];
+
   @override
   void initState() {
     school = widget.school;
@@ -40,9 +49,23 @@ class _SchoolInfoState extends State<SchoolInfo> {
 
   @override
   Widget build(BuildContext context) {
-    // setState(() {
-    //   _showBottomSheet(context);
-    // });
+    //
+    Set<Marker> markerIDs = {
+      Marker(
+        markerId: MarkerId(
+          widget.school.id,
+        ),
+        onTap: () {
+          // Display User Information
+        },
+        consumeTapEvents: true,
+        position: LatLng(widget.school.location.lat, widget.school.location.lng),
+      ),
+    };
+    final CameraPosition kCustomerPosition = CameraPosition(
+      target: LatLng(widget.school.location.lat, widget.school.location.lng),
+      zoom: 15.4746,
+    );
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: true,
@@ -370,6 +393,55 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     },
                                     child: CustomText(school.website, color: AppColors.primaryColor, fontSize: 14, icon: Icons.circle),
                                   ),
+                                  Container(
+                                    height: 120,
+                                    width: double.infinity,
+                                    child: ClipRRect(
+                                      clipBehavior: Clip.antiAlias,
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: GoogleMap(
+                                        mapType: MapType.terrain,
+                                        initialCameraPosition: kCustomerPosition,
+                                        markers: markerIDs,
+                                        zoomControlsEnabled: false,
+                                        onMapCreated: (GoogleMapController controller) {
+                                          _controller.complete(controller);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 5,
+                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                          TopBlackText(text: widget.school.city),
+                                          TopBlackText(text: '${widget.school.location.lat}, ${widget.school.location.lng}'),
+                                        ]),
+                                      ),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Tooltip(
+                                            message: 'Go to ${widget.school.schoolName}',
+                                            preferBelow: false,
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                Get.to(() => SchoolMap(school: widget.school));
+                                              },
+                                              child: Icon(
+                                                FontAwesomeIcons.diamondTurnRight,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                 ],
                               )
 
@@ -388,3 +460,4 @@ class _SchoolInfoState extends State<SchoolInfo> {
         bottomNavigationBar: const CustomBottomNavBar());
   }
 }
+

@@ -37,8 +37,16 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   firebase_storage: ^10.3.11
   scrollable_positioned_list: ^0.3.5
+  # liking
   device_info_plus: ^8.0.0
   shared_preferences: ^2.0.15
+  # location
+  geolocator: ^9.0.2
+  google_maps_flutter: ^2.2.1
+  permission_handler: ^10.2.0
+  flutter_polyline_points: ^1.0.0
+  flutter_cache_manager: ^3.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
