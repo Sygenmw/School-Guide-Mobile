@@ -78,7 +78,7 @@ class Location {
 
   Location({required this.lat, required this.lng});
 
-  factory Location.fromMap(Map<String, dynamic>? doc) => Location(lat: doc!['lat'], lng: doc['lng']);
+  factory Location.fromMap(Map<String, dynamic>? doc) => Location(lat: double.parse(doc!['lat']), lng: double.parse(doc['lng']));
   Map<String, dynamic> toMap() => {
         "lat": lat,
         "lng": lng,

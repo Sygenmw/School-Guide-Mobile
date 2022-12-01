@@ -14,7 +14,7 @@ import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:async'; 
+import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SchoolInfo extends StatefulWidget {
@@ -423,25 +423,26 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                         ]),
                                       ),
                                       Expanded(
-                                          flex: 1,
-                                          child: Tooltip(
-                                            message: 'Go to ${widget.school.schoolName}',
-                                            preferBelow: false,
-                                            child: MaterialButton(
-                                              onPressed: () {
-                                                Get.to(() => SchoolMap(school: widget.school));
-                                              },
-                                              child: Icon(
-                                                FontAwesomeIcons.diamondTurnRight,
-                                                color: AppColors.primaryColor,
-                                              ),
+                                        flex: 1,
+                                        child: Tooltip(
+                                          message: 'Go to ${widget.school.schoolName}',
+                                          preferBelow: false,
+                                          child: MaterialButton(
+                                            onPressed: () {
+                                              Get.to(() => SchoolMap(school: widget.school));
+                                            },
+                                            child: Icon(
+                                              FontAwesomeIcons.diamondTurnRight,
+                                              color: AppColors.primaryColor,
                                             ),
-                                          ))
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   SizedBox(
                                     height: 10,
-                                  ),
+                                  ), 
                                 ],
                               )
 
@@ -460,4 +461,3 @@ class _SchoolInfoState extends State<SchoolInfo> {
         bottomNavigationBar: const CustomBottomNavBar());
   }
 }
-

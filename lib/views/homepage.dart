@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:school_guide/controllers/banner_controller.dart';
+import 'package:school_guide/controllers/location_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/models/banner.dart';
 import 'package:school_guide/models/edu_blog.dart';
@@ -55,6 +58,55 @@ class _HomeState extends State<Home> {
       location: Location(lat: 0.0, lng: 0.0));
 
   List<BannerDetails> banners = [];
+// CAN WE DO THIS?
+  double lat = 0;
+  double long = 0;
+  double distance = 0.0;
+  List<SchoolDetails> schoolsNearMe = [];
+  void initState() {
+    Timer.periodic(const Duration(seconds: 5), (xxx) {
+      getGeoPoint();
+      schoolController.allSchools.forEach((school) {
+        if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
+          distance = calculateDistance(
+            source: LatLng(school.location.lat, school.location.lng),
+            dest: LatLng(
+              lat,
+              long,
+            ),
+          );
+          if (distance <= 20) {
+            schoolsNearMe.contains(school) ? {} : schoolsNearMe.add(school);
+          }
+        }
+      });
+    });
+    super.initState();
+  }
+
+  getGeoPoint() {
+    var currentLocation = LocationController().determinePosition();
+    currentLocation.then((value) => {
+          setState(() {
+            lat = value.latitude;
+            long = value.longitude;
+          })
+        });
+  }
+
+  double calculateDistance({required LatLng source, required LatLng dest}) {
+    var p = 0.017453292519943295;
+    var a = 0.5 - cos((dest.latitude - source.latitude) * p) / 2 + cos(source.latitude * p) * cos(dest.latitude * p) * (1 - cos((dest.longitude - source.longitude) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+// WE CAN DO THIS
+
+  @override
+  void dispose() {
+    getGeoPoint();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,9 +218,8 @@ class _HomeState extends State<Home> {
                           stream: _getAllSchools(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              var allSchools = snapshot.data!;
                               List<String> schoolNames = [];
-                              for (var school in allSchools) {
+                              for (var school in schoolsNearMe) {
                                 if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
                                   if (school.schoolName.length < 15) {
                                     schoolNames.add(school.schoolName);
@@ -183,7 +234,7 @@ class _HomeState extends State<Home> {
                                 isSmall: true,
                                 items: schoolNames.length > 1 ? schoolNames.sublist(0, 2) : schoolNames,
                                 onPressed: () {
-                                  Get.to(() => SchoolFinder());
+                                  Get.to(() => SchoolFinder(schools: schoolsNearMe));
                                 },
                               );
                             }
