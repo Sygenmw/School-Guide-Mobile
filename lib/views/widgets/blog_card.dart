@@ -55,7 +55,7 @@ class _EduBlogCardState extends State<EduBlogCard> {
                   builder: ((BuildContext context) {
                     return EduBlogItemDetails(
                       eduBlog: widget.blog,
-                      blogViews: 12,
+                      blogViews: count,
                       deviceID: widget.deviceID,
                     );
                   }),
