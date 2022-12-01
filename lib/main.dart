@@ -9,6 +9,7 @@ import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/controllers/tutor_controller.dart';
 import 'package:school_guide/controllers/video_controller.dart';
+import 'package:school_guide/controllers/views_controller.dart';
 import 'package:school_guide/views/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controllers/all_controllers.dart';
@@ -29,6 +30,7 @@ void main() async {
     Get.put(FontController());
     Get.put(CurriculumController());
     Get.put(TutorController());
+    Get.put(ViewsController());
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

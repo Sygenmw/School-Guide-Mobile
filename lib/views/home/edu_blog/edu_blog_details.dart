@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/edu_blog.dart';
+import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
@@ -21,6 +23,8 @@ class EduBlogItemDetails extends StatefulWidget {
 }
 
 class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
+  int allViews = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,13 +88,34 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                                       Icons.remove_red_eye,
                                       size: 17,
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 4.0),
-                                      child: Text(
-                                        '${widget.blogViews}',
-                                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
-                                      ),
-                                    ),
+                                    StreamBuilder<List<ViewDetails>>(
+                                        stream: _getViews(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            var likes = snapshot.data!;
+
+                                            likes.forEach((view) {
+                                              if (view.id == widget.eduBlog.id) {
+                                                allViews = view.views;
+                                              }
+                                            });
+
+                                            return Padding(
+                                              padding: EdgeInsets.only(left: 4.0),
+                                              child: Text(
+                                                '$allViews',
+                                                style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
+                                              ),
+                                            );
+                                          }
+                                          return Padding(
+                                            padding: EdgeInsets.only(left: 4.0),
+                                            child: Text(
+                                              '${widget.blogViews}',
+                                              style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
+                                            ),
+                                          );
+                                        }),
                                   ],
                                 ),
                               ],
@@ -175,4 +200,8 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
+}
+// to get the reactiveness of the views on this page we use streams
+Stream<List<ViewDetails>> _getViews() {
+  return FirebaseFirestore.instance.collection('blogViews').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ViewDetails.fromDocument(doc)).toList());
 }
