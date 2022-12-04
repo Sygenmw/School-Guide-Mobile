@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:school_guide/controllers/location_controller.dart';
+import 'package:school_guide/controllers/permission_controller.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
@@ -141,7 +142,7 @@ class _SchoolMapState extends State<SchoolMap> {
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     CircularProgressIndicator(
                       color: AppColors.primaryColor,
                       strokeWidth: 5,
@@ -151,6 +152,36 @@ class _SchoolMapState extends State<SchoolMap> {
                       child: Text(
                         'Planning your best route...',
                         style: TextStyle(fontSize: 18, color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(height: 12),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Taking long? Make sure you have allowed Location permission for this app!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 14, color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: MaterialButton(
+                              color: AppColors.primaryColor,
+                              onPressed: () {
+                                // request permission status
+                                PermissionHandler.askLocationPermission();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                  'Request Location Permission',
+                                  style: TextStyle(fontSize: 16, color: AppColors.white, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ],

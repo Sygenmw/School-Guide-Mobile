@@ -68,6 +68,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
             setState(() {
               selectedChoices.contains(item) ? selectedChoices.remove(item) : selectedChoices.add(item);
             });
+            HapticFeedback.heavyImpact();
           },
         ),
       ));
@@ -97,6 +98,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
             setState(() {
               selectedCurriculumChoices.contains(item) ? selectedCurriculumChoices.remove(item) : selectedCurriculumChoices.add(item);
             });
+            HapticFeedback.heavyImpact();
           },
         ),
       ));
@@ -138,31 +140,32 @@ class _BecomeATutorState extends State<BecomeATutor> {
           CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.phone, labelText: 'Phone number'),
           CustomFormField(controller: emailController, hintText: 'Email address', keyboardType: TextInputType.emailAddress, labelText: 'Email address'),
           SizedBox(height: 5),
-          Container(
-            height: 40,
-            decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(8)),
-            child: Padding(
-                padding: const EdgeInsets.only(top: 0.0, left: 10, right: 14),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Gender',
+          SizedBox(
+            height: 50,
+            child: Container(
+              decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 0.0, left: 10, right: 14),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Gender',
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 2.0),
+                      Expanded(
                         child: DropdownButtonFormField(
                           iconSize: 30,
-                          decoration: const InputDecoration(enabledBorder: InputBorder.none),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                          ),
                           hint: const Text(''),
                           value: selectedGender,
                           items: genders.map((value) {
                             return DropdownMenuItem(
                               value: value,
-                              child: Text(value),
+                              child: TopBlackText(text: value),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -170,20 +173,20 @@ class _BecomeATutorState extends State<BecomeATutor> {
                               selectedGender = value as String;
                             });
                           },
-                          // icon: Center(
-                          //   child: Icon(Icons.keyboard_arrow_down),
-                          // ),
+                          icon: Center(
+                            child: Icon(Icons.keyboard_arrow_down),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  )),
+            ),
           ),
           SizedBox(
             height: 10,
           ),
           Container(
-            height: 40,
+            height: 50,
             decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(8)),
             child: Padding(
                 padding: const EdgeInsets.only(top: 0.0, left: 10, right: 14),
@@ -199,13 +202,16 @@ class _BecomeATutorState extends State<BecomeATutor> {
                       child: DropdownButtonFormField(
                         isExpanded: false,
                         iconSize: 30,
-                        decoration: const InputDecoration(enabledBorder: InputBorder.none),
+                        decoration: const InputDecoration(
+                          enabledBorder: InputBorder.none,
+                          border: InputBorder.none,
+                        ),
                         hint: const Text(''),
                         value: selectedLocation,
                         items: location.map((value) {
                           return DropdownMenuItem(
                             value: value,
-                            child: Text(value),
+                            child: TopBlackText(text: value),
                           );
                         }).toList(),
                         onChanged: (value) {
@@ -283,7 +289,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
               );
             },
             child: Container(
-              height: 40,
+              height: 50,
               decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(8)),
               child: Align(
                   alignment: Alignment.centerLeft,

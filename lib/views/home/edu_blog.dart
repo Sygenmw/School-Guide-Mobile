@@ -8,6 +8,7 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/carousel_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/empty_list.dart';
 
 class EducationBlog extends StatefulWidget {
   const EducationBlog({Key? key}) : super(key: key);
@@ -48,35 +49,39 @@ class _EducationBlogState extends State<EducationBlog> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentBlogs.length);
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: true,
           isHomeAppBar: true,
         ),
-        body: CustomBody(
-          text: 'Education Blog',
-          children: [
-            EduCarousel(
-              blogItems: currentBlogs,
-              deviceID: deviceID,
-              addFavourite: () async {
-                // implement adding to favourite
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: currentBlogs.length,
-              itemBuilder: (BuildContext context, int index) {
-                return EduBlogCard(blog: currentBlogs[index], deviceID: deviceID);
-              },
-            ),
-          ],
-        ),
+        body: currentBlogs.isEmpty
+            ? EmptyList(
+                text: 'We do not have any blogs now. Come back later.',
+              )
+            : CustomBody(
+                text: 'Education Blog',
+                children: [
+                  EduCarousel(
+                    blogItems: currentBlogs,
+                    deviceID: deviceID,
+                    addFavourite: () async {
+                      // implement adding to favourite
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: currentBlogs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      print(deviceID);
+                      return EduBlogCard(blog: currentBlogs[index], deviceID: deviceID);
+                    },
+                  ),
+                ],
+              ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
 }

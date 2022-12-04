@@ -7,7 +7,7 @@ import 'package:school_guide/views/widgets/custom_snackbar.dart';
 class LikesController extends GetxController {
   static addLike({required LikeDetails likeDetails}) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection('blogLikes').doc(likeDetails.blogID);
+      final docRef = FirebaseFirestore.instance.collection('blogLikes').doc(likeDetails.id);
 
       var values = likeDetails.toDocument();
       docRef.set({
@@ -20,8 +20,8 @@ class LikesController extends GetxController {
 
   static deleteLike({required LikeDetails likeDetails}) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection('blogLikes').doc(likeDetails.blogID);
-      final tempRef = FirebaseFirestore.instance.collection('blogLikes').doc(likeDetails.blogID);
+      final docRef = FirebaseFirestore.instance.collection('blogLikes').doc(likeDetails.id);
+      final tempRef = FirebaseFirestore.instance.collection('blogLikes').doc(likeDetails.id);
 
       var values = likeDetails.toDocument();
 

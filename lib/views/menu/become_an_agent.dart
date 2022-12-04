@@ -64,7 +64,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
           CustomFormField(controller: emailController, hintText: 'Email address', keyboardType: TextInputType.emailAddress, labelText: 'Email address'),
           SizedBox(height: 5),
           Container(
-            height: 40,
+            height: 50,
             decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(8)),
             child: Padding(
                 padding: const EdgeInsets.only(top: 0.0, left: 10, right: 14),
@@ -79,13 +79,16 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
                     Expanded(
                       child: DropdownButtonFormField(
                         iconSize: 30,
-                        decoration: const InputDecoration(enabledBorder: InputBorder.none),
+                        decoration: const InputDecoration(
+                          enabledBorder: InputBorder.none,
+                          border: InputBorder.none,
+                        ),
                         hint: const Text(''),
                         value: selectedLocation,
                         items: location.map((value) {
                           return DropdownMenuItem(
                             value: value,
-                            child: Text(value),
+                            child: TopBlackText(text: value),
                           );
                         }).toList(),
                         onChanged: (value) {
@@ -93,7 +96,9 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
                             selectedLocation = value as String;
                           });
                         },
-                        alignment: Alignment.center,
+                        icon: Center(
+                          child: Icon(Icons.keyboard_arrow_down),
+                        ),
                       ),
                     ),
                   ],
@@ -152,7 +157,6 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
         ],
       ),
       bottomNavigationBar: CustomBottomNavBar(),
-
     );
   }
 }

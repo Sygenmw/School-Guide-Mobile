@@ -23,9 +23,10 @@ class CustomFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 0),
       child: Container(
-        height: 40,
+        height: 50,
         decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(8)),
-        child: TextField(
+        child: TextFormField(
+          autovalidateMode: AutovalidateMode.always,
           controller: controller,
           keyboardType: keyboardType,
           maxLength: trailingText.isNotEmpty
@@ -42,6 +43,7 @@ class CustomFormField extends StatelessWidget {
                 style: BorderStyle.solid,
               ),
             ),
+            labelStyle: TextStyle(color: AppColors.black),
             focusColor: AppColors.grey,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

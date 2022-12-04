@@ -13,7 +13,7 @@ class Curriculums extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: CustomBody(
-        text: 'Curriculums',
+        text: 'Curricula',
         needsHeader: true,
         children: [
           Row(
@@ -34,13 +34,13 @@ class Curriculums extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Text(
-                  'These are some of the most featured curriculums available for tutoring and learning.',
+                  'These are some of the most featured curricula available for tutoring and learning.',
                 ),
               ),
             ],
           ),
           SizedBox(height: 6),
-          TopBlackText(text: 'Curriculums'),
+          TopBlackText(text: 'Curricula'),
           Divider(),
           Wrap(
               children: curriculums

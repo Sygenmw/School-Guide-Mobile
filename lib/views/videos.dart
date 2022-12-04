@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/video_controller.dart';
 import 'package:school_guide/models/video_model.dart';
+import 'package:school_guide/views/widgets/back_exit.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
@@ -33,24 +34,26 @@ class _VideosState extends State<Videos> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(
-        backIconAvailable: false,
-        isHomeAppBar: true,
-      ),
-      body: CustomBody(text: 'Videos', children: [
-        videos.isEmpty
+    return Exitable(
+      child: Scaffold(
+        appBar: const CustomAppBar(
+          backIconAvailable: false,
+          isHomeAppBar: true,
+        ),
+        body: videos.isEmpty
             ? EmptyList(text: 'Sorry we have no curriculums at present! Please come back later.')
-            : ListView.builder(
-                primary: false,
-                shrinkWrap: true,
-                itemCount: videos.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return VideoCard(video: videos[index]);
-                },
-              ),
-      ]),
-      bottomNavigationBar: const CustomBottomNavBar(),
+            : CustomBody(text: 'Videos', children: [
+                ListView.builder(
+                  primary: false,
+                  shrinkWrap: true,
+                  itemCount: videos.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return VideoCard(video: videos[index]);
+                  },
+                ),
+              ]),
+        bottomNavigationBar: const CustomBottomNavBar(),
+      ),
     );
   }
 }

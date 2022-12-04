@@ -9,6 +9,7 @@ class SchoolDetails {
     required this.email,
     required this.gallery,
     required this.phone,
+    required this.header,
     required this.schoolLogo,
     required this.schoolName,
     required this.showInApp,
@@ -29,6 +30,7 @@ class SchoolDetails {
   final String email;
   final Location location;
   final String phone;
+  final String header;
   final String schoolLogo;
   final String schoolName;
   final bool showInApp;
@@ -48,6 +50,7 @@ class SchoolDetails {
         phone: doc["phone"],
         schoolLogo: doc["schoolLogo"],
         schoolName: doc["schoolName"],
+        header: doc["header"],
         showInApp: doc["showInApp"],
         status: doc["status"],
         levelOfStudy: doc["levelOfStudy"],

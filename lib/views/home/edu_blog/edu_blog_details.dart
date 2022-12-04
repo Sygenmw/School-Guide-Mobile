@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/edu_blog.dart';
+import 'package:school_guide/models/likes_model.dart';
 import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
@@ -24,6 +25,7 @@ class EduBlogItemDetails extends StatefulWidget {
 
 class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
   int allViews = 0;
+  int allLikes = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +39,13 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
           children: [
             SizedBox(
               height: 170,
-              child: CachedNetworkImage(
-                imageUrl: widget.eduBlog.postCover,
-                fit: BoxFit.cover,
+              child: ClipRRect(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: BorderRadius.circular(8),
+                child: CachedNetworkImage(
+                  imageUrl: widget.eduBlog.postCover,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Padding(
@@ -68,12 +74,34 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                                   Icons.favorite,
                                   size: 17,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4.0),
-                                  child: Text(
-                                    '0',
-                                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
-                                  ),
+                                StreamBuilder<List<LikeDetails>>(
+                                  stream: _getLikes(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      List<LikeDetails> likes = snapshot.data!;
+
+                                      likes.forEach((like) {
+                                        if (like.id == widget.eduBlog.id) {
+                                          allLikes = like.allLikes.length;
+                                        }
+                                      });
+
+                                      return Padding(
+                                        padding: EdgeInsets.only(left: 4.0),
+                                        child: Text(
+                                          '$allLikes',
+                                          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
+                                        ),
+                                      );
+                                    }
+                                    return Padding(
+                                      padding: EdgeInsets.only(left: 4.0),
+                                      child: Text(
+                                        '${snapshot.error}',
+                                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -184,24 +212,48 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            FloatingActionButton.small(
-                backgroundColor: AppColors.errorColor,
-                child: Center(
-                  child: Icon(
-                    FontAwesomeIcons.heart,
-                    size: 25,
-                  ),
-                ),
-                onPressed: () async {
+            Material(
+              elevation: 5,
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () async {
                   // add like to firebase
                   HapticFeedback.heavyImpact();
-                }),
+                  var docRef = FirebaseFirestore.instance.collection('blogLikes').doc(widget.eduBlog.id);
+
+                  docRef.set({
+                    "likes": FieldValue.arrayUnion([
+                      {"deviceID": widget.deviceID}
+                    ])
+                  }, SetOptions(merge: true));
+                },
+                child: Container(
+                    height: 60,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        FontAwesomeIcons.thumbsUp,
+                        color: AppColors.white,
+                      ),
+                    )),
+              ),
+            )
           ],
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
 }
+
 // to get the reactiveness of the views on this page we use streams
 Stream<List<ViewDetails>> _getViews() {
   return FirebaseFirestore.instance.collection('blogViews').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ViewDetails.fromDocument(doc)).toList());
+}
+
+Stream<List<LikeDetails>> _getLikes() {
+  return FirebaseFirestore.instance.collection('blogLikes').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => LikeDetails.fromDocument(doc)).toList());
 }

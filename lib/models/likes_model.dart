@@ -1,26 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LikeDetails {
-  LikeDetails({required this.allLikes, required this.blogID});
-  final String blogID;
-  final List<_Like> allLikes;
+  LikeDetails({required this.allLikes, required this.id});
+  final String id;
+  final List<Like> allLikes;
 
   factory LikeDetails.fromDocument(DocumentSnapshot? doc) => LikeDetails(
-        blogID: doc!.id,
-        allLikes: List<_Like>.from(doc["allLikes"].map((e) => _Like.fromMap(e))).toList(),
+        id: doc!.id,
+        allLikes: List<Like>.from(doc["likes"].map((e) => Like.fromMap(e))).toList(),
       );
-
   Map<String, dynamic> toDocument() => {
-        "allLikes": allLikes.map((e) => e),
+        "likes": allLikes.map((e) => e.toMap()).toList(),
       };
 }
 
-class _Like {
-  final String userID;
+class Like {
+  final String deviceID;
 
-  _Like({required this.userID});
+  Like({required this.deviceID});
 
-  factory _Like.fromMap(Map<String, dynamic> doc) => _Like(
-        userID: doc['userID'],
+  factory Like.fromMap(Map<String, dynamic> doc) => Like(
+        deviceID: doc['deviceID'],
       );
+
+  Map<String, dynamic> toMap() => {deviceID: "deviceID"};
 }

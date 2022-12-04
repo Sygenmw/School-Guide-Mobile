@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_statements
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
@@ -23,8 +24,8 @@ class _PremiumState extends State<Premium> {
   // Premium features
   List<Feature> features = [
     Feature(featureName: '10+ Images', featurePrice: 10000, icon: Icons.browse_gallery),
-    Feature(featureName: 'school on banner', featurePrice: 40000, icon: Icons.branding_watermark),
-    Feature(featureName: 'advert on banner', featurePrice: 50000, icon: FontAwesomeIcons.adversal),
+    Feature(featureName: 'School on home page', featurePrice: 40000, icon: Icons.branding_watermark),
+    Feature(featureName: 'Advert on banner', featurePrice: 50000, icon: FontAwesomeIcons.adversal),
     Feature(featureName: 'Video Ad of the school', featurePrice: 50000, icon: FontAwesomeIcons.video),
     Feature(featureName: 'School brochure(with design)', featurePrice: 45000, icon: FontAwesomeIcons.boxArchive),
     Feature(featureName: 'Map and directions to school', featurePrice: 40000, icon: FontAwesomeIcons.mapLocation),
@@ -57,6 +58,8 @@ class _PremiumState extends State<Premium> {
             selected: selectedFeaturesChoices.contains(item),
             selectedColor: AppColors.primaryColor,
             onSelected: (selected) {
+              HapticFeedback.heavyImpact();
+
               setState(() {
                 selectedFeaturesChoices.contains(item)
                     ? {
@@ -114,11 +117,11 @@ class _PremiumState extends State<Premium> {
             ],
           ),
           SizedBox(height: 6),
-          TopBlackText(text: 'Select premium features.'),
-          Divider(),
           CustomFormField(controller: nameController, hintText: 'School/Company name', keyboardType: TextInputType.name, labelText: 'School/Company name'),
           CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.phone, labelText: 'Phone number'),
           SizedBox(height: 6),
+          TopBlackText(text: 'Select premium features.'),
+          Divider(),
           Wrap(
             children: _buildPremiumFeatures(),
           ),
@@ -171,7 +174,7 @@ class _PremiumState extends State<Premium> {
                     SubmitButton(
                       subject: 'REGISTRATION FOR PREMIUM FEATURES.',
                       body:
-                          'Dear Sir/Madam, \nThe above subject in reference matters. We are ${nameController.text.trim()} and are writing you this email, applying for the following premium features :${selectedFeaturesChoices.join(',')} in School guide app.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.',
+                          'Dear Sir/Madam, \nThe above subject in reference matters. We at ${nameController.text.trim()} are writing you this email, applying for the following premium features :\n${selectedFeaturesChoices.join('\n- ')}.\n\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.',
                       controllers: [nameController, phoneController],
                     ),
                     SizedBox(height: 10),

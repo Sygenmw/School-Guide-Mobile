@@ -5,6 +5,7 @@ import 'package:school_guide/controllers/agent_controller.dart';
 import 'package:school_guide/controllers/curriculum_controller.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
 import 'package:school_guide/controllers/font_controller.dart';
+import 'package:school_guide/controllers/permission_controller.dart';
 import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/controllers/tutor_controller.dart';
@@ -14,6 +15,8 @@ import 'package:school_guide/views/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controllers/all_controllers.dart';
 import 'firebase_options.dart';
+
+//PERMISSION HANDLER
 
 // ...
 void main() async {
@@ -38,7 +41,7 @@ void main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
   await EduBlogController.init();
-
+  PermissionHandler.askLocationPermission();
   runApp(const SchoolGuide());
 }
 
@@ -53,6 +56,7 @@ class SchoolGuide extends StatelessWidget {
     ]);
     return GetMaterialApp(
       defaultTransition: Transition.fadeIn,
+      title: 'School Guide Malawi',
       theme: ThemeData(
         fontFamily: 'quicksand',
       ),

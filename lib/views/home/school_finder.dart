@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:school_guide/controllers/location_controller.dart';
+import 'package:school_guide/controllers/permission_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
@@ -31,6 +32,8 @@ class _SchoolFinderState extends State<SchoolFinder> {
   List<SchoolDetails> schoolsNearMe = [];
   Timer time = Timer(Duration(seconds: 0), () {});
   void initState() {
+    PermissionHandler.askLocationPermission();
+
     Timer.periodic(const Duration(seconds: 4), (timer) {
       getGeoPoint();
       schoolController.allSchools.forEach((school) {
@@ -100,6 +103,7 @@ class _SchoolFinderState extends State<SchoolFinder> {
                           MaterialButton(
                             onPressed: () {
                               // fetch schoools again
+                              PermissionHandler.askLocationPermission();
                             },
                             child: Icon(
                               Icons.refresh,

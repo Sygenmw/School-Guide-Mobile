@@ -16,6 +16,7 @@ import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SchoolInfo extends StatefulWidget {
   const SchoolInfo({Key? key, required this.school}) : super(key: key);
@@ -49,6 +50,21 @@ class _SchoolInfoState extends State<SchoolInfo> {
 
   @override
   Widget build(BuildContext context) {
+    // VIDEO DECODING
+    final videoId = YoutubePlayer.convertUrlToId(widget.school.header);
+
+    YoutubePlayerController _videoController = YoutubePlayerController(
+      initialVideoId: school.header.isEmpty ? "" : videoId!,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        hideControls: false,
+        controlsVisibleAtStart: true,
+      ),
+    );
+    // var date = AppConstants.convertToDateTime(gallery.createdAt);
+    // var formattedTime = timeago.format(date);
+
     //
     Set<Marker> markerIDs = {
       Marker(
@@ -76,23 +92,55 @@ class _SchoolInfoState extends State<SchoolInfo> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Hero(
-                tag: school.schoolName,
-                child: CachedImage(imageUrl: school.schoolLogo),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 0,
+              school.header.isNotEmpty
+                  ? Center(
+                      child: ClipRRect(
+                        child: Container(
+                          height: 250,
+                          color: AppColors.grey,
+                          width: Get.size.width,
+                          child: YoutubePlayer(
+                            controller: _videoController,
+                            showVideoProgressIndicator: true,
+                          ),
+                        ),
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: SizedBox(
+                        height: 200,
+                        child: SizedBox(
+                          width: Get.size.width,
+                          child: CachedImage(
+                            imageUrl: school.gallery[0],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+              Align(
+                alignment: Alignment.topCenter,
                 child: SizedBox(
                   height: 100,
-                  width: 100,
-                  child: ClipRRect(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: BorderRadius.circular(150),
-                    child: CachedImage(
-                      imageUrl: school.schoolLogo,
-                      fit: BoxFit.contain,
+                  width: 80,
+                  child: InkWell(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse(school.website),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: ClipRRect(
+                      clipBehavior: Clip.antiAlias,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
+                      child: CachedImage(
+                        imageUrl: school.schoolLogo,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -107,7 +155,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                     expand: true,
                     minChildSize: 0.12,
                     maxChildSize: 0.79,
-                    initialChildSize: 0.345,
+                    initialChildSize: 0.344,
 
                     // snap: true,
                     builder: (BuildContext context, ScrollController scrollController) {
@@ -442,7 +490,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   ),
                                   SizedBox(
                                     height: 10,
-                                  ), 
+                                  ),
                                 ],
                               )
 

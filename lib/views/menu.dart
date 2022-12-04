@@ -7,8 +7,9 @@ import 'package:school_guide/views/menu/about_us.dart';
 import 'package:school_guide/views/menu/advertise_school.dart';
 import 'package:school_guide/views/menu/become_a_tutor.dart';
 import 'package:school_guide/views/menu/become_an_agent.dart';
-import 'package:school_guide/views/menu/curriculums.dart';
+import 'package:school_guide/views/menu/curricula.dart';
 import 'package:school_guide/views/menu/premium.dart';
+import 'package:school_guide/views/widgets/back_exit.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
@@ -23,94 +24,96 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        backIconAvailable: false,
-        isHomeAppBar: true,
+    return Exitable(
+      child: Scaffold(
+        appBar: CustomAppBar(
+          backIconAvailable: false,
+          isHomeAppBar: true,
+        ),
+        body: CustomBody(
+          text: 'Menu',
+          children: [
+            SizedBox(
+              height: Get.size.height - Get.size.height / 3.5,
+              child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    MenuCardItem(
+                      onTap: () {
+                        Get.to(() => Curriculums());
+                      },
+                      icon: Icons.book,
+                      text: 'Curriculums',
+                    ),
+                    MenuCardItem(
+                      onTap: () {
+                        Get.to(() => Premium());
+                      },
+                      text: 'Premium',
+                      icon: Icons.workspace_premium_outlined,
+                    ),
+                    MenuCardItem(
+                        onTap: () {
+                          String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
+                          Share.share(
+                            'Hello there!! did you know you can access the best schools to enroll into and view latest scholarships using the School Guide App? Tap on this link $link to download the app.',
+                            subject: 'Share School Guide App',
+                          );
+                        },
+                        icon: Icons.share,
+                        text: 'Share app'),
+                    MenuCardItem(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                            return AboutUs();
+                          }));
+                        },
+                        icon: Icons.info_outline,
+                        text: 'About us'),
+                    SizedBox(height: 20),
+                    TopText(text: 'Tutoring', fontSize: 16),
+                    SizedBox(height: 10),
+                    MenuCardItem(
+                        onTap: () {
+                          Get.to(() => BecomeATutor());
+                        },
+                        icon: Icons.person_add_sharp,
+                        text: 'Become a tutor.'),
+                    SizedBox(height: 20),
+                    TopText(text: 'Advertisement', fontSize: 16),
+                    SizedBox(height: 10),
+                    MenuCardItem(
+                        onTap: () {
+                          Get.to(() => AdvertiseSchool());
+                        },
+                        icon: Icons.branding_watermark,
+                        text: 'Advertise your school with us.'),
+                    SizedBox(height: 20),
+                    TopText(text: 'Agents', fontSize: 16),
+                    SizedBox(height: 10),
+                    MenuCardItem(
+                      onTap: () {
+                        Get.to(() => BecomeAnAgent());
+                      },
+                      text: 'Become an agent',
+                      icon: Icons.support_agent,
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomText('v1.0.0', pLeft: 0, pTop: 0, pBottom: 0, mainAxisAlignment: MainAxisAlignment.center, icon: Icons.phone_android, color: AppColors.primaryColor),
+                  ],
+                ),
+              ]),
+            )
+          ],
+        ),
+        bottomNavigationBar: CustomBottomNavBar(),
       ),
-      body: CustomBody(
-        text: 'Menu',
-        children: [
-          SizedBox(
-            height: Get.size.height - Get.size.height / 3.5,
-            child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  MenuCardItem(
-                    onTap: () {
-                      Get.to(() => Curriculums());
-                    },
-                    icon: Icons.book,
-                    text: 'Curriculums',
-                  ),
-                  MenuCardItem(
-                    onTap: () {
-                      Get.to(() => Premium());
-                    },
-                    text: 'Premium',
-                    icon: Icons.workspace_premium_outlined,
-                  ),
-                  MenuCardItem(
-                      onTap: () {
-                        String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
-                        Share.share(
-                          'Hello there!! did you know you can access the best schools to enroll into and view latest scholarships using the School Guide App? Tap on this link $link to download the app.',
-                          subject: 'Share School Guide App',
-                        );
-                      },
-                      icon: Icons.share,
-                      text: 'Share app'),
-                  MenuCardItem(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                          return AboutUs();
-                        }));
-                      },
-                      icon: Icons.info_outline,
-                      text: 'About us'),
-                  SizedBox(height: 20),
-                  TopText(text: 'Tutoring', fontSize: 16),
-                  SizedBox(height: 10),
-                  MenuCardItem(
-                      onTap: () {
-                        Get.to(() => BecomeATutor());
-                      },
-                      icon: Icons.person_add_sharp,
-                      text: 'Become a tutor.'),
-                  SizedBox(height: 20),
-                  TopText(text: 'Advertisement', fontSize: 16),
-                  SizedBox(height: 10),
-                  MenuCardItem(
-                      onTap: () {
-                        Get.to(() => AdvertiseSchool());
-                      },
-                      icon: Icons.branding_watermark,
-                      text: 'Advertise your school with us.'),
-                  SizedBox(height: 20),
-                  TopText(text: 'Agents', fontSize: 16),
-                  SizedBox(height: 10),
-                  MenuCardItem(
-                    onTap: () {
-                      Get.to(() => BecomeAnAgent());
-                    },
-                    text: 'Become an agent',
-                    icon: Icons.support_agent,
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText('v1.0.0', pLeft: 0, pTop: 0, pBottom: 0, mainAxisAlignment: MainAxisAlignment.center, icon: Icons.phone_android, color: AppColors.primaryColor),
-                ],
-              ),
-            ]),
-          )
-        ],
-      ),
-      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 
