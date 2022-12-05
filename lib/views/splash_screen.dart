@@ -9,7 +9,7 @@ class SplashScreenView extends StatefulWidget {
 
 class _SplashScreenViewState extends State<SplashScreenView> {
   Future delayApp() async {
-    await Future.delayed(Duration(milliseconds: 4200));
+    await Future.delayed(Duration(milliseconds: 3000));
   }
 
   @override

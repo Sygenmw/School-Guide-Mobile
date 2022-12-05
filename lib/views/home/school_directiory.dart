@@ -192,57 +192,57 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                           );
                         }),
                   ),
-                  (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
-                      ? const Padding(
-                          padding: EdgeInsets.only(top: 12.0),
-                          child: TopBlackText(text: 'CURRICULUM'),
-                        )
-                      : Container(),
-                  (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
-                      ? SizedBox(
-                          height: 40,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: curriculums.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 4.0,
-                                    top: 4.0,
-                                    bottom: 4.0,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      HapticFeedback.vibrate();
-                                      setState(() {
-                                        curriculumSelectedIndex = index;
-                                      });
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: curriculumSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
-                                        border: Border.all(color: curriculumSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                        child: Center(
-                                          child: Text(
-                                            curriculums[index],
-                                            style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold,
-                                              color: curriculumSelectedIndex == index ? AppColors.white : AppColors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }),
-                        )
-                      : Container(),
+                  // (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
+                  //     ? const Padding(
+                  //         padding: EdgeInsets.only(top: 12.0),
+                  //         child: TopBlackText(text: 'CURRICULUM'),
+                  //       )
+                  //     : Container(),
+                  // (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
+                  //     ? SizedBox(
+                  //         height: 40,
+                  //         child: ListView.builder(
+                  //             scrollDirection: Axis.horizontal,
+                  //             itemCount: curriculums.length,
+                  //             itemBuilder: (BuildContext context, int index) {
+                  //               return Padding(
+                  //                 padding: const EdgeInsets.only(
+                  //                   right: 4.0,
+                  //                   top: 4.0,
+                  //                   bottom: 4.0,
+                  //                 ),
+                  //                 child: GestureDetector(
+                  //                   onTap: () {
+                  //                     HapticFeedback.vibrate();
+                  //                     setState(() {
+                  //                       curriculumSelectedIndex = index;
+                  //                     });
+                  //                   },
+                  //                   child: Container(
+                  //                     decoration: BoxDecoration(
+                  //                       color: curriculumSelectedIndex == index ? AppColors.primaryColor : AppColors.white,
+                  //                       border: Border.all(color: curriculumSelectedIndex != index ? AppColors.primaryColor : Colors.transparent, width: 2),
+                  //                       borderRadius: BorderRadius.circular(10.0),
+                  //                     ),
+                  //                     child: Padding(
+                  //                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  //                       child: Center(
+                  //                         child: Text(
+                  //                           curriculums[index],
+                  //                           style: TextStyle(
+                  //                             fontSize: 17,
+                  //                             fontWeight: FontWeight.bold,
+                  //                             color: curriculumSelectedIndex == index ? AppColors.white : AppColors.black,
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //             }),
+                  //       )
+                  //     : Container(),
                   destinationSelectedIndex == 0 && levelSelectedIndex == 0
                       ? Padding(
                           padding: const EdgeInsets.only(top: 12.0),
@@ -283,7 +283,7 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                                   }))
                 ],
               ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar:   CustomBottomNavBar());
   }
 
   List<String> destinations = [

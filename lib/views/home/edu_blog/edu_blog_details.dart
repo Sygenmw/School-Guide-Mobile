@@ -79,17 +79,18 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       List<LikeDetails> likes = snapshot.data!;
+                                      int currentLikes = 0;
 
                                       likes.forEach((like) {
                                         if (like.id == widget.eduBlog.id) {
-                                          allLikes = like.allLikes.length;
+                                          currentLikes = like.allLikes.length;
                                         }
                                       });
 
                                       return Padding(
                                         padding: EdgeInsets.only(left: 4.0),
                                         child: Text(
-                                          '$allLikes',
+                                          currentLikes.toString() == 'null' ? allLikes.toString() : '$currentLikes',
                                           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
                                         ),
                                       );
@@ -97,7 +98,7 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                                     return Padding(
                                       padding: EdgeInsets.only(left: 4.0),
                                       child: Text(
-                                        '${snapshot.error}',
+                                        '',
                                         style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
                                       ),
                                     );
@@ -245,7 +246,7 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
             )
           ],
         ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar:   CustomBottomNavBar());
   }
 }
 

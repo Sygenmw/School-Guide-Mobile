@@ -59,7 +59,7 @@ class _AgentsState extends State<Agents> {
                   ),
                 ],
               ),
-        bottomNavigationBar: const CustomBottomNavBar(),
+        bottomNavigationBar: CustomBottomNavBar(selectedIndex: 3),
       ),
     );
   }

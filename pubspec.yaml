@@ -51,6 +51,7 @@ dependencies:
   app_settings: ^4.1.8
   video_player: ^2.4.8
   progress_indicators: ^1.0.0
+  device_uuid: ^0.0.4
 
 dev_dependencies:
   flutter_test:

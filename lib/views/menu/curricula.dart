@@ -55,7 +55,8 @@ class Curricula extends StatelessWidget {
                   .toList())
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
+
     );
   }
 }

@@ -227,7 +227,7 @@ class _ScholarshipsState extends State<Scholarships> {
                   ),
                 ],
               ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar: CustomBottomNavBar());
   }
 }
 

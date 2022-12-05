@@ -400,7 +400,7 @@ class _BecomeATutorState extends State<BecomeATutor> {
           SizedBox(height: 10),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
     );
   }
 }

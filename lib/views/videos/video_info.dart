@@ -70,8 +70,10 @@ class VideoInformation extends StatelessWidget {
                             ),
                             Text(
                               TimeConversion.convertTimeStamp(video.createdAt),
-                              style: const TextStyle(fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor, fontSize: 16,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryColor,
+                                fontSize: 16,
                                 wordSpacing: 2.9,
                               ),
                             ),
@@ -95,6 +97,6 @@ class VideoInformation extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar: CustomBottomNavBar(selectedIndex: 1));
   }
 }

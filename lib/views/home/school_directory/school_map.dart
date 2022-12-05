@@ -213,6 +213,6 @@ class _SchoolMapState extends State<SchoolMap> {
                   });
                 },
               ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar:   CustomBottomNavBar());
   }
 }

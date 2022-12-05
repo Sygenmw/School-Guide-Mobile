@@ -41,7 +41,6 @@ void main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
   await EduBlogController.init();
-  PermissionHandler.askLocationPermission();
   runApp(const SchoolGuide());
 }
 

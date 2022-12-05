@@ -161,6 +161,6 @@ class ScholarshipDetailsView extends StatelessWidget {
             )
           ],
         ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar:   CustomBottomNavBar());
   }
 }

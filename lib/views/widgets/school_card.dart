@@ -160,10 +160,9 @@ class _SchoolCardState extends State<SchoolCard> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Icon(
-                                    Icons.map,
-                                    size: 12,
-                                    color: AppColors.white,
+                                  Image.asset(
+                                    AppImages.km,
+                                    height: 15,
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 4.0, right: 10),

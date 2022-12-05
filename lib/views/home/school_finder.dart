@@ -133,7 +133,7 @@ class _SchoolFinderState extends State<SchoolFinder> {
                   })
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 }

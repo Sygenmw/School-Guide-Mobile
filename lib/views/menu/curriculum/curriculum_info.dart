@@ -13,41 +13,42 @@ class CurriculumInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppBar(
-          backIconAvailable: true,
-          isHomeAppBar: true,
-        ),
-        body: CustomBody(
-          text: 'Curriculum/${curriculum.title}',
-          children: [
-            Container(height: 130, child: CachedImage(imageUrl: curriculum.logo, fit: BoxFit.fill)),
-            Padding(
-              padding: const EdgeInsets.only(top: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      curriculum.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+      appBar: const CustomAppBar(
+        backIconAvailable: true,
+        isHomeAppBar: true,
+      ),
+      body: CustomBody(
+        text: 'Curriculum/${curriculum.title}',
+        children: [
+          Container(height: 130, child: CachedImage(imageUrl: curriculum.logo, fit: BoxFit.fill)),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    curriculum.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    curriculum.description,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      wordSpacing: 2.8,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      curriculum.description,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        wordSpacing: 2.8,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-        bottomNavigationBar: const CustomBottomNavBar());
+          ),
+        ],
+      ),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
+    );
   }
 }

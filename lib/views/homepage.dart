@@ -69,6 +69,8 @@ class _HomeState extends State<Home> {
   void initState() {
     PermissionHandler.askLocationPermission();
 
+    PermissionHandler.askLocationPermission();
+
     Timer.periodic(const Duration(seconds: 5), (xxx) {
       getGeoPoint();
       schoolController.allSchools.forEach((school) {
@@ -352,7 +354,7 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          bottomNavigationBar: const CustomBottomNavBar()),
+          bottomNavigationBar: CustomBottomNavBar(selectedIndex: 2)),
     );
   }
 

@@ -24,7 +24,7 @@ class _PremiumState extends State<Premium> {
   // Premium features
   List<Feature> features = [
     Feature(featureName: '10+ Images', featurePrice: 10000, icon: Icons.browse_gallery),
-    Feature(featureName: 'School on home page', featurePrice: 40000, icon: Icons.branding_watermark),
+    Feature(featureName: 'School on home page', featurePrice: 15000, icon: Icons.branding_watermark),
     Feature(featureName: 'Advert on banner', featurePrice: 50000, icon: FontAwesomeIcons.adversal),
     Feature(featureName: 'Video Ad of the school', featurePrice: 50000, icon: FontAwesomeIcons.video),
     Feature(featureName: 'School brochure(with design)', featurePrice: 45000, icon: FontAwesomeIcons.boxArchive),
@@ -182,7 +182,7 @@ class _PremiumState extends State<Premium> {
                 )
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:device_uuid/device_uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
@@ -37,8 +38,13 @@ class _EducationBlogState extends State<EducationBlog> {
   }
 
   String deviceID = '';
+  String deviceUniqueID = '';
   @override
   void initState() {
+    uuid = DeviceUuid().getUUID();
+    uuid.then((id) {
+      deviceUniqueID = id!;
+    });
     getAllBlogs();
     getDev().then((value) => setState(() {
           deviceID = value;
@@ -46,6 +52,8 @@ class _EducationBlogState extends State<EducationBlog> {
 
     super.initState();
   }
+
+  late Future<String?> uuid;
 
   @override
   Widget build(BuildContext context) {
@@ -77,11 +85,11 @@ class _EducationBlogState extends State<EducationBlog> {
                     itemCount: currentBlogs.length,
                     itemBuilder: (BuildContext context, int index) {
                       print(deviceID);
-                      return EduBlogCard(blog: currentBlogs[index], deviceID: deviceID);
+                      return EduBlogCard(blog: currentBlogs[index], deviceID: deviceUniqueID);
                     },
                   ),
                 ],
               ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar:   CustomBottomNavBar());
   }
 }

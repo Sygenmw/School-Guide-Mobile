@@ -52,7 +52,7 @@ class _VideosState extends State<Videos> {
                   },
                 ),
               ]),
-        bottomNavigationBar: const CustomBottomNavBar(),
+        bottomNavigationBar: CustomBottomNavBar(selectedIndex: 1),
       ),
     );
   }

@@ -81,7 +81,7 @@ class AboutUs extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
     );
   }
 

@@ -90,7 +90,7 @@ class _AdvertiseSchoolState extends State<AdvertiseSchool> {
               controllers: [nameController, emailController, descController, phoneController])
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
     );
   }
 

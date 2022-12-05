@@ -506,6 +506,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
             ],
           ),
         ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar:   CustomBottomNavBar());
   }
 }

@@ -10,6 +10,7 @@ class AppColors {
   static const Color black = Colors.black;
   static const Color white = Colors.white;
   static const Color grey = Color.fromARGB(255, 239, 239, 239);
+  static const Color greyish = Color.fromARGB(255, 192, 192, 192);
   static const Color errorColor = Color.fromARGB(255, 195, 25, 25);
   static const Color success = Color.fromARGB(255, 18, 181, 0);
 }
@@ -25,6 +26,7 @@ class AppImages {
   static const String infoHand = 'assets/images/info.png';
   static const String gallery = 'assets/images/gallery.png';
   static const String contactUs = 'assets/images/contacts.png';
+  static const String km = 'assets/images/kilometres.png';
 
   // home Images
   static const String scholsNear = 'assets/images/schools_near_you.png';

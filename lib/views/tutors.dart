@@ -79,7 +79,7 @@ class _TutorState extends State<Tutor> {
                   },
                 ),
               ]),
-        bottomNavigationBar: const CustomBottomNavBar(),
+        bottomNavigationBar: CustomBottomNavBar(selectedIndex: 0),
       ),
     );
   }

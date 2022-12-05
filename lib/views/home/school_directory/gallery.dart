@@ -64,7 +64,7 @@ class DisplayGallery extends StatelessWidget {
               ],
             );
           }),
-      bottomNavigationBar: const CustomBottomNavBar(),
+      bottomNavigationBar:   CustomBottomNavBar(),
     );
   }
 }

@@ -93,6 +93,8 @@ class AgentInformation extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: const CustomBottomNavBar());
+        bottomNavigationBar: CustomBottomNavBar(
+          selectedIndex: 3,
+        ));
   }
 }
