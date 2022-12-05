@@ -5,8 +5,8 @@ import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 
-class Curriculums extends StatelessWidget {
-  const Curriculums({super.key});
+class Curricula extends StatelessWidget {
+  const Curricula({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,8 +11,8 @@ import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/controllers/tutor_controller.dart';
 import 'package:school_guide/controllers/video_controller.dart';
 import 'package:school_guide/controllers/views_controller.dart';
-import 'package:school_guide/views/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:school_guide/views/splash_screen.dart';
 import 'controllers/all_controllers.dart';
 import 'firebase_options.dart';
 
@@ -61,7 +61,7 @@ class SchoolGuide extends StatelessWidget {
         fontFamily: 'quicksand',
       ),
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: SplashScreenView(),
     );
   }
 }

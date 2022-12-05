@@ -42,10 +42,10 @@ class Menu extends StatelessWidget {
                     SizedBox(height: 10),
                     MenuCardItem(
                       onTap: () {
-                        Get.to(() => Curriculums());
+                        Get.to(() => Curricula());
                       },
                       icon: Icons.book,
-                      text: 'Curriculums',
+                      text: 'Curricula',
                     ),
                     MenuCardItem(
                       onTap: () {

@@ -49,6 +49,8 @@ dependencies:
   double_back_to_close: ^2.0.0
   location: ^4.4.0
   app_settings: ^4.1.8
+  video_player: ^2.4.8
+  progress_indicators: ^1.0.0
 
 dev_dependencies:
   flutter_test:

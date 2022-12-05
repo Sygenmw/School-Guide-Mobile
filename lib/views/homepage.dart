@@ -265,7 +265,7 @@ class _HomeState extends State<Home> {
                                   }
                                 }
                                 return HomeButton(
-                                  title: 'School directory',
+                                  title: 'Schools directory',
                                   image: AppImages.schoolDirectory,
                                   isSmall: false,
                                   items: schoolNames.length > 3 ? schoolNames.sublist(0, 3) : schoolNames,

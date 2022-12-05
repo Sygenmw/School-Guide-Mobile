@@ -1,22 +1,9 @@
-import 'package:flutter/material.dart'; 
-class SplashScreenView extends StatefulWidget {
-  const SplashScreenView({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:progress_indicators/progress_indicators.dart';
+import 'package:school_guide/style/app_styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-  @override
-  State<SplashScreenView> createState() => _SplashScreenViewState();
-}
-
-class _SplashScreenViewState extends State<SplashScreenView> {
-  @override
-  void initState() {
-    delayApp();
-    super.initState();
-  }
-
-  delayApp() async {
-    await Future.delayed(Duration(seconds: 3));
-  }
-
+class SplashScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +15,56 @@ class _SplashScreenViewState extends State<SplashScreenView> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // VideoAsset('assets/videos/splash.mp4'),
+              Expanded(
+                flex: 6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GlowingProgressIndicator(
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.asset(
+                          AppImages.logo,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Find the \nright school for your child.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Center(
+                      child: CircularProgressIndicator(color: AppColors.primaryColor),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          launchUrl(Uri.parse('https://sygenmw.com/'), mode: LaunchMode.externalApplication);
+                        },
+                        child: Text(
+                          'Sygen\nCopyright©️ 2022',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ))
             ],
           ),
         ),
