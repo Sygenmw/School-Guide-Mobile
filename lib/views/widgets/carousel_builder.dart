@@ -9,6 +9,7 @@ import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog/edu_blog_details.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
+import 'package:school_guide/views/widgets/custom_snackbar.dart';
 
 class EduCarousel extends StatefulWidget {
   const EduCarousel({Key? key, required this.blogItems, required this.deviceID, required this.addFavourite}) : super(key: key);
@@ -44,6 +45,8 @@ class _EduCarouselState extends State<EduCarousel> {
     getViews();
     super.initState();
   }
+
+  List<EduBlogDetails> favouriteItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +109,19 @@ class _EduCarouselState extends State<EduCarousel> {
                                           borderRadius: BorderRadius.circular(4),
                                           child: InkWell(
                                             borderRadius: BorderRadius.circular(4),
-                                            onTap: () async {},
+                                            onTap: () async {
+                                              favouriteItems.contains(itemBlogs[index])
+                                                  ? CustomSnackBar.showSnackBar(
+                                                      title: 'Item already bookmarked',
+                                                      message: '${itemBlogs[index].postTitle.substring(0, 22)}is already added to your Bookmarks',
+                                                      color: AppColors.errorColor,
+                                                    )
+                                                  // ignore: unnecessary_statements
+                                                  : {
+                                                      favouriteItems.add(itemBlogs[index]),
+                                                      CustomSnackBar.showSnackBar(title: 'Added to Bookmarks', message: 'Added ${itemBlogs[index].postTitle.substring(0, 22)} to your Bookmarks')
+                                                    };
+                                            },
                                             child: const Padding(
                                               padding: EdgeInsets.all(2.0),
                                               child: Icon(
