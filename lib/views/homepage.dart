@@ -14,6 +14,7 @@ import 'package:school_guide/models/banner.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/models/school_model.dart';
+import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog.dart';
 import 'package:school_guide/views/home/scholarships.dart';
@@ -27,6 +28,7 @@ import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
+import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
@@ -56,6 +58,7 @@ class _HomeState extends State<Home> {
       showInApp: false,
       status: '',
       curriculums: [],
+      premiumFeatures: [],
       website: '',
       id: '',
       location: Location(lat: 0.0, lng: 0.0));
@@ -77,10 +80,7 @@ class _HomeState extends State<Home> {
         if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
           distance = calculateDistance(
             source: LatLng(school.location.lat, school.location.lng),
-            dest: LatLng(
-              lat,
-              long,
-            ),
+            dest: LatLng(lat, long),
           );
           if (distance <= 20) {
             schoolsNearMe.contains(school) ? {} : schoolsNearMe.add(school);
@@ -125,6 +125,7 @@ class _HomeState extends State<Home> {
           ),
           body: CustomBody(
             text: '',
+            needsHeader: false,
             children: [
               StreamBuilder<List<BannerDetails>>(
                 stream: _getAllBanners(),
@@ -151,7 +152,7 @@ class _HomeState extends State<Home> {
                     getSchool();
                     return allBanners.isEmpty
                         ? Container(
-                            height: 220,
+                            height: 200,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -190,14 +191,14 @@ class _HomeState extends State<Home> {
                             options: CarouselOptions(
                               height: 200,
                               aspectRatio: 16 / 9,
-                              viewportFraction: 0.8,
+                              viewportFraction: allBanners.length <= 2 ? 1 : 0.856,
                               initialPage: 0,
-                              enableInfiniteScroll: true,
-                              autoPlay: true,
+                              enableInfiniteScroll: allBanners.length <= 1 ? false : true,
+                              autoPlay: allBanners.length <= 1 ? false : true,
                               autoPlayInterval: const Duration(seconds: 3),
                               autoPlayAnimationDuration: const Duration(milliseconds: 800),
                               autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
+                              enlargeCenterPage: allBanners.length <= 2 ? false : true,
                               scrollDirection: Axis.horizontal,
                             ),
                           );
@@ -259,18 +260,26 @@ class _HomeState extends State<Home> {
                                 List<String> schoolNames = [];
                                 for (var school in allSchools) {
                                   if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
-                                    if (school.schoolName.length < 15) {
-                                      schoolNames.add(school.schoolName);
-                                    } else {
-                                      schoolNames.add('${school.schoolName.substring(0, 15)}...');
-                                    }
+                                    school.premiumFeatures.forEach((premiumFeature) {
+                                      if (premiumFeature.feature == 'schoolOnHome' && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+                                        if (school.schoolName.length < 15) {
+                                          schoolNames.add(school.schoolName);
+                                        } else {
+                                          schoolNames.add('${school.schoolName.substring(0, 15)}...');
+                                        }
+                                      }
+                                    });
                                   }
                                 }
                                 return HomeButton(
                                   title: 'Schools directory',
                                   image: AppImages.schoolDirectory,
                                   isSmall: false,
-                                  items: schoolNames.length > 3 ? schoolNames.sublist(0, 3) : schoolNames,
+                                  items: schoolNames.length > 3
+                                      ? schoolNames.sublist(0, 3)
+                                      : schoolNames.isEmpty
+                                          ? ['View all schools']
+                                          : schoolNames,
                                   onPressed: () {
                                     Get.to(() => const SchoolDirectory());
                                   },
@@ -352,6 +361,88 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
+              StreamBuilder<List<ViewDetails>>(
+                  stream: _getAllSchoolViews(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<SchoolDetails> mostViewed = [];
+                      List<ViewDetails> viewDetails = snapshot.data!;
+                      List<ViewDetails> viewDets = [];
+
+                      for (var school in schoolController.allSchools) {
+                        if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
+                          viewDetails.forEach((viewDetail) {
+                            if (viewDetail.id == school.id) {
+                              if (viewDetail.views > 1) {
+                                viewDets.add(viewDetail);
+                                mostViewed.contains(school) ? {} : mostViewed.add(school);
+                              }
+                            }
+                          });
+                        }
+                      }
+                      return mostViewed.isEmpty && mostViewed.length < 50
+                          ? Container()
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                TopBlackText(text: 'Most viewed'),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2.0),
+                                  child: Container(
+                                    height: 35,
+                                    child: CarouselSlider.builder(
+                                      itemCount: mostViewed.length,
+                                      itemBuilder: (BuildContext context, int index, int pageViewIndex) {
+                                        return Material(
+                                          borderRadius: BorderRadius.circular(8),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Get.to(() => SchoolInfo(school: mostViewed[index]));
+                                            },
+                                            borderRadius: BorderRadius.circular(8),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(2.0),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(8),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      border: Border.all(
+                                                        color: AppColors.primaryColor,
+                                                      )),
+                                                  child: Center(
+                                                      child: Text(
+                                                          '${mostViewed[index].schoolName.length < 25 ? mostViewed[index].schoolName : mostViewed[index].schoolName.substring(0, 25)} - ${viewDets[index].views} views',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(color: AppColors.primaryColor))),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      options: CarouselOptions(
+                                        height: 35,
+                                        aspectRatio: 16 / 9,
+                                        viewportFraction: 0.66,
+                                        initialPage: 0,
+                                        enableInfiniteScroll: true,
+                                        autoPlay: true,
+                                        autoPlayInterval: const Duration(seconds: 5),
+                                        autoPlayAnimationDuration: const Duration(milliseconds: 1200),
+                                        autoPlayCurve: Curves.fastOutSlowIn,
+                                        enlargeCenterPage: false,
+                                        scrollDirection: Axis.horizontal,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                    } else
+                      return Container();
+                  })
             ],
           ),
           bottomNavigationBar: CustomBottomNavBar(selectedIndex: 2)),
@@ -361,6 +452,10 @@ class _HomeState extends State<Home> {
   // FETCH ITEMS
   Stream<List<SchoolDetails>> _getAllSchools() {
     return FirebaseFirestore.instance.collection('schools').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
+  }
+
+  Stream<List<ViewDetails>> _getAllSchoolViews() {
+    return FirebaseFirestore.instance.collection('schoolViews').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ViewDetails.fromDocument(doc)).toList());
   }
 
   Stream<List<ScholarshipDetails>> _getAllScholarships() {

@@ -35,37 +35,42 @@ class TutorCard extends StatelessWidget {
               ),
               Expanded(
                 flex: 5,
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${tutor.name} - ${tutor.curriculum}',
-                            style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 15),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 4.0),
-                            child: Text(
-                              tutor.email,
-                              style: const TextStyle(color: AppColors.black, fontSize: 14),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 23,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          children: [
+                            Text(
+                              '${tutor.name} - ${tutor.curriculum}',
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 15),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 4.0),
-                            child: Text(
-                              tutor.phone,
-                              style: const TextStyle(color: AppColors.black, fontSize: 14),
-                            ),
-                          ),
-                          Text(tutor.subjects.join(', ')),
-                          const Spacer(),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4.0),
+                        child: Text(
+                          tutor.email,
+                          style: const TextStyle(color: AppColors.black, fontSize: 14),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4.0),
+                        child: Text(
+                          tutor.phone,
+                          style: const TextStyle(color: AppColors.black, fontSize: 14),
+                        ),
+                      ),
+                      Text(tutor.subjects.join(', ')),
+                      const Spacer(),
+                    ],
+                  ),
                 ),
               )
             ],

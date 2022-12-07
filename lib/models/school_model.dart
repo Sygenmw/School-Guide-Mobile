@@ -19,12 +19,14 @@ class SchoolDetails {
     required this.location,
     required this.id,
     required this.destination,
+    required this.premiumFeatures,
   });
 
   final String address;
   final String city;
   final String country;
   final List<CarriculumDets> curriculums;
+  final List<PremiumFeature> premiumFeatures;
   final String destination;
   final List<String> gallery;
   final String email;
@@ -44,6 +46,7 @@ class SchoolDetails {
         city: doc["city"],
         country: doc["country"],
         curriculums: List<CarriculumDets>.from(doc["curriculums"].map((detail) => CarriculumDets.fromMap(detail))).toList(),
+        premiumFeatures: List<PremiumFeature>.from(doc["premiumFeatures"].map((detail) => PremiumFeature.fromMap(detail))).toList(),
         gallery: List<String>.from(doc["gallery"].map((x) => x)),
         email: doc["email"],
         destination: doc["destination"],
@@ -86,4 +89,21 @@ class Location {
         "lat": lat,
         "lng": lng,
       };
+}
+
+class PremiumFeature {
+  final Timestamp endDate;
+  final Timestamp startDate;
+  final String feature;
+
+  PremiumFeature({
+    required this.endDate,
+    required this.startDate,
+    required this.feature,
+  });
+  factory PremiumFeature.fromMap(Map<String, dynamic> doc) => PremiumFeature(
+        endDate: doc["endDate"],
+        startDate: doc["startDate"],
+        feature: doc["feature"],
+      );
 }

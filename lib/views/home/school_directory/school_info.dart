@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,6 +39,29 @@ class _SchoolInfoState extends State<SchoolInfo> {
     await Scrollable.ensureVisible(context!);
   }
 
+  bool mapAvailable = false;
+  bool tenImages = false;
+  bool videoAvailable = false;
+  getremiumFeatures() {
+    school.premiumFeatures.forEach((premiumFeature) {
+      if (premiumFeature.feature.toLowerCase() == 'map'.toLowerCase() && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+        setState(() {
+          mapAvailable = true;
+        });
+      }
+      if (premiumFeature.feature.toLowerCase() == '10+Images'.toLowerCase() && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+        setState(() {
+          tenImages = true;
+        });
+      }
+      if (premiumFeature.feature.toLowerCase() == 'VideoAdvert'.toLowerCase() && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+        setState(() {
+          videoAvailable = true;
+        });
+      }
+    });
+  }
+
   // MAP
   final Completer<GoogleMapController> _controller = Completer();
   Iterable markers = [];
@@ -45,6 +69,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
   @override
   void initState() {
     school = widget.school;
+    getremiumFeatures();
     super.initState();
   }
 
@@ -92,7 +117,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              school.header.isNotEmpty
+              school.header.isNotEmpty && videoAvailable
                   ? Center(
                       child: ClipRRect(
                         child: Container(
@@ -154,7 +179,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                   child: DraggableScrollableSheet(
                     expand: true,
                     minChildSize: 0.12,
-                    maxChildSize: 0.79,
+                    maxChildSize: 0.85,
                     initialChildSize: 0.344,
 
                     // snap: true,
@@ -356,7 +381,11 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)), // Image border
                                           ),
                                           child: CarouselSlider.builder(
-                                            itemCount: school.gallery.length,
+                                            itemCount: tenImages
+                                                ? school.gallery.length
+                                                : school.gallery.length < 3
+                                                    ? school.gallery.length
+                                                    : school.gallery.sublist(0, 3).length,
                                             itemBuilder: (BuildContext context, int index, int pageViewIndex) {
                                               return Padding(
                                                 padding: const EdgeInsets.all(2.0),
@@ -441,56 +470,64 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     },
                                     child: CustomText(school.website, color: AppColors.primaryColor, fontSize: 14, icon: Icons.circle),
                                   ),
-                                  Container(
-                                    height: 120,
-                                    width: double.infinity,
-                                    child: ClipRRect(
-                                      clipBehavior: Clip.antiAlias,
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: GoogleMap(
-                                        mapType: MapType.terrain,
-                                        initialCameraPosition: kCustomerPosition,
-                                        markers: markerIDs,
-                                        zoomControlsEnabled: false,
-                                        onMapCreated: (GoogleMapController controller) {
-                                          _controller.complete(controller);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 5,
-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                          TopBlackText(text: widget.school.city),
-                                          TopBlackText(text: '${widget.school.location.lat}, ${widget.school.location.lng}'),
-                                        ]),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Tooltip(
-                                          message: 'Go to ${widget.school.schoolName}',
-                                          preferBelow: false,
-                                          child: MaterialButton(
-                                            onPressed: () {
-                                              Get.to(() => SchoolMap(school: widget.school));
-                                            },
-                                            child: Icon(
-                                              FontAwesomeIcons.diamondTurnRight,
-                                              color: AppColors.primaryColor,
+                                  // premium
+
+                                  mapAvailable
+                                      ? Column(
+                                          children: [
+                                            Container(
+                                              height: 120,
+                                              width: double.infinity,
+                                              child: ClipRRect(
+                                                clipBehavior: Clip.antiAlias,
+                                                borderRadius: BorderRadius.circular(8),
+                                                child: GoogleMap(
+                                                  mapType: MapType.terrain,
+                                                  initialCameraPosition: kCustomerPosition,
+                                                  markers: markerIDs,
+                                                  zoomControlsEnabled: false,
+                                                  onMapCreated: (GoogleMapController controller) {
+                                                    _controller.complete(controller);
+                                                  },
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                                    TopBlackText(text: widget.school.city),
+                                                    TopBlackText(text: '${widget.school.location.lat.toString().substring(0, 5)}, ${widget.school.location.lng.toString().substring(0, 5)}'),
+                                                  ]),
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Tooltip(
+                                                    message: 'Go to ${widget.school.schoolName}',
+                                                    preferBelow: false,
+                                                    child: MaterialButton(
+                                                      onPressed: () {
+                                                        Get.to(() => SchoolMap(school: widget.school));
+                                                      },
+                                                      child: Icon(
+                                                        FontAwesomeIcons.diamondTurnRight,
+                                                        color: AppColors.primaryColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        )
+                                      : Container()
                                 ],
                               )
 
@@ -506,6 +543,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
             ],
           ),
         ),
-        bottomNavigationBar:   CustomBottomNavBar());
+        bottomNavigationBar: CustomBottomNavBar());
   }
 }

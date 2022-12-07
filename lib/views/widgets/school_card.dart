@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:school_guide/controllers/location_controller.dart';
@@ -56,6 +57,7 @@ class _SchoolCardState extends State<SchoolCard> {
     super.dispose();
   }
 
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -66,6 +68,9 @@ class _SchoolCardState extends State<SchoolCard> {
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () {
+            setState(() {
+              count++;
+            });
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
@@ -75,6 +80,11 @@ class _SchoolCardState extends State<SchoolCard> {
                 },
               ),
             );
+
+            var docRef = FirebaseFirestore.instance.collection('schoolViews').doc(widget.school.id);
+            docRef.set({"views": count}).then((value) => () {
+                  docRef.update({"views": FieldValue.increment(count)});
+                });
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
