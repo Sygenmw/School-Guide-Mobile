@@ -373,7 +373,7 @@ class _HomeState extends State<Home> {
                         if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
                           viewDetails.forEach((viewDetail) {
                             if (viewDetail.id == school.id) {
-                              if (viewDetail.views > 1) {
+                              if (viewDetail.views > 50) {
                                 viewDets.add(viewDetail);
                                 mostViewed.contains(school) ? {} : mostViewed.add(school);
                               }

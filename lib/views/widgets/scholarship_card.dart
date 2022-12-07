@@ -91,16 +91,16 @@ class ScholarshipCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Deadline : ${TimeConversion.convertTimeStamp(scholarship.createdAt)}',
-                                style: const TextStyle(color: Colors.white, fontSize: 16),
+                                'Deadline : ${TimeConversion.convertTimeStamp(scholarship.deadline)}',
+                                style: const TextStyle(color: Colors.white, fontSize: 14),
                               ),
                               Text(
-                                'Study in : ${scholarship.destination}',
-                                style: const TextStyle(color: Colors.white, fontSize: 16),
+                                'Study ${scholarship.destination.toLowerCase() == 'International'.toLowerCase() ? 'Abroad' : 'in Malawi'}',
+                                style: const TextStyle(color: Colors.white, fontSize: 14),
                               ),
                               Text(
-                                'Course starts :  ${TimeConversion.convertTimeStamp(scholarship.createdAt)}',
-                                style: const TextStyle(color: Colors.white, fontSize: 16),
+                                'School starts :  ${TimeConversion.convertTimeStamp(scholarship.startDate)}',
+                                style: const TextStyle(color: Colors.white, fontSize: 14),
                               ),
                             ],
                           ),

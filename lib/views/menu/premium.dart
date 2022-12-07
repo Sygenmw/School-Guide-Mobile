@@ -27,7 +27,6 @@ class _PremiumState extends State<Premium> {
     Feature(featureName: 'School on home page', featurePrice: 15000, icon: Icons.branding_watermark),
     Feature(featureName: 'Advert on banner', featurePrice: 50000, icon: FontAwesomeIcons.adversal),
     Feature(featureName: 'Video Ad of the school', featurePrice: 50000, icon: FontAwesomeIcons.video),
-    Feature(featureName: 'School brochure(with design)', featurePrice: 45000, icon: FontAwesomeIcons.boxArchive),
     Feature(featureName: 'Map and directions to school', featurePrice: 40000, icon: FontAwesomeIcons.mapLocation),
   ];
 

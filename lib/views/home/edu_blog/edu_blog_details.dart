@@ -12,6 +12,7 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:share_plus/share_plus.dart';
 
 class EduBlogItemDetails extends StatefulWidget {
   EduBlogItemDetails({Key? key, required this.eduBlog, required this.blogViews, required this.deviceID}) : super(key: key);
@@ -220,6 +221,45 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
                 onTap: () async {
+                  String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
+
+                  // share blog
+                  HapticFeedback.heavyImpact();
+                  // print('HELLo');
+                  // final response = await http.get(Uri.parse(widget.eduBlog.postCover));
+                  // final bytes = response.bodyBytes;
+                  // final temp = await getTemporaryDirectory();
+                  // final path = '${temp.path}/image.jpg';
+                  // XFile(path).saveTo(path);
+                  // // path.writeAsBytesSync(bytes);
+                  await Share.share(
+                    widget.eduBlog.postDescription.length > 300 ? '${widget.eduBlog.postDescription.substring(0, 300)}\n$link...' : widget.eduBlog.postDescription,
+                  );
+                },
+                child: Container(
+                    height: 50,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        FontAwesomeIcons.share,
+                        color: AppColors.white,
+                      ),
+                    )),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Material(
+              elevation: 5,
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () async {
                   // add like to firebase
                   HapticFeedback.heavyImpact();
                   var docRef = FirebaseFirestore.instance.collection('blogLikes').doc(widget.eduBlog.id);
@@ -231,8 +271,8 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                   }, SetOptions(merge: true));
                 },
                 child: Container(
-                    height: 60,
-                    width: 50,
+                    height: 50,
+                    width: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -244,9 +284,10 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                     )),
               ),
             )
+          
           ],
         ),
-        bottomNavigationBar:   CustomBottomNavBar());
+        bottomNavigationBar: CustomBottomNavBar());
   }
 }
 

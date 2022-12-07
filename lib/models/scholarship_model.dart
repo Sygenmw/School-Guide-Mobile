@@ -12,10 +12,13 @@ class ScholarshipDetails {
     required this.scholarshipLogo,
     required this.scholarshipName,
     required this.targetGroup,
-    required this.updatedAt,
+    required this.deadline,
+    required this.startDate,
   });
 
   final Timestamp createdAt;
+  final Timestamp deadline;
+  final Timestamp startDate;
   final String destination;
   final String hostUniversity;
   final String level;
@@ -25,12 +28,13 @@ class ScholarshipDetails {
   final String scholarshipLogo;
   final String scholarshipName;
   final String targetGroup;
-  final Timestamp updatedAt;
 
   factory ScholarshipDetails.fromDocument(DocumentSnapshot doc) => ScholarshipDetails(
         createdAt: doc["createdAt"],
         destination: doc["destination"],
         hostUniversity: doc["hostUniversity"],
+        deadline: doc['deadline'],
+        startDate: doc['startDate'],
         level: doc["level"],
         linkToTheScholarshipSite: doc["linkToTheScholarshipSite"],
         numberOfScholarschips: doc["numberOfScholarships"],
@@ -38,6 +42,5 @@ class ScholarshipDetails {
         scholarshipLogo: doc["scholarshipLogo"],
         scholarshipName: doc["scholarshipName"],
         targetGroup: doc["targetGroup"],
-        updatedAt: doc["updatedAt"],
       );
 }

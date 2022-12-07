@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:school_guide/controllers/scholarship_controller.dart';
@@ -22,11 +23,20 @@ class _ScholarshipsState extends State<Scholarships> {
   int? destinationSelectedIndex = 0;
   int? levelSelectedIndex = 0;
   final ScholarshipController scholarshipController = Get.find();
+  List<ScholarshipDetails> validScholarships = [];
+
+  getValidScholarships() {
+    scholarshipController.allScholarships.forEach((scholarship) {
+      if (scholarship.deadline.compareTo(Timestamp.now()) > 0) {
+        validScholarships.add(scholarship);
+      }
+    });
+  }
 
   List<ScholarshipDetails> selectedScholarships = [];
   void getScholarship({required String destination, required String level}) {
     selectedScholarships.clear();
-    scholarshipController.allScholarships.forEach((scholarship) {
+    validScholarships.forEach((scholarship) {
       if (destination.toLowerCase() == 'all' && scholarship.level.toLowerCase() == level.toLowerCase()) {
         setState(() {
           selectedScholarships.add(scholarship);
@@ -44,13 +54,19 @@ class _ScholarshipsState extends State<Scholarships> {
   }
 
   @override
+  void initState() {
+    getValidScholarships();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(
           backIconAvailable: true,
           isHomeAppBar: true,
         ),
-        body: scholarshipController.allScholarships.isEmpty
+        body: validScholarships.isEmpty
             ? Container(
                 height: Get.size.height / 2,
                 child: Column(
@@ -193,10 +209,10 @@ class _ScholarshipsState extends State<Scholarships> {
                         ? ListView.builder(
                             shrinkWrap: true,
                             primary: false,
-                            itemCount: scholarshipController.allScholarships.length,
+                            itemCount: validScholarships.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ScholarshipCard(
-                                scholarship: scholarshipController.allScholarships[index],
+                                scholarship: validScholarships[index],
                               );
                             })
                         : selectedScholarships.isEmpty

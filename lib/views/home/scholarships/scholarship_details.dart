@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScholarshipDetailsView extends StatelessWidget {
@@ -161,6 +164,44 @@ class ScholarshipDetailsView extends StatelessWidget {
             )
           ],
         ),
-        bottomNavigationBar:   CustomBottomNavBar());
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Material(
+              elevation: 5,
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () async {
+                  String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
+
+                  // share blog
+                  HapticFeedback.heavyImpact();
+                  String scholarshipDetail =
+                      'FIND MORE SCHOLARSHIPS WITH THE SCHOOL GUIDE APP\n\n\nTYPE\n${scholarship.destination} Student Scholarship\n\nNAME\n${scholarship.scholarshipName}\n\n\n${scholarship.scholarshipDescription.length > 120 ? scholarship.scholarshipDescription.substring(0, 120) : scholarship.scholarshipDescription}\n\nSCHOOL\n${scholarship.hostUniversity}\n\n${scholarship.level} Scholarship\n\nTARGET GROUP\n${scholarship.targetGroup}\n\nDEADLINE\n${TimeConversion.convertTimeStamp(scholarship.deadline)}\n$link';
+                  await Share.share(
+                    scholarshipDetail.length > 300 ? '${scholarshipDetail.substring(0, 300)}\n$link' : '$scholarshipDetail\n$link',
+                  );
+                },
+                child: Container(
+                    height: 50,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        FontAwesomeIcons.share,
+                        color: AppColors.white,
+                      ),
+                    )),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: CustomBottomNavBar());
   }
 }
