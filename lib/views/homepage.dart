@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
       website: '',
       id: '',
       location: Location(lat: 0.0, lng: 0.0));
+  List<SchoolDetails> mostViewed = [];
 
   List<BannerDetails> banners = [];
 // CAN WE DO THIS?
@@ -126,6 +127,7 @@ class _HomeState extends State<Home> {
           body: CustomBody(
             text: '',
             needsHeader: false,
+            topPadding: mostViewed.isEmpty ? 20 : 10,
             children: [
               StreamBuilder<List<BannerDetails>>(
                 stream: _getAllBanners(),
@@ -365,7 +367,6 @@ class _HomeState extends State<Home> {
                   stream: _getAllSchoolViews(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      List<SchoolDetails> mostViewed = [];
                       List<ViewDetails> viewDetails = snapshot.data!;
                       List<ViewDetails> viewDets = [];
 

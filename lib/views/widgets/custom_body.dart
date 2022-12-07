@@ -8,11 +8,13 @@ class CustomBody extends StatelessWidget {
     this.text = '',
     this.needsHeader = true,
     this.hPadding = 8.0,
+    this.topPadding = 10.0,
   }) : super(key: key);
   final List<Widget> children;
   final String text;
   final bool needsHeader;
   final double hPadding;
+  final double topPadding;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +35,7 @@ class CustomBody extends StatelessWidget {
                 ],
               )
             : Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding:   EdgeInsets.only(top: topPadding),
                 child: ListView(
                   children: children,
                 ),

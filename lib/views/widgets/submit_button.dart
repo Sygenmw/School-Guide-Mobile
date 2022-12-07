@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/services/automated_email_service.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SubmitButton extends StatelessWidget {
-  const SubmitButton({super.key, required this.subject, required this.body, required this.controllers});
+  const SubmitButton({super.key, required this.subject, required this.body, required this.controllers, required this.onTap});
   final String subject;
   final String body;
   final List<TextEditingController> controllers;
-
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,6 +34,7 @@ class SubmitButton extends StatelessWidget {
 
                   String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
                   launchUrl(Uri.parse(query));
+                  onTap();
                 } else {}
               });
               CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:school_guide/services/automated_email_service.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
@@ -35,6 +36,7 @@ class _PremiumState extends State<Premium> {
   List<Feature> selectedFeatures = [];
   TextEditingController phoneController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     List<String> featureStrings = features.map((e) => e.featureName).toList();
@@ -117,6 +119,7 @@ class _PremiumState extends State<Premium> {
           ),
           SizedBox(height: 6),
           CustomFormField(controller: nameController, hintText: 'School/Company name', keyboardType: TextInputType.name, labelText: 'School/Company name'),
+          CustomFormField(controller: emailController, hintText: 'Email', keyboardType: TextInputType.emailAddress, labelText: 'Email'),
           CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.phone, labelText: 'Phone number'),
           SizedBox(height: 6),
           TopBlackText(text: 'Select premium features.'),
@@ -171,6 +174,12 @@ class _PremiumState extends State<Premium> {
                       ],
                     ),
                     SubmitButton(
+                      onTap: (() {
+                        String br = '<br/>';
+                        String message =
+                            'Dear Sir/Madam,$br$br Thank you for choosing School Guide Premium features.$br$br You have applied for the following features:$br$br${selectedFeaturesChoices.join('$br$br- ')}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
+                        EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR PREMIUM FEATURES');
+                      }),
                       subject: 'REGISTRATION FOR PREMIUM FEATURES.',
                       body:
                           'Dear Sir/Madam, \nThe above subject in reference matters. We at ${nameController.text.trim()} are writing you this email, applying for the following premium features :\n${selectedFeaturesChoices.join('\n- ')}.\n\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.',

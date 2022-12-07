@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/time_controller.dart';
+import 'package:school_guide/services/automated_email_service.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
@@ -377,6 +378,11 @@ class _BecomeATutorState extends State<BecomeATutor> {
                         'Respected Sir. \nThe above subject matters. I am ${nameController.text.trim()}, a ${((DateTime.now().difference(nDate).inDays) / 365).floor()} year old Malawian, Born $selectedGender, currently residing in $selectedLocation.\nI henceforth write you this email in reference to the above subject.\nThe Subjects that i can easily be tutoring on are ${selectedChoices.join(',')}, mainly of the ${selectedCurriculumChoices.join(',')} Curriculum.\nI will be glad if my application is taken into consideration at your earliest inconvenience.\nFor any further inquiries, please contact me on this same email address or on my mobile phone on ${phoneController.text.trim()}.\n\nKind Regards\n${nameController.text.trim()}.';
                     String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
                     launchUrl(Uri.parse(query));
+                    String br = '<br/>';
+                    String message =
+                        'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to be a tutor on the School Guide Platform.$br$br The following are the subjects you can be turoring: $br$br -${selectedChoices.join('$br$br -')}$br$br .The Selected Curricula include$br$br -${selectedCurriculumChoices.join('$br$br - ')}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74$br$br Best Regards.';
+
+                    EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: subject);
                   } else {
                     // show snackbar
                     CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);

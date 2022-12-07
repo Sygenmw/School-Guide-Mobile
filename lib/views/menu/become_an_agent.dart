@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/services/automated_email_service.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
@@ -127,12 +128,18 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
 
                   bool notBlank = (selectedLocation.toString().isNotEmpty || servicesController.text.isNotEmpty);
                   if (notEmpty && notBlank) {
+                    String br = '<br/>';
+
                     HapticFeedback.vibrate();
                     String subject = 'APPLICATION TO BE AN AGENT.';
                     String body =
                         'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()}, a Malawian Business specializing in providing services like ${servicesController.text.trim()} to those who need them. Our business is registered with the Registrar General of Businesses  and we are currently situated in $selectedLocation.\nWe henceforth write you this email in reference to the above subject applying to be offering services like ${servicesController.text.trim()} through your mobile application.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other business inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.';
                     String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
                     launchUrl(Uri.parse(query));
+                    String message =
+                        'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to be an agent on the School Guide Platform.$br$br The following are the services you provide:$br$br-${servicesController.text.trim()}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74$br$br Best Regards.';
+
+                    EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: subject);
                   } else {
                     // show snackbar
                     CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
@@ -156,8 +163,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
           SizedBox(height: 10),
         ],
       ),
-          bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
-
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
     );
   }
 }
