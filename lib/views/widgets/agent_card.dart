@@ -22,7 +22,6 @@ class AgentCard extends StatelessWidget {
         ),
         child: Material(
           borderRadius: BorderRadius.circular(8),
-          elevation: 1,
           color: const Color.fromARGB(255, 210, 214, 242),
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
@@ -59,9 +58,10 @@ class AgentCard extends StatelessWidget {
                                 agent.name,
                                 style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 15),
                               ),
-                              Expanded(
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
                                 child: Text(
-                                  agent.servicesProvided.length < 40 ? agent.servicesProvided : agent.servicesProvided.substring(0, 40),
+                                  'Services: ${agent.servicesProvided.length < 40 ? agent.servicesProvided : agent.servicesProvided.substring(0, 40)}',
                                   style: const TextStyle(color: AppColors.black, fontSize: 14),
                                 ),
                               ),

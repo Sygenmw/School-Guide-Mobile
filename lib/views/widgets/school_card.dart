@@ -3,12 +3,9 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:school_guide/controllers/location_controller.dart';
-import 'package:school_guide/controllers/views_controller.dart';
 import 'package:school_guide/models/school_model.dart';
-import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
 
@@ -22,24 +19,10 @@ class SchoolCard extends StatefulWidget {
 }
 
 class _SchoolCardState extends State<SchoolCard> {
-  ViewsController viewsController = Get.find();
-  ViewDetails view = ViewDetails(views: 0, id: '');
   double lat = 0;
   double long = 0;
   double distance = 0.0;
-  var count = 0;
-  getViews() {
-    viewsController.allViews.forEach((view) {
-      if (view.id == widget.school.id) {
-       
-        count = view.views;
-      }
-    });
-  }
-
-  @override
   void initState() {
-    getViews();
     Timer.periodic(const Duration(seconds: 5), (z) {
       getGeoPoint();
       distance = calculateDistance(
@@ -74,6 +57,7 @@ class _SchoolCardState extends State<SchoolCard> {
     super.dispose();
   }
 
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -84,19 +68,18 @@ class _SchoolCardState extends State<SchoolCard> {
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () {
+            setState(() {
+              count++;
+            });
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
                   return SchoolInfo(
                     school: widget.school,
-                    schoolViews: count,
                   );
                 },
               ),
             );
-            setState(() {
-              count++;
-            });
 
             var docRef = FirebaseFirestore.instance.collection('schoolViews').doc(widget.school.id);
             docRef.set({"views": count}).then((value) => () {

@@ -122,9 +122,9 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                                         stream: _getViews(),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
-                                            var views = snapshot.data!;
+                                            var likes = snapshot.data!;
 
-                                            views.forEach((view) {
+                                            likes.forEach((view) {
                                               if (view.id == widget.eduBlog.id) {
                                                 allViews = view.views;
                                               }
@@ -167,29 +167,32 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'By : ',
-                          style: TextStyle(),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'By: ',
+                        style: TextStyle(),
+                      ),
+                      Expanded(
+                        child: Text(
+                          widget.eduBlog.postAuthor,
+                          style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
                         ),
-                        Expanded(
-                          child: Text(
-                            widget.eduBlog.postAuthor,
-                            overflow: TextOverflow.fade,
-                            style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                  Divider(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(widget.eduBlog.postDescription),
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    child: Text(
+                      widget.eduBlog.postDescription,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -231,15 +234,8 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                 onTap: () async {
                   String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
 
-                  // share blog
                   HapticFeedback.heavyImpact();
-                  // print('HELLo');
-                  // final response = await http.get(Uri.parse(widget.eduBlog.postCover));
-                  // final bytes = response.bodyBytes;
-                  // final temp = await getTemporaryDirectory();
-                  // final path = '${temp.path}/image.jpg';
-                  // XFile(path).saveTo(path);
-                  // // path.writeAsBytesSync(bytes);
+
                   await Share.share(
                     widget.eduBlog.postDescription.length > 300 ? '${widget.eduBlog.postDescription.substring(0, 300)}\n$link...' : widget.eduBlog.postDescription,
                   );

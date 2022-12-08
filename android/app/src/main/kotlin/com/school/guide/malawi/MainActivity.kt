@@ -1,4 +1,4 @@
-package com.sygen.school_guide
+package com.school.guide.malawi
 
 import io.flutter.embedding.android.FlutterActivity
 

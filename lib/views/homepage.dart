@@ -175,7 +175,7 @@ class _HomeState extends State<Home> {
                                           launchUrl(Uri.parse(allBanners[index].bannerLink), mode: LaunchMode.externalApplication);
                                         }
                                       : () {
-                                          Get.to(() => SchoolInfo(schoolViews: 0, school: currentSchool));
+                                          Get.to(() => SchoolInfo(school: currentSchool));
                                         },
                                   child: Container(
                                     width: 420,
@@ -253,7 +253,7 @@ class _HomeState extends State<Home> {
                                 title: 'Schools near you',
                                 image: AppImages.scholsNear,
                                 isSmall: true,
-                                items: [],
+                                items: ['No schools available'.substring(0, 16)],
                                 onPressed: () {
                                   Get.to(() => SchoolFinder(schools: schoolsNearMe));
                                 },
@@ -285,7 +285,6 @@ class _HomeState extends State<Home> {
                                   title: 'Schools directory',
                                   image: AppImages.schoolDirectory,
                                   isSmall: false,
-                                  isSchool: schoolNames.isEmpty ? false : true,
                                   items: schoolNames.length > 3
                                       ? schoolNames.sublist(0, 3)
                                       : schoolNames.isEmpty
@@ -300,7 +299,7 @@ class _HomeState extends State<Home> {
                                 title: 'Schools directory',
                                 image: AppImages.schoolDirectory,
                                 isSmall: false,
-                                items: [],
+                                items: ['No schools'],
                                 onPressed: () {
                                   Get.to(() => const SchoolDirectory());
                                 },
@@ -324,7 +323,7 @@ class _HomeState extends State<Home> {
                                 List<String> scholarshipNames = [];
                                 for (var scholarship in allScholarships) {
                                   if (scholarship.scholarshipName.length < 15) {
-                                    scholarshipNames.add(scholarship.scholarshipName.substring(0, 25));
+                                    scholarshipNames.add(scholarship.scholarshipName);
                                   } else {
                                     scholarshipNames.add('${scholarship.scholarshipName.substring(0, 15)}...');
                                   }
@@ -343,7 +342,7 @@ class _HomeState extends State<Home> {
                                   title: 'Scholarships',
                                   image: AppImages.scholarships,
                                   isSmall: false,
-                                  items: ['No Scholarships available'.substring(0, 16)],
+                                  items: ['No Scholarships...'],
                                   onPressed: () {
                                     Get.to(() => const Scholarships());
                                   },
@@ -382,7 +381,7 @@ class _HomeState extends State<Home> {
                                 title: 'Edu blog',
                                 image: AppImages.eduBlog,
                                 isSmall: true,
-                                items: ['No blogs available'],
+                                items: ['No Blogs...'],
                                 onPressed: () {
                                   Get.to(() => const EducationBlog());
                                 },
@@ -432,7 +431,7 @@ class _HomeState extends State<Home> {
                                           borderRadius: BorderRadius.circular(8),
                                           child: InkWell(
                                             onTap: () {
-                                              Get.to(() => SchoolInfo(schoolViews: 0, school: mostViewed[index]));
+                                              Get.to(() => SchoolInfo(school: mostViewed[index]));
                                             },
                                             borderRadius: BorderRadius.circular(8),
                                             child: Padding(

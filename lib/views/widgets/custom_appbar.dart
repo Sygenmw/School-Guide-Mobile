@@ -204,7 +204,6 @@ class CustomSearchDelegate extends SearchDelegate {
                       query = suggestions[index];
                       Get.back();
                       Get.to(() => SchoolInfo(
-                            schoolViews: 0,
                             school: allSchools.elementAt(schoolNames.indexOf(query)),
                           ));
                     },

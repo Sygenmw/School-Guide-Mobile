@@ -5,7 +5,6 @@ import 'package:school_guide/controllers/agent_controller.dart';
 import 'package:school_guide/controllers/curriculum_controller.dart';
 import 'package:school_guide/controllers/edu_blog_controller.dart';
 import 'package:school_guide/controllers/font_controller.dart';
-import 'package:school_guide/controllers/permission_controller.dart';
 import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/schools_near_controller.dart';
 import 'package:school_guide/controllers/tutor_controller.dart';
@@ -64,6 +63,3 @@ class SchoolGuide extends StatelessWidget {
     );
   }
 }
-
-
- 

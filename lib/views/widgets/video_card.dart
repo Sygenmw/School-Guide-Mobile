@@ -28,12 +28,12 @@ class VideoCard extends StatelessWidget {
               Get.to(() => VideoInformation(video: video));
             },
             child: SizedBox(
-              height: 180,
+              height: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    flex: 5,
+                    flex: 4,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                       child: CachedNetworkImage(
@@ -44,7 +44,7 @@ class VideoCard extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: Column(
