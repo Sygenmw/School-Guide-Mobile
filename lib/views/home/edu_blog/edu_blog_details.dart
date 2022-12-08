@@ -122,9 +122,9 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                                         stream: _getViews(),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
-                                            var likes = snapshot.data!;
+                                            var views = snapshot.data!;
 
-                                            likes.forEach((view) {
+                                            views.forEach((view) {
                                               if (view.id == widget.eduBlog.id) {
                                                 allViews = view.views;
                                               }
@@ -170,18 +170,26 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'By: ',
+                          'By : ',
                           style: TextStyle(),
                         ),
-                        Text(
-                          widget.eduBlog.postAuthor,
-                          style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
+                        Expanded(
+                          child: Text(
+                            widget.eduBlog.postAuthor,
+                            overflow: TextOverflow.fade,
+                            style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.primaryColor),
+                          ),
                         ),
                       ],
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(widget.eduBlog.postDescription),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -284,7 +292,6 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                     )),
               ),
             )
-          
           ],
         ),
         bottomNavigationBar: CustomBottomNavBar());

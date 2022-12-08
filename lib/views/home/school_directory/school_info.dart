@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/models/school_model.dart';
+import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/gallery.dart';
 import 'package:school_guide/views/home/school_directory/school_map.dart';
@@ -20,8 +21,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SchoolInfo extends StatefulWidget {
-  const SchoolInfo({Key? key, required this.school}) : super(key: key);
+  const SchoolInfo({Key? key, required this.school, required this.schoolViews}) : super(key: key);
   final SchoolDetails school;
+  final int schoolViews;
 
   @override
   State<SchoolInfo> createState() => _SchoolInfoState();
@@ -73,6 +75,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
     super.initState();
   }
 
+  int allViews = 0;
   @override
   Widget build(BuildContext context) {
     // VIDEO DECODING
@@ -207,6 +210,39 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(8)),
                                     padding: const EdgeInsets.only(top: 2.0),
                                   ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: StreamBuilder<List<ViewDetails>>(
+                                      stream: _getViews(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          var views = snapshot.data!;
+
+                                          views.forEach((view) {
+                                            if (view.id == widget.school.id) {
+                                              allViews = view.views;
+                                            }
+                                          });
+
+                                          return Padding(
+                                            padding: EdgeInsets.only(left: 4.0),
+                                            child: Text(
+                                              '$allViews',
+                                              style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
+                                            ),
+                                          );
+                                        }
+                                        return Padding(
+                                          padding: EdgeInsets.only(left: 4.0),
+                                          child: Text(
+                                            '0${widget.schoolViews}',
+                                            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 16),
+                                          ),
+                                        );
+                                      }),
                                 ),
                               ),
                               Row(
@@ -545,4 +581,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
         ),
         bottomNavigationBar: CustomBottomNavBar());
   }
+}
+
+Stream<List<ViewDetails>> _getViews() {
+  return FirebaseFirestore.instance.collection('schoolViews').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ViewDetails.fromDocument(doc)).toList());
 }

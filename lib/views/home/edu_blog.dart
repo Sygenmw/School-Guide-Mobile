@@ -84,12 +84,11 @@ class _EducationBlogState extends State<EducationBlog> {
                     primary: false,
                     itemCount: currentBlogs.length,
                     itemBuilder: (BuildContext context, int index) {
-                      print(deviceID);
                       return EduBlogCard(blog: currentBlogs[index], deviceID: deviceUniqueID);
                     },
                   ),
                 ],
               ),
-        bottomNavigationBar:   CustomBottomNavBar());
+        bottomNavigationBar: CustomBottomNavBar());
   }
 }

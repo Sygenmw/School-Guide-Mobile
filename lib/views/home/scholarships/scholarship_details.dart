@@ -181,7 +181,7 @@ class ScholarshipDetailsView extends StatelessWidget {
                   // share blog
                   HapticFeedback.heavyImpact();
                   String scholarshipDetail =
-                      'FIND MORE SCHOLARSHIPS WITH THE SCHOOL GUIDE APP\n\n\nTYPE\n${scholarship.destination} Student Scholarship\n\nNAME\n${scholarship.scholarshipName}\n\n\n${scholarship.scholarshipDescription.length > 120 ? scholarship.scholarshipDescription.substring(0, 120) : scholarship.scholarshipDescription}\n\nSCHOOL\n${scholarship.hostUniversity}\n\n${scholarship.level} Scholarship\n\nTARGET GROUP\n${scholarship.targetGroup}\n\nDEADLINE\n${TimeConversion.convertTimeStamp(scholarship.deadline)}\n$link';
+                      'FIND MORE SCHOLARSHIPS WITH THE SCHOOL GUIDE APP\n\n\nTYPE\n${scholarship.destination} Student Scholarship\n\nNAME\n${scholarship.scholarshipName}\n\n\n${scholarship.scholarshipDescription.length > 120 ? scholarship.scholarshipDescription.substring(0, 120) : scholarship.scholarshipDescription}\n\nSCHOOL\n${scholarship.hostUniversity}\n\n${scholarship.level} Scholarship\n\nTARGET GROUP\n${scholarship.targetGroup}\n\nDEADLINE\n${TimeConversion.convertTimeStamp(scholarship.deadline)}\n';
                   await Share.share(
                     scholarshipDetail.length > 300 ? '${scholarshipDetail.substring(0, 300)}\n$link' : '$scholarshipDetail\n$link',
                   );

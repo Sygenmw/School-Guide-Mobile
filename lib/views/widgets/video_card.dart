@@ -28,7 +28,7 @@ class VideoCard extends StatelessWidget {
               Get.to(() => VideoInformation(video: video));
             },
             child: SizedBox(
-              height: 230,
+              height: 180,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -57,18 +57,11 @@ class VideoCard extends StatelessWidget {
                               style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 3.0),
-                            child: Text(
-                              video.description.length < 100 ? video.description : video.description.substring(0, 33),
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 14),
-                            ),
-                          ),
                           const Spacer(),
                           Padding(
                             padding: const EdgeInsets.only(top: 4.0),
                             child: Align(
-                                alignment: Alignment.bottomRight,
+                                alignment: Alignment.bottomLeft,
                                 child: Text(
                                   TimeConversion.convertTimeStamp(video.createdAt),
                                   style: const TextStyle(

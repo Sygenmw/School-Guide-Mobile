@@ -74,7 +74,7 @@ class HomeButton extends StatelessWidget {
                             child: InkWell(
                               onTap: isSchool
                                   ? () {
-                                      Get.to(() => SchoolInfo(school: school!));
+                                      Get.to(() => SchoolInfo(schoolViews: 0, school: school!));
                                     }
                                   : null,
                               child: Row(children: [
