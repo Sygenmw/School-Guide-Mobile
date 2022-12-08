@@ -36,11 +36,11 @@ class ScholarshipCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
+                  padding: const EdgeInsets.only(left: 10.0, right: 10),
                   child: FittedBox(
                     child: Text(
                       scholarship.scholarshipName,
-                      style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 20),
+                      style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 16),
                     ),
                   ),
                 ),
@@ -74,17 +74,17 @@ class ScholarshipCard extends StatelessWidget {
                             children: [
                               Text(
                                 scholarship.scholarshipDescription.length > 30 ? scholarship.scholarshipDescription.substring(0, 30) : scholarship.scholarshipDescription,
-                                style: const TextStyle(color: Colors.white, fontSize: 16),
+                                style: const TextStyle(color: Colors.white, fontSize: 14),
                               ),
-                              SizedBox(height: 8),
+                              SizedBox(height: 4),
                               Text(
                                 scholarship.level,
-                                style: const TextStyle(color: Colors.white, fontSize: 16),
+                                style: const TextStyle(color: Colors.white, fontSize: 14),
                               ),
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,

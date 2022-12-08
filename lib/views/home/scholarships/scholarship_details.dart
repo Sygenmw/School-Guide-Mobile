@@ -35,7 +35,7 @@ class ScholarshipDetailsView extends StatelessWidget {
                       Text(
                         '${scholarship.destination} Student Scholarship',
                         style: const TextStyle(
-                          fontSize: 30,
+                          fontSize: 25,
                         ),
                       ),
 
@@ -43,7 +43,7 @@ class ScholarshipDetailsView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           scholarship.scholarshipName,
-                          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -78,7 +78,7 @@ class ScholarshipDetailsView extends StatelessWidget {
               padding: EdgeInsets.only(top: 12.0),
               child: Text(
                 'Brief description',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ),
             Text(
@@ -88,8 +88,8 @@ class ScholarshipDetailsView extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
               child: Text(
-                'Host Institution(s):',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                'Host Institution',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ),
             Text(
@@ -99,8 +99,8 @@ class ScholarshipDetailsView extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
               child: Text(
-                'Level/Fields of study:',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                'Level/Fields of study',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ),
             Text(
@@ -110,19 +110,19 @@ class ScholarshipDetailsView extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
               child: Text(
-                'Number of Scholarships:',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                'Number of Scholarships',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ),
             Text(
-              'A class of ${scholarship.numberOfScholarschips} Scholars is selected each year',
+              '${scholarship.numberOfScholarschips}',
               style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 12.0),
               child: Text(
-                'Target group:',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                'Target group',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ),
             Text(
@@ -176,14 +176,15 @@ class ScholarshipDetailsView extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
                 onTap: () async {
-                  String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
+                  String link =
+                      "Access the best schools to enroll into and view latest scholarships using the School Guide App available on https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
 
                   // share blog
                   HapticFeedback.heavyImpact();
                   String scholarshipDetail =
-                      'FIND MORE SCHOLARSHIPS WITH THE SCHOOL GUIDE APP\n\n\nTYPE\n${scholarship.destination} Student Scholarship\n\nNAME\n${scholarship.scholarshipName}\n\n\n${scholarship.scholarshipDescription.length > 120 ? scholarship.scholarshipDescription.substring(0, 120) : scholarship.scholarshipDescription}\n\nSCHOOL\n${scholarship.hostUniversity}\n\n${scholarship.level} Scholarship\n\nTARGET GROUP\n${scholarship.targetGroup}\n\nDEADLINE\n${TimeConversion.convertTimeStamp(scholarship.deadline)}\n$link';
+                      '\n*${scholarship.scholarshipName}*\n\n\n${scholarship.scholarshipDescription}\n\n*School*\n${scholarship.hostUniversity}\n\n${scholarship.level} Scholarship\n\n*Target group*\n${scholarship.targetGroup}\n\*Deadline*\n\n${TimeConversion.convertTimeStamp(scholarship.deadline)}\n\n';
                   await Share.share(
-                    scholarshipDetail.length > 300 ? '${scholarshipDetail.substring(0, 300)}\n$link' : '$scholarshipDetail\n$link',
+                    '$scholarshipDetail\n\n$link',
                   );
                 },
                 child: Container(

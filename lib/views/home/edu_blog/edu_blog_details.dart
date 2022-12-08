@@ -232,12 +232,13 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
                 onTap: () async {
-                  String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
+                  String link =
+                      "Access the best schools to enroll into and view latest scholarships using the School Guide App available on https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
 
                   HapticFeedback.heavyImpact();
 
                   await Share.share(
-                    widget.eduBlog.postDescription.length > 300 ? '${widget.eduBlog.postDescription.substring(0, 300)}\n$link...' : widget.eduBlog.postDescription,
+                    '${widget.eduBlog.postDescription}\n\n$link',
                   );
                 },
                 child: Container(
