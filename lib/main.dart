@@ -14,6 +14,9 @@ import 'package:school_guide/controllers/video_controller.dart';
 import 'package:school_guide/controllers/views_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:school_guide/services/cloud_messaging_service.dart';
+import 'package:school_guide/views/home/edu_blog.dart';
+import 'package:school_guide/views/home/scholarships.dart';
+import 'package:school_guide/views/home/school_directiory.dart';
 import 'package:school_guide/views/splash_screen.dart';
 import 'controllers/all_controllers.dart';
 import 'firebase_options.dart';
@@ -89,6 +92,9 @@ class _SchoolGuideState extends State<SchoolGuide> {
   //
   Future<void> firstTimeRunningChecker() async {
     await FirebaseMessaging.instance.subscribeToTopic('other').then((value) => print('in'));
+    await FirebaseMessaging.instance.subscribeToTopic('schoolNotification').then((value) => print('in'));
+    await FirebaseMessaging.instance.subscribeToTopic('eduBlogNotification').then((value) => print('in'));
+    await FirebaseMessaging.instance.subscribeToTopic('scholarshipNotification').then((value) => print('in'));
 
     initializer();
     initializePlatformSpecifics();
@@ -96,7 +102,7 @@ class _SchoolGuideState extends State<SchoolGuide> {
 
   @override
   void initState() {
-    //showNotification();
+    showNotification();
     super.initState();
     firstTimeRunningChecker();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -131,6 +137,13 @@ class _SchoolGuideState extends State<SchoolGuide> {
                                 child: new Text("Open Notifications", style: new TextStyle(fontSize: 16.0, color: Colors.white)),
                                 onPressed: () {
                                   //  GOTO PAGE
+                                  if (notification.title!.toLowerCase().contains('School')) {
+                                    Get.to(() => SchoolDirectory());
+                                  } else if (notification.title!.toLowerCase().contains('Scholarship')) {
+                                    Get.to(() => Scholarships());
+                                  } else {
+                                    Get.to(() => EducationBlog());
+                                  }
                                 },
                               )),
                         ))
@@ -175,8 +188,13 @@ class _SchoolGuideState extends State<SchoolGuide> {
   }
 
   void showNotification() {
-    flutterLocalNotificationsPlugin.show(0, "Testing", "How you doin?",
-        NotificationDetails(android: AndroidNotificationDetails(androidNotificationChannel.id, androidNotificationChannel.name, importance: Importance.high, color: Colors.blue, playSound: true, icon: '@mipmap/ic_launcher')));
+    flutterLocalNotificationsPlugin.show(
+        0,
+        "Testing",
+        "How you doin?",
+        NotificationDetails(
+            android: AndroidNotificationDetails(androidNotificationChannel.id, androidNotificationChannel.name,
+                importance: Importance.high, color: Colors.blue, playSound: true, icon: '@mipmap/ic_launcher')));
   }
 
   //

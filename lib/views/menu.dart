@@ -65,10 +65,8 @@ class Menu extends StatelessWidget {
                         icon: Icons.share,
                         text: 'Share app'),
                     MenuCardItem(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                            return AboutUs();
-                          }));
+                        onTap: () { 
+                            Get.to(()=> AboutUs()); 
                         },
                         icon: Icons.info_outline,
                         text: 'About us'),
