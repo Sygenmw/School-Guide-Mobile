@@ -97,6 +97,7 @@ class _EduCarouselState extends State<EduCarousel> {
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +110,7 @@ class _EduCarouselState extends State<EduCarousel> {
                                           borderRadius: BorderRadius.circular(4),
                                           child: InkWell(
                                             borderRadius: BorderRadius.circular(4),
-                                            onTap: () async {
+                                            onTap: () {
                                               favouriteItems.contains(itemBlogs[index])
                                                   ? CustomSnackBar.showSnackBar(
                                                       title: 'Item already bookmarked',
@@ -135,7 +136,10 @@ class _EduCarouselState extends State<EduCarousel> {
                                       ],
                                     ),
                                     Expanded(
-                                      child: Text(itemBlogs[index].postDescription),
+                                      child: Text(
+                                        itemBlogs[index].postDescription,
+                                        textAlign: TextAlign.left,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -152,10 +156,10 @@ class _EduCarouselState extends State<EduCarousel> {
             options: CarouselOptions(
               height: 200,
               aspectRatio: 16 / 9,
-              viewportFraction: itemBlogs.length == 1 ? 1 : 0.8,
+              viewportFraction: itemBlogs.length < 3 ? 1 : 0.8,
               initialPage: 0,
-              enableInfiniteScroll: itemBlogs.length < 3 ? false : true,
-              autoPlay: itemBlogs.length < 3 ? false : true,
+              enableInfiniteScroll: itemBlogs.length >= 2 ? true : false,
+              autoPlay: itemBlogs.length >= 2 ? true : false,
               autoPlayInterval: const Duration(seconds: 3),
               autoPlayAnimationDuration: const Duration(milliseconds: 800),
               autoPlayCurve: Curves.fastOutSlowIn,

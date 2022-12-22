@@ -44,17 +44,17 @@ class _SchoolInfoState extends State<SchoolInfo> {
   bool videoAvailable = false;
   getremiumFeatures() {
     school.premiumFeatures.forEach((premiumFeature) {
-      if (premiumFeature.feature.toLowerCase() == 'map'.toLowerCase() && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+      if (premiumFeature.feature.toLowerCase() == 'map'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
         setState(() {
           mapAvailable = true;
         });
       }
-      if (premiumFeature.feature.toLowerCase() == '10+Images'.toLowerCase() && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+      if (premiumFeature.feature.toLowerCase() == '10+Images'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
         setState(() {
           tenImages = true;
         });
       }
-      if (premiumFeature.feature.toLowerCase() == 'VideoAdvert'.toLowerCase() && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+      if (premiumFeature.feature.toLowerCase() == 'VideoAdvert'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
         setState(() {
           videoAvailable = true;
         });

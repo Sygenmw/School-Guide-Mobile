@@ -74,7 +74,7 @@ class CarriculumDets {
 
   factory CarriculumDets.fromMap(Map<String, dynamic> doc) => CarriculumDets(
         name: doc["curriculum"],
-        price: doc["price"],
+        price: doc["price"].toString(),
       );
 }
 
@@ -92,8 +92,8 @@ class Location {
 }
 
 class PremiumFeature {
-  final Timestamp endDate;
-  final Timestamp startDate;
+  final String endDate;
+  final String startDate;
   final String feature;
 
   PremiumFeature({

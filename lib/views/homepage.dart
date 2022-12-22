@@ -15,6 +15,7 @@ import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/models/views_model.dart';
+import 'package:school_guide/services/cloud_messaging_service.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog.dart';
 import 'package:school_guide/views/home/scholarships.dart';
@@ -71,6 +72,8 @@ class _HomeState extends State<Home> {
   double distance = 0.0;
   List<SchoolDetails> schoolsNearMe = [];
   void initState() {
+    CloudMessaging.requestPermission();
+    CloudMessaging().getToken();
     PermissionHandler.askLocationPermission();
 
     PermissionHandler.askLocationPermission();
@@ -232,11 +235,15 @@ class _HomeState extends State<Home> {
                                 List<String> schoolNames = [];
                                 for (var school in schoolsNearMe) {
                                   if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
-                                    if (school.schoolName.length < 15) {
-                                      schoolNames.add(school.schoolName);
-                                    } else {
-                                      schoolNames.add('${school.schoolName.substring(0, 15)}...');
-                                    }
+                                    school.premiumFeatures.forEach((premiumFeature) {
+                                      if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
+                                        if (school.schoolName.length < 15) {
+                                          schoolNames.add(school.schoolName);
+                                        } else {
+                                          schoolNames.add('${school.schoolName.substring(0, 15)}...');
+                                        }
+                                      }
+                                    });
                                   }
                                 }
                                 return HomeButton(
@@ -271,7 +278,7 @@ class _HomeState extends State<Home> {
                                 for (var school in allSchools) {
                                   if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
                                     school.premiumFeatures.forEach((premiumFeature) {
-                                      if (premiumFeature.feature == 'schoolOnHome' && premiumFeature.endDate.compareTo(Timestamp.now()) > 0) {
+                                      if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
                                         if (school.schoolName.length < 15) {
                                           schoolNames.add(school.schoolName);
                                         } else {
@@ -322,10 +329,12 @@ class _HomeState extends State<Home> {
                                 var allScholarships = snapshot.data!;
                                 List<String> scholarshipNames = [];
                                 for (var scholarship in allScholarships) {
-                                  if (scholarship.scholarshipName.length < 15) {
-                                    scholarshipNames.add(scholarship.scholarshipName);
-                                  } else {
-                                    scholarshipNames.add('${scholarship.scholarshipName.substring(0, 15)}...');
+                                  if (scholarship.deadline.compareTo(Timestamp.now()) > 0) {
+                                    if (scholarship.scholarshipName.length < 15) {
+                                      scholarshipNames.add(scholarship.scholarshipName);
+                                    } else {
+                                      scholarshipNames.add('${scholarship.scholarshipName.substring(0, 15)}...');
+                                    }
                                   }
                                 }
                                 return HomeButton(

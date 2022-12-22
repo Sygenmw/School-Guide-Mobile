@@ -129,6 +129,28 @@ class ScholarshipDetailsView extends StatelessWidget {
               scholarship.targetGroup,
               style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
             ),
+            const Padding(
+              padding: EdgeInsets.only(top: 12.0),
+              child: Text(
+                'Applications begin on',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Text(
+              TimeConversion.convertTimeStamp(scholarship.startDate),
+              style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 12.0),
+              child: Text(
+                'Applications end on',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Text(
+              TimeConversion.convertTimeStamp(scholarship.deadline),
+              style: const TextStyle(fontSize: 16, wordSpacing: 2.2),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(

@@ -72,10 +72,6 @@ class ScholarshipCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                scholarship.scholarshipDescription.length > 30 ? scholarship.scholarshipDescription.substring(0, 30) : scholarship.scholarshipDescription,
-                                style: const TextStyle(color: Colors.white, fontSize: 14),
-                              ),
                               SizedBox(height: 4),
                               Text(
                                 scholarship.level,
@@ -86,23 +82,25 @@ class ScholarshipCard extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Deadline : ${TimeConversion.convertTimeStamp(scholarship.deadline)}',
-                                style: const TextStyle(color: Colors.white, fontSize: 14),
-                              ),
-                              Text(
-                                'Study ${scholarship.destination.toLowerCase() == 'International'.toLowerCase() ? 'Abroad' : 'in Malawi'}',
-                                style: const TextStyle(color: Colors.white, fontSize: 14),
-                              ),
-                              Text(
-                                'School starts :  ${TimeConversion.convertTimeStamp(scholarship.startDate)}',
-                                style: const TextStyle(color: Colors.white, fontSize: 14),
-                              ),
-                            ],
+                          FittedBox(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Study ${scholarship.destination.toLowerCase() == 'International'.toLowerCase() ? 'Abroad' : 'in Malawi'}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                                ),
+                                Text(
+                                  'Applications begin :  ${TimeConversion.convertTimeStamp(scholarship.startDate)}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                                ),
+                                Text(
+                                  'Applications end : ${TimeConversion.convertTimeStamp(scholarship.deadline)}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

@@ -5,6 +5,7 @@ class AgentDetails extends GetxController {
   AgentDetails({
     required this.name,
     required this.logo,
+    required this.location,
     required this.description,
     required this.email,
     required this.servicesProvided,
@@ -14,6 +15,7 @@ class AgentDetails extends GetxController {
   final String name;
   final String logo;
   final String description;
+  final String location;
   final String email;
   final String servicesProvided;
   final String phoneNumber;
@@ -22,6 +24,7 @@ class AgentDetails extends GetxController {
   factory AgentDetails.fromDocument(DocumentSnapshot doc) => AgentDetails(
         logo: doc['AgentLogo'],
         description: doc['agentDescription'],
+        location: doc['location'],
         name: doc['agentName'],
         servicesProvided: doc['servicesProvided'],
         phoneNumber: doc['agentPhoneNumber'],

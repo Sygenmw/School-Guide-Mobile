@@ -88,7 +88,7 @@ class AboutUs extends StatelessWidget {
   List<Widget> rowIcons = [
     buildRowIcon(icon: FontAwesomeIcons.youtube, link: 'https://www.youtube.com/@sygen8722'),
     buildRowIcon(icon: FontAwesomeIcons.phone, link: 'tel:+265880012674'),
-    buildRowIcon(icon: Icons.mail_outline, link: 'https://info@sygenmw.com'),
+    buildRowIcon(icon: Icons.mail_outline, link: 'mailto:info@sygenmw.com'),
     buildRowIcon(icon: FontAwesomeIcons.linkedin, link: 'https://www.linkedin.com/in/sygen'),
     buildRowIcon(icon: FontAwesomeIcons.facebook, link: 'https://web.facebook.com/sygenmw'),
     buildRowIcon(icon: FontAwesomeIcons.instagram, link: 'https://instagram.com/sygenmw/'),

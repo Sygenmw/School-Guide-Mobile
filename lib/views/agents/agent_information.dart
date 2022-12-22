@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/models/agent_model.dart';
 import 'package:school_guide/style/app_styles.dart';
@@ -81,6 +82,7 @@ class AgentInformation extends StatelessWidget {
                     },
                     child: CustomText(agent.phoneNumber, icon: Icons.phone_android),
                   ),
+                  CustomText(agent.location, icon: FontAwesomeIcons.mapLocation),
                   GestureDetector(
                     onTap: () {
                       HapticFeedback.selectionClick();

@@ -63,7 +63,7 @@ class TutorCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4.0),
                         child: Text(
-                          tutor.phone,
+                          '${tutor.phone} - ${tutor.location}',
                           style: const TextStyle(color: AppColors.black, fontSize: 14),
                         ),
                       ),

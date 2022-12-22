@@ -26,6 +26,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController servicesController = TextEditingController();
+  TextEditingController websiteController = TextEditingController();
 
   var selectedLocation;
 
@@ -63,6 +64,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
           CustomFormField(controller: nameController, hintText: 'Company name', keyboardType: TextInputType.name, labelText: 'Company name'),
           CustomFormField(controller: phoneController, hintText: 'Phone number', keyboardType: TextInputType.phone, labelText: 'Phone number'),
           CustomFormField(controller: emailController, hintText: 'Email address', keyboardType: TextInputType.emailAddress, labelText: 'Email address'),
+          CustomFormField(controller: websiteController, hintText: 'Website', keyboardType: TextInputType.url, labelText: 'Website'),
           SizedBox(height: 5),
           Container(
             height: 50,
@@ -133,7 +135,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
                     HapticFeedback.vibrate();
                     String subject = 'APPLICATION TO BE AN AGENT.';
                     String body =
-                        'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()}, a Malawian Business specializing in providing services like ${servicesController.text.trim()} to those who need them. Our business is registered with the Registrar General of Businesses  and we are currently situated in $selectedLocation.\nWe henceforth write you this email in reference to the above subject applying to be offering services like ${servicesController.text.trim()} through your mobile application.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other business inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.';
+                        'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()}, a Malawian Business specializing in providing services like ${servicesController.text.trim()} to those who need them. Our business is registered with the Registrar General of Businesses  and we are currently situated in $selectedLocation.\nWe henceforth write you this email in reference to the above subject applying to be offering services like ${servicesController.text.trim()} through your mobile application.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nOur website is ${websiteController.text.trim()}.\nFor any other business inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.';
                     String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
                     launchUrl(Uri.parse(query));
                     String message =

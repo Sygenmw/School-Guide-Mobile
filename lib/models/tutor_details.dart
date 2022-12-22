@@ -6,6 +6,7 @@ class TutorDetails {
   final String email;
   final String phone;
   final String curriculum;
+  final String location;
   final bool showInApp;
   final List<String> subjects;
 
@@ -14,6 +15,7 @@ class TutorDetails {
     required this.name,
     required this.email,
     required this.phone,
+    required this.location,
     required this.curriculum,
     required this.subjects,
     required this.showInApp,
@@ -23,6 +25,7 @@ class TutorDetails {
         curriculum: doc!['curriculum'],
         email: doc['email'],
         name: doc['name'],
+        location: doc['location'] ?? '',
         phone: doc['phone'],
         showInApp: doc['showInApp'],
         subjects: List<String>.from(doc['subjects']),
