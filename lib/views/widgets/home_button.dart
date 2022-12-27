@@ -29,8 +29,9 @@ class HomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = Get.size;
     return Container(
-      constraints:
-          isSmall ? BoxConstraints(minHeight: size.height / 5.8, maxHeight: size.height / 5.2, minWidth: size.width / 2.3) : BoxConstraints(minHeight: 200, maxHeight: 220, minWidth: size.width / 2.3),
+      constraints: isSmall
+          ? BoxConstraints(minHeight: size.height / 5.8, maxHeight: size.height / 5.2, minWidth: size.width / 2.25)
+          : BoxConstraints(minHeight: 200, maxHeight: 220, minWidth: size.width / 2.25),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
       ),

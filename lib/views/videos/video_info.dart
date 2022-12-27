@@ -34,6 +34,7 @@ class VideoInformation extends StatelessWidget {
         body: CustomBody(
           text: 'Videos/${video.title}',
           children: [
+            SizedBox(height: 10),
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(

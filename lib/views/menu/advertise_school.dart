@@ -3,6 +3,7 @@ import 'package:school_guide/services/automated_email_service.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_dialog.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
 import 'package:school_guide/views/widgets/submit_button.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
@@ -89,11 +90,10 @@ class _AdvertiseSchoolState extends State<AdvertiseSchool> {
                 String br = '<br/>';
                 String message =
                     'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to have the item with the following description to be advertised on the School Guide Platform:$br$br ${descController.text.trim()}$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
+                CustomDialog.showCustomDialog();
+
                 EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR ADVERTISEMENT');
               },
-              subject: 'REQUEST TO ADVERTISE ON YOUR PLATFORM',
-              body:
-                  'Respected Sir. \nThe above subject in reference matters. I am ${nameController.text.trim()} and am writing you this email, requesting to advertise my business on your platform. The idea of having my banner is as follows :\n\n${descController.text.trim()}\n\nI will be glad if my advertisement request is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact me on this same email address or on my mobile phone number : ${phoneController.text.trim()}.\n\nRegards\n${nameController.text.trim()}.',
               controllers: [nameController, emailController, descController, phoneController])
         ],
       ),

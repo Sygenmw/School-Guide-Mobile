@@ -23,8 +23,9 @@ class _AgentsState extends State<Agents> {
 
   getAgents() {
     for (var agent in agentController.allAgents) {
-      agents.add(agent);
-      print(agents.length);
+      if (agent.status.toLowerCase() == 'active') {
+        agents.add(agent);
+      }
     }
   }
 

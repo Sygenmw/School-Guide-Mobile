@@ -13,7 +13,11 @@ class SchoolsNearController extends GetxController {
   }
 
   Stream<List<SchoolDetails>> _getAllSchools() {
-    return FirebaseFirestore.instance.collection('schools').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance
+        .collection('schools')
+        .orderBy('createdAt', descending: false)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
   }
 
   // calculate distance between user and school

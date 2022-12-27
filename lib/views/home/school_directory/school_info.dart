@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:school_guide/controllers/permission_controller.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/gallery.dart';
@@ -132,7 +132,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
                       ),
                     )
                   : ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
                       child: SizedBox(
                         height: 200,
                         child: SizedBox(
@@ -511,6 +510,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                                     preferBelow: false,
                                                     child: MaterialButton(
                                                       onPressed: () {
+                                                        PermissionHandler.askLocationPermission();
                                                         Get.to(() => SchoolMap(school: widget.school));
                                                       },
                                                       child: Icon(

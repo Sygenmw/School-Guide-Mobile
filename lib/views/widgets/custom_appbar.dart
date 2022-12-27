@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       color: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius:
-            BorderRadius.only(bottomRight: isHomeAppBar ? const Radius.circular(0) : const Radius.circular(30), bottomLeft: isHomeAppBar ? const Radius.circular(0) : const Radius.circular(30)),
+            BorderRadius.only(bottomRight: isHomeAppBar ? const Radius.circular(0) : const Radius.circular(0), bottomLeft: isHomeAppBar ? const Radius.circular(0) : const Radius.circular(0)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -73,23 +73,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 )
               ],
             ),
-            Material(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(8),
-              child: InkWell(
-                  borderRadius: BorderRadius.circular(8),
-                  onTap: () {
-                    HapticFeedback.vibrate();
-                    showSearch(context: context, delegate: CustomSearchDelegate());
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Icon(
-                      Icons.search,
-                      size: 35,
-                      color: AppColors.primaryColor,
-                    ),
-                  )),
+            Padding(
+              padding: const EdgeInsets.only(right: 5.0),
+              child: Material(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(8),
+                child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () {
+                      HapticFeedback.vibrate();
+                      showSearch(context: context, delegate: CustomSearchDelegate());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Icon(
+                        Icons.search,
+                        size: 35,
+                        color: AppColors.primaryColor,
+                      ),
+                    )),
+              ),
             ),
           ],
         ),
@@ -108,21 +111,24 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      Material(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(8),
-        child: InkWell(
+      Padding(
+        padding: const EdgeInsets.only(right: 5.0),
+        child: Material(
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
-          onTap: () {
-            HapticFeedback.vibrate();
-            query.isEmpty ? Get.back() : query = '';
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Icon(
-              Icons.clear,
-              size: 35,
-              color: AppColors.primaryColor,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(8),
+            onTap: () {
+              HapticFeedback.vibrate();
+              query.isEmpty ? Get.back() : query = '';
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Icon(
+                Icons.clear,
+                size: 35,
+                color: AppColors.primaryColor,
+              ),
             ),
           ),
         ),

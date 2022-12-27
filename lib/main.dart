@@ -1,26 +1,21 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-import 'package:school_guide/controllers/agent_controller.dart';
-import 'package:school_guide/controllers/curriculum_controller.dart';
-import 'package:school_guide/controllers/edu_blog_controller.dart';
-import 'package:school_guide/controllers/font_controller.dart';
-import 'package:school_guide/controllers/scholarship_controller.dart';
-import 'package:school_guide/controllers/schools_near_controller.dart';
-import 'package:school_guide/controllers/tutor_controller.dart';
-import 'package:school_guide/controllers/video_controller.dart';
-import 'package:school_guide/controllers/views_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:school_guide/services/cloud_messaging_service.dart';
 import 'package:school_guide/views/home/edu_blog.dart';
 import 'package:school_guide/views/home/scholarships.dart';
 import 'package:school_guide/views/home/school_directiory.dart';
-import 'package:school_guide/views/splash_screen.dart';
-import 'controllers/all_controllers.dart';
 import 'firebase_options.dart';
+//
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+//
+import 'package:school_guide/controllers/edu_blog_controller.dart';
+import 'package:school_guide/views/splash_screen.dart';
+//
+import 'package:get/get.dart';
+import 'package:school_guide/controllers/initialize_controllers.dart';
 
+//
 //PERMISSION HANDLER
 const AndroidNotificationChannel androidNotificationChannel = AndroidNotificationChannel(
   'high_importance_channel', // id
@@ -42,20 +37,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) {
-    Get.put(BannerController());
-    Get.put(SchoolsNearController());
-    Get.put(EduBlogController());
-    Get.put(VideoController());
-    Get.put(ScholarshipController());
-    Get.put(AgentController());
-    Get.put(FontController());
-    Get.put(CurriculumController());
-    Get.put(TutorController());
-    Get.put(ViewsController());
-    Get.put(CloudMessaging());
+    Controller.initializeControllers();
   });
   // get notifications
-  // await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(androidNotificationChannel);
@@ -82,76 +66,40 @@ class SchoolGuide extends StatefulWidget {
 }
 
 class _SchoolGuideState extends State<SchoolGuide> {
-  initializer() async {
+  //
+  Future<void> subscribeToTopics() async {
+    await FirebaseMessaging.instance.subscribeToTopic('other').then((value) => print('in'));
     await FirebaseMessaging.instance.subscribeToTopic('schoolNotification');
     await FirebaseMessaging.instance.subscribeToTopic('scholarshipNotification');
     await FirebaseMessaging.instance.subscribeToTopic('eduBlogNotification');
-    await FirebaseMessaging.instance.subscribeToTopic('other');
-  }
-
-  //
-  Future<void> firstTimeRunningChecker() async {
-    await FirebaseMessaging.instance.subscribeToTopic('other').then((value) => print('in'));
-    await FirebaseMessaging.instance.subscribeToTopic('schoolNotification').then((value) => print('in'));
-    await FirebaseMessaging.instance.subscribeToTopic('eduBlogNotification').then((value) => print('in'));
-    await FirebaseMessaging.instance.subscribeToTopic('scholarshipNotification').then((value) => print('in'));
-
-    initializer();
+    // initializer();
     initializePlatformSpecifics();
   }
 
   @override
   void initState() {
-    showNotification();
     super.initState();
-    firstTimeRunningChecker();
+    subscribeToTopics();
+    FirebaseMessaging.onBackgroundMessage((message) {
+      RemoteNotification notification = message.notification!;
+
+      return flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              androidNotificationChannel.id,
+              androidNotificationChannel.name,
+              importance: Importance.high,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/ic_launcher',
+            ),
+          ));
+    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification!;
-      AndroidNotification android = message.notification!.android!;
-      showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-              title: Text(notification.title!),
-              content: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(notification.body!),
-                    SizedBox(height: 20),
-                    Container(
-                        height: 30,
-                        child: Center(
-                          child: Material(
-                              //Wrap with Material
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                              elevation: 0.0,
-                              color: Colors.black,
-                              clipBehavior: Clip.antiAlias, // Add This
-                              child: MaterialButton(
-                                splashColor: Colors.green,
-                                elevation: 50,
-                                minWidth: 250.0,
-                                height: 30,
-                                color: Colors.purple,
-                                child: new Text("Open Notifications", style: new TextStyle(fontSize: 16.0, color: Colors.white)),
-                                onPressed: () {
-                                  //  GOTO PAGE
-                                  if (notification.title!.toLowerCase().contains('School')) {
-                                    Get.to(() => SchoolDirectory());
-                                  } else if (notification.title!.toLowerCase().contains('Scholarship')) {
-                                    Get.to(() => Scholarships());
-                                  } else {
-                                    Get.to(() => EducationBlog());
-                                  }
-                                },
-                              )),
-                        ))
-                  ],
-                ),
-              ),
-            );
-          });
 
       flutterLocalNotificationsPlugin.show(
           notification.hashCode,
@@ -161,6 +109,7 @@ class _SchoolGuideState extends State<SchoolGuide> {
             android: AndroidNotificationDetails(
               androidNotificationChannel.id,
               androidNotificationChannel.name,
+              importance: Importance.high,
               color: Colors.blue,
               playSound: true,
               icon: '@mipmap/ic_launcher',
@@ -169,32 +118,22 @@ class _SchoolGuideState extends State<SchoolGuide> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
       RemoteNotification notification = message.notification!;
       //  PUSH TO PAGE
-      AndroidNotification android = message.notification!.android!;
+      if (notification.title!.toLowerCase().contains('scholarship')) {
+        Get.to(() => Scholarships());
+      } else if (notification.title!.toLowerCase().contains('school')) {
+        Get.to(() => SchoolDirectory());
+      } else if (notification.title!.toLowerCase().contains('blog')) {
+        Get.to(() => EducationBlog());
+      }
     });
-  }
-
-  Future selectNotification(String payload) async {
-    print('notification payload: $payload');
-    Get.back();
   }
 
   initializePlatformSpecifics() {
     InitializationSettings androidInitSettings = InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'));
 
     flutterLocalNotificationsPlugin.initialize(androidInitSettings);
-  }
-
-  void showNotification() {
-    flutterLocalNotificationsPlugin.show(
-        0,
-        "Testing",
-        "How you doin?",
-        NotificationDetails(
-            android: AndroidNotificationDetails(androidNotificationChannel.id, androidNotificationChannel.name,
-                importance: Importance.high, color: Colors.blue, playSound: true, icon: '@mipmap/ic_launcher')));
   }
 
   //

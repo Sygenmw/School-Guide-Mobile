@@ -13,7 +13,7 @@ class EduBlogController extends GetxController {
   }
 
   Stream<List<EduBlogDetails>> _getAllBlogs() {
-    return FirebaseFirestore.instance.collection('eduBlog').snapshots().map((QuerySnapshot snapshot) => snapshot.docs
+    return FirebaseFirestore.instance.collection('eduBlog').orderBy('createdAt', descending: true).snapshots().map((QuerySnapshot snapshot) => snapshot.docs
         .map(
           (DocumentSnapshot doc) => EduBlogDetails.fromDocument(doc),
         )

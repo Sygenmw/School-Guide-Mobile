@@ -28,8 +28,8 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
-import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
@@ -72,10 +72,8 @@ class _HomeState extends State<Home> {
   double distance = 0.0;
   List<SchoolDetails> schoolsNearMe = [];
   void initState() {
-    CloudMessaging.requestPermission();
+    CloudMessaging().requestPermission();
     CloudMessaging().getToken();
-    PermissionHandler.askLocationPermission();
-
     PermissionHandler.askLocationPermission();
 
     Timer.periodic(const Duration(seconds: 5), (xxx) {
@@ -234,7 +232,7 @@ class _HomeState extends State<Home> {
                               if (snapshot.hasData) {
                                 List<String> schoolNames = [];
                                 for (var school in schoolsNearMe) {
-                                  if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
+                                  if (school.showInApp) {
                                     school.premiumFeatures.forEach((premiumFeature) {
                                       if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
                                         if (school.schoolName.length < 15) {
@@ -250,7 +248,7 @@ class _HomeState extends State<Home> {
                                   title: 'Schools near you',
                                   image: AppImages.scholsNear,
                                   isSmall: true,
-                                  items: schoolNames.length > 1 ? schoolNames.sublist(0, 2) : schoolNames,
+                                  items: schoolNames.length > 1 ? schoolNames.sublist(0, 2) : ['No schools'],
                                   onPressed: () {
                                     Get.to(() => SchoolFinder(schools: schoolsNearMe));
                                   },
@@ -276,7 +274,7 @@ class _HomeState extends State<Home> {
                                 var allSchools = snapshot.data!;
                                 List<String> schoolNames = [];
                                 for (var school in allSchools) {
-                                  if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
+                                  if (school.showInApp) {
                                     school.premiumFeatures.forEach((premiumFeature) {
                                       if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
                                         if (school.schoolName.length < 15) {
@@ -412,15 +410,21 @@ class _HomeState extends State<Home> {
                       List<ViewDetails> viewDets = [];
 
                       for (var school in schoolController.allSchools) {
-                        if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
-                          viewDetails.forEach((viewDetail) {
-                            if (viewDetail.id == school.id) {
-                              if (viewDetail.views > 50) {
-                                viewDets.add(viewDetail);
-                                mostViewed.contains(school) ? {} : mostViewed.add(school);
+                        if (school.showInApp) {
+                          if (school.showInApp) {
+                            school.premiumFeatures.forEach((premiumFeature) {
+                              if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
+                                viewDetails.forEach((viewDetail) {
+                                  if (viewDetail.id == school.id) {
+                                    if (viewDetail.views > 50) {
+                                      viewDets.add(viewDetail);
+                                      mostViewed.contains(school) ? {} : mostViewed.add(school);
+                                    }
+                                  }
+                                });
                               }
-                            }
-                          });
+                            });
+                          }
                         }
                       }
                       return mostViewed.isEmpty && mostViewed.length < 50
@@ -428,7 +432,16 @@ class _HomeState extends State<Home> {
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                TopBlackText(text: 'Most viewed'),
+                                CustomText(
+                                  'Most viewed',
+                                  pBottom: 0,
+                                  pLeft: 0,
+                                  pRight: 0,
+                                  pTop: 0,
+                                  needsIcon: false,
+                                  color: AppColors.primaryColor,
+                                  fontSize: 13,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 2.0),
                                   child: Container(
@@ -493,7 +506,11 @@ class _HomeState extends State<Home> {
 
   // FETCH ITEMS
   Stream<List<SchoolDetails>> _getAllSchools() {
-    return FirebaseFirestore.instance.collection('schools').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance
+        .collection('schools')
+        .orderBy('createdAt', descending: false)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
   }
 
   Stream<List<ViewDetails>> _getAllSchoolViews() {
@@ -503,15 +520,24 @@ class _HomeState extends State<Home> {
   Stream<List<ScholarshipDetails>> _getAllScholarships() {
     return FirebaseFirestore.instance
         .collection('scholarships')
+        .orderBy('createdAt', descending: false)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ScholarshipDetails.fromDocument(doc)).toList());
   }
 
   Stream<List<EduBlogDetails>> _getAllBlogs() {
-    return FirebaseFirestore.instance.collection('eduBlog').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => EduBlogDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance
+        .collection('eduBlog')
+        .orderBy('createdAt', descending: false)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => EduBlogDetails.fromDocument(doc)).toList());
   }
 
   Stream<List<BannerDetails>> _getAllBanners() {
-    return FirebaseFirestore.instance.collection('banners').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => BannerDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance
+        .collection('banners')
+        .orderBy('createdAt', descending: false)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => BannerDetails.fromDocument(doc)).toList());
   }
 }

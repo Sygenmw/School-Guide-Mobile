@@ -8,6 +8,7 @@ import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_dialog.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/premium_item_card.dart';
@@ -24,7 +25,7 @@ class Premium extends StatefulWidget {
 class _PremiumState extends State<Premium> {
   // Premium features
   List<Feature> features = [
-    Feature(featureName: '10+ Images', featurePrice: 10000, icon: Icons.browse_gallery),
+    Feature(featureName: '3+ Images', featurePrice: 10000, icon: Icons.browse_gallery),
     Feature(featureName: 'School on home page', featurePrice: 15000, icon: Icons.branding_watermark),
     Feature(featureName: 'Advert on banner', featurePrice: 50000, icon: FontAwesomeIcons.adversal),
     Feature(featureName: 'Video Ad of the school', featurePrice: 50000, icon: FontAwesomeIcons.video),
@@ -178,11 +179,10 @@ class _PremiumState extends State<Premium> {
                         String br = '<br/>';
                         String message =
                             'Dear Sir/Madam,$br$br Thank you for choosing School Guide Premium features.$br$br You have applied for the following features:$br$br${selectedFeaturesChoices.join('$br$br- ')}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
+                        CustomDialog.showCustomDialog();
+
                         EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR PREMIUM FEATURES');
                       }),
-                      subject: 'REGISTRATION FOR PREMIUM FEATURES.',
-                      body:
-                          'Dear Sir/Madam, \nThe above subject in reference matters. We at ${nameController.text.trim()} are writing you this email, applying for the following premium features :\n${selectedFeaturesChoices.join('\n- ')}.\n\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nFor any other inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.',
                       controllers: [nameController, phoneController],
                     ),
                     SizedBox(height: 10),

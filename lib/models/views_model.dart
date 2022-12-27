@@ -5,7 +5,7 @@ class ViewDetails {
     required this.views,
     required this.id,
   });
-  final int views;
+    int views;
   final String id;
 
   factory ViewDetails.fromDocument(DocumentSnapshot? doc) => ViewDetails(views: doc!["views"], id: doc.id);

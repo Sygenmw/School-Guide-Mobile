@@ -8,7 +8,7 @@ class CustomBody extends StatelessWidget {
     this.text = '',
     this.needsHeader = true,
     this.hPadding = 8.0,
-    this.topPadding = 10.0,
+    this.topPadding = 15.0,
   }) : super(key: key);
   final List<Widget> children;
   final String text;
@@ -35,7 +35,9 @@ class CustomBody extends StatelessWidget {
                 ],
               )
             : Padding(
-                padding:   EdgeInsets.only(top: topPadding),
+                padding: EdgeInsets.only(
+                  top: topPadding,
+                ),
                 child: ListView(
                   children: children,
                 ),

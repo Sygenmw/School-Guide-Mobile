@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 class CloudMessaging extends GetxController {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  static requestPermission() async {
+  requestPermission() async {
     NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: false,
@@ -20,12 +20,23 @@ class CloudMessaging extends GetxController {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('Accepted');
+      // step 2 here
+      messaging.getInitialMessage().then((RemoteMessage? message) {
+        print('Got an initial message in foreground!');
+        print('message data : ${message!.data}');
+        print('message notification : ${message.notification}');
+      });
     } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       print('Provisional');
     } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
       print('Denied');
       openAppSettings();
     }
+  }
+
+  @pragma('vm:entry-point')
+  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    print("Handling a background message: ${message.messageId}");
   }
 
   var fcmDeviceToken = ''.obs;

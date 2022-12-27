@@ -56,9 +56,8 @@ class Curricula extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
-
     );
   }
 }
 
-List<String> curriculums = ["IGCSE", "MANEB", "AMERICAN CURRICULUM", "CAMBRIDGE", "0+ Levels"];
+List<String> curriculums = ["IGCSE", "MANEB", "IB", "AMERICAN CURRICULUM"];

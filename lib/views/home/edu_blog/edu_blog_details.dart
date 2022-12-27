@@ -238,7 +238,7 @@ class _EduBlogItemDetailsState extends State<EduBlogItemDetails> {
                   HapticFeedback.heavyImpact();
 
                   await Share.share(
-                    '${widget.eduBlog.postDescription}\n\n$link',
+                    '${widget.eduBlog.postTitle}\n\n${widget.eduBlog.postDescription}\n\n$link',
                   );
                 },
                 child: Container(

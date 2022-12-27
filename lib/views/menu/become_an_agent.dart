@@ -6,11 +6,11 @@ import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_dialog.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
 import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BecomeAnAgent extends StatefulWidget {
   const BecomeAnAgent({super.key});
@@ -134,13 +134,10 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
 
                     HapticFeedback.vibrate();
                     String subject = 'APPLICATION TO BE AN AGENT.';
-                    String body =
-                        'Respected Sir. \nThe above subject in reference matters. We are ${nameController.text.trim()}, a Malawian Business specializing in providing services like ${servicesController.text.trim()} to those who need them. Our business is registered with the Registrar General of Businesses  and we are currently situated in $selectedLocation.\nWe henceforth write you this email in reference to the above subject applying to be offering services like ${servicesController.text.trim()} through your mobile application.\nWe will be glad if our application is taken into consideration at your earliest inconvenience.\nOur website is ${websiteController.text.trim()}.\nFor any other business inquiries, please contact us on this same email address or on our mobile phone number : ${phoneController.text.trim()}.\n\nReceive our Best Regards\n${nameController.text.trim()}.';
-                    String query = 'mailto:info@sygenmw.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
-                    launchUrl(Uri.parse(query));
+
                     String message =
                         'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to be an agent on the School Guide Platform.$br$br The following are the services you provide:$br$br-${servicesController.text.trim()}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74$br$br Best Regards.';
-
+                    CustomDialog.showCustomDialog();
                     EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: subject);
                   } else {
                     // show snackbar

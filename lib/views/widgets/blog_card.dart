@@ -50,17 +50,11 @@ class _EduBlogCardState extends State<EduBlogCard> {
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: ((BuildContext context) {
-                    return EduBlogItemDetails(
-                      eduBlog: widget.blog,
-                      blogViews: count,
-                      deviceID: widget.deviceID,
-                    );
-                  }),
-                ),
-              );
+              Get.to(() => EduBlogItemDetails(
+                    eduBlog: widget.blog,
+                    blogViews: count,
+                    deviceID: widget.deviceID,
+                  ));
               setState(() {
                 count++;
               });

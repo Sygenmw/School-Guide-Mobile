@@ -41,7 +41,7 @@ class _VideosState extends State<Videos> {
           isHomeAppBar: true,
         ),
         body: videos.isEmpty
-            ? EmptyList(text: 'Sorry we have no curriculums at present! Please come back later.')
+            ? EmptyList(text: 'Sorry we have no videos at present! Please come back later.')
             : CustomBody(text: 'Videos', children: [
                 ListView.builder(
                   primary: false,
