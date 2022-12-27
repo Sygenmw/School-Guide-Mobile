@@ -60,4 +60,4 @@ class Curricula extends StatelessWidget {
   }
 }
 
-List<String> curriculums = ["IGCSE", "MANEB", "IB", "AMERICAN CURRICULUM"];
+List<String> curriculums = ["IGCSE", "IB", "AMERICAN CURRICULUM", "MANEB"];
