@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:school_guide/services/automated_email_service.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/custom_dialog.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
-import 'package:school_guide/views/widgets/submit_button.dart';
+import 'package:school_guide/views/widgets/custom_snackbar.dart';
+import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:school_guide/style/app_styles.dart';
 
@@ -85,16 +88,49 @@ class _AdvertiseSchoolState extends State<AdvertiseSchool> {
               ),
             ),
           ),
-          SubmitButton(
-              onTap: () {
-                String br = '<br/>';
-                String message =
-                    'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to have the item with the following description to be advertised on the School Guide Platform:$br$br ${descController.text.trim()}$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
-                CustomDialog.showCustomDialog();
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Container(
+              height: 40,
+              width: Get.size.width / 3,
+              margin: const EdgeInsets.only(left: 60, right: 60),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+              child: Material(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.circular(8),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    String br = '<br/>';
+                    String message =
+                        'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to have the item with the following description to be advertised on the School Guide Platform:$br$br ${descController.text.trim()}$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
 
-                EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR ADVERTISEMENT');
-              },
-              controllers: [nameController, emailController, descController, phoneController])
+                    if (emailController.text.trim().isEmpty && nameController.text.trim().isEmpty && phoneController.text.trim().isEmpty && descController.text.trim().isEmpty) {
+                      // showDialog
+                      CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
+                    } else {
+                      HapticFeedback.vibrate();
+                      Get.back();
+                      CustomDialog.showCustomDialog();
+                      EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR ADVERTISEMENT');
+                    }
+                  },
+                  child: Center(
+                    child: CustomText(
+                      'Send',
+                      pLeft: 0,
+                      pTop: 0,
+                      pBottom: 0,
+                      pRight: 0,
+                      color: AppColors.white,
+                      needsIcon: false,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+       
         ],
       ),
       bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),

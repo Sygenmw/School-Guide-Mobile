@@ -1,18 +1,21 @@
 // ignore_for_file: unnecessary_statements
 
+import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:school_guide/services/automated_email_service.dart';
+import 'package:school_guide/services/currency_formatter.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/custom_dialog.dart';
 import 'package:school_guide/views/widgets/custom_form_field.dart';
+import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/premium_item_card.dart';
-import 'package:school_guide/views/widgets/submit_button.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 
 class Premium extends StatefulWidget {
@@ -24,12 +27,14 @@ class Premium extends StatefulWidget {
 
 class _PremiumState extends State<Premium> {
   // Premium features
+  // double.parse(CurrencyFormatter.format(1000, CurrencyF.kwachaSettings))
+
   List<Feature> features = [
-    Feature(featureName: '3+ Images', featurePrice: 10000, icon: Icons.browse_gallery),
-    Feature(featureName: 'School on home page', featurePrice: 15000, icon: Icons.branding_watermark),
-    Feature(featureName: 'Advert on banner', featurePrice: 50000, icon: FontAwesomeIcons.adversal),
-    Feature(featureName: 'Video Ad of the school', featurePrice: 50000, icon: FontAwesomeIcons.video),
-    Feature(featureName: 'Map and directions to school', featurePrice: 40000, icon: FontAwesomeIcons.mapLocation),
+    Feature(featureName: '3+ Images', featurePrice: '10000', icon: Icons.browse_gallery),
+    Feature(featureName: 'School on home page', featurePrice: '15000', icon: Icons.branding_watermark),
+    Feature(featureName: 'Advert on banner', featurePrice: '50000', icon: FontAwesomeIcons.adversal),
+    Feature(featureName: 'Video Ad of the school', featurePrice: '50000', icon: FontAwesomeIcons.video),
+    Feature(featureName: 'Map and directions to school', featurePrice: '40000', icon: FontAwesomeIcons.mapLocation),
   ];
 
   String selectedFeature = '';
@@ -67,7 +72,7 @@ class _PremiumState extends State<Premium> {
                     ? {
                         features.forEach((element) {
                           if (element.featureName == item) {
-                            totalAmount -= element.featurePrice;
+                            totalAmount -= double.parse(element.featurePrice);
                             selectedFeatures.remove(element);
                           }
                         })
@@ -75,7 +80,7 @@ class _PremiumState extends State<Premium> {
                     : {
                         features.forEach((element) {
                           if (element.featureName == item) {
-                            totalAmount += element.featurePrice;
+                            totalAmount += double.parse(element.featurePrice);
                             selectedFeatures.add(element);
                           }
                         })
@@ -156,7 +161,7 @@ class _PremiumState extends State<Premium> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: CustomText(
-                              'Total (K)         ',
+                              '',
                               needsIcon: false,
                               textAlign: TextAlign.left,
                               pLeft: 0,
@@ -165,7 +170,7 @@ class _PremiumState extends State<Premium> {
                           ),
                         ),
                         CustomText(
-                          totalAmount.toString(),
+                          CurrencyFormatter.format(totalAmount, CurrencyF.kwachaSettings),
                           textAlign: TextAlign.right,
                           needsIcon: false,
                           pBottom: 0,
@@ -174,16 +179,47 @@ class _PremiumState extends State<Premium> {
                         ),
                       ],
                     ),
-                    SubmitButton(
-                      onTap: (() {
-                        String br = '<br/>';
-                        String message =
-                            'Dear Sir/Madam,$br$br Thank you for choosing School Guide Premium features.$br$br You have applied for the following features:$br$br${selectedFeaturesChoices.join('$br$br- ')}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
-                        CustomDialog.showCustomDialog();
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Container(
+                        height: 40,
+                        width: Get.size.width / 3,
+                        margin: const EdgeInsets.only(left: 60, right: 60),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                        child: Material(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: () {
+                              String br = '<br/>';
+                              String message =
+                                  'Dear Sir/Madam,$br$br Thank you for choosing School Guide Premium features.$br$br You have applied for the following features:$br$br${selectedFeaturesChoices.join('$br$br- ')}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
 
-                        EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR PREMIUM FEATURES');
-                      }),
-                      controllers: [nameController, phoneController],
+                              if (emailController.text.trim().isEmpty && nameController.text.trim().isEmpty && phoneController.text.trim().isEmpty) {
+                                // showDialog
+                                CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
+                              } else {
+                                HapticFeedback.vibrate();
+                                Get.back();
+                                CustomDialog.showCustomDialog();
+                                EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR PREMIUM FEATURES');
+                              }
+                            },
+                            child: Center(
+                              child: CustomText(
+                                'Send',
+                                pLeft: 0,
+                                pTop: 0,
+                                pBottom: 0,
+                                pRight: 0,
+                                color: AppColors.white,
+                                needsIcon: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 10),
                   ],
@@ -200,7 +236,7 @@ class _PremiumState extends State<Premium> {
 
 class Feature {
   final String featureName;
-  final double featurePrice;
+  final String featurePrice;
   final IconData icon;
 
   Feature({required this.featureName, required this.featurePrice, this.icon = Icons.workspace_premium});

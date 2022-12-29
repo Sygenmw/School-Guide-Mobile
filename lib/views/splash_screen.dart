@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/homepage.dart';
+import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SplashScreenView extends StatefulWidget {
@@ -12,14 +14,62 @@ class SplashScreenView extends StatefulWidget {
 
 class _SplashScreenViewState extends State<SplashScreenView> {
   Future delayApp() async {
-    await Future.delayed(Duration(milliseconds: 5000));
+    await Future.delayed(Duration(milliseconds: 4000));
+  }
+
+  AppUpdateInfo? _updateInfo;
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> checkForUpdate() async {
+    InAppUpdate.checkForUpdate().then((info) {
+      setState(() {
+        _updateInfo = info;
+
+        _updateInfo!.updateAvailability == UpdateAvailability.updateAvailable
+            ? showDialog(
+                context: context,
+                barrierDismissible: false,
+                useRootNavigator: false,
+                builder: (context) {
+                  return WillPopScope(
+                    onWillPop: _onWillPop,
+                    child: AlertDialog(
+                      title: Text('Update Available!'),
+                      content: Text('Update School Guide now to the latest version, to continue using it!'),
+                      actions: <Widget>[
+                        TextButton(
+                            onPressed: () {
+                              InAppUpdate.performImmediateUpdate().then((result) {
+                                if (result == AppUpdateResult.userDeniedUpdate) {
+                                  Get.back();
+                                  checkForUpdate();
+                                } else if (result == AppUpdateResult.success) {
+                                  Get.offAll(() => Home());
+                                }
+                              });
+                            },
+                            child: Text('Update Now!')),
+                      ],
+                    ),
+                  );
+                })
+            : delayApp().then((value) {
+                Get.offAll(() => Home());
+              });
+      });
+    });
+  }
+
+  void showSnack(String text) {
+    CustomSnackBar.showSnackBar(title: 'UPDATE FAILED', message: 'AN UPDATE HAS FAILED DRASTICALLY', color: AppColors.primaryColor);
   }
 
   @override
   void initState() {
-    delayApp().then((value) {
-      Get.offAll(() => Home());
-    });
+    checkForUpdate();
     super.initState();
   }
 

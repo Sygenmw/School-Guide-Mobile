@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:school_guide/controllers/banner_controller.dart';
 import 'package:school_guide/controllers/location_controller.dart';
 import 'package:school_guide/controllers/permission_controller.dart';
@@ -28,6 +29,7 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
+import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,7 +73,51 @@ class _HomeState extends State<Home> {
   double long = 0;
   double distance = 0.0;
   List<SchoolDetails> schoolsNearMe = [];
+
+  // check for an update from playstore
+  AppUpdateInfo? _updateInfo;
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> checkForUpdate() async {
+    InAppUpdate.checkForUpdate().then((info) {
+      setState(() {
+        _updateInfo = info;
+      });
+      if (_updateInfo!.updateAvailability == UpdateAvailability.updateAvailable) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Update Available!'),
+                content: Text('Update app now to the latest version v${_updateInfo!.availableVersionCode} to continue using it!'),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: _updateInfo?.updateAvailability == UpdateAvailability.updateAvailable
+                          ? () {
+                              InAppUpdate.performImmediateUpdate().catchError((e) => showSnack(e.toString()));
+                            }
+                          : () {
+                              //action code for "Yes" button
+                            },
+                      child: Text('Update Now!')),
+                ],
+              );
+            });
+      } else {}
+    }).catchError((e) {
+      // showSnack(e.toString());
+    });
+  }
+
+  void showSnack(String text) {
+    CustomSnackBar.showSnackBar(title: 'UPDATE FAILED', message: 'AN UPDATE HAS FAILED DRASTICALLY', color: AppColors.primaryColor);
+  }
+
+  // initState
   void initState() {
+    // TODO: CHECK FOR UPDATES
+
     CloudMessaging().requestPermission();
     CloudMessaging().getToken();
     PermissionHandler.askLocationPermission();
@@ -248,8 +294,9 @@ class _HomeState extends State<Home> {
                                   title: 'Schools near you',
                                   image: AppImages.scholsNear,
                                   isSmall: true,
-                                  items: schoolNames.length > 1 ? schoolNames.sublist(0, 2) : ['No schools'],
+                                  items: schoolNames.length >= 1 ? schoolNames.sublist(0, 1) : ['No schools'],
                                   onPressed: () {
+                                    // check location permission. If Permission is granted, continue, else ask for permission
                                     Get.to(() => SchoolFinder(schools: schoolsNearMe));
                                   },
                                 );
@@ -402,102 +449,103 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-              StreamBuilder<List<ViewDetails>>(
-                  stream: _getAllSchoolViews(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      List<ViewDetails> viewDetails = snapshot.data!;
-                      List<ViewDetails> viewDets = [];
+              // StreamBuilder<List<ViewDetails>>(
+              //     stream: _getAllSchoolViews(),
+              //     builder: (context, snapshot) {
+              //       if (snapshot.hasData) {
+              //         List<ViewDetails> viewDetails = snapshot.data!;
+              //         List<ViewDetails> viewDets = [];
 
-                      for (var school in schoolController.allSchools) {
-                        if (school.showInApp) {
-                          if (school.showInApp) {
-                            school.premiumFeatures.forEach((premiumFeature) {
-                              if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
-                                viewDetails.forEach((viewDetail) {
-                                  if (viewDetail.id == school.id) {
-                                    if (viewDetail.views > 50) {
-                                      viewDets.add(viewDetail);
-                                      mostViewed.contains(school) ? {} : mostViewed.add(school);
-                                    }
-                                  }
-                                });
-                              }
-                            });
-                          }
-                        }
-                      }
-                      return mostViewed.isEmpty && mostViewed.length < 50
-                          ? Container()
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                CustomText(
-                                  'Most viewed',
-                                  pBottom: 0,
-                                  pLeft: 0,
-                                  pRight: 0,
-                                  pTop: 0,
-                                  needsIcon: false,
-                                  color: AppColors.primaryColor,
-                                  fontSize: 13,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 2.0),
-                                  child: Container(
-                                    height: 35,
-                                    child: CarouselSlider.builder(
-                                      itemCount: mostViewed.length,
-                                      itemBuilder: (BuildContext context, int index, int pageViewIndex) {
-                                        return Material(
-                                          borderRadius: BorderRadius.circular(8),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Get.to(() => SchoolInfo(school: mostViewed[index]));
-                                            },
-                                            borderRadius: BorderRadius.circular(8),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(2.0),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(8),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                      border: Border.all(
-                                                        color: AppColors.primaryColor,
-                                                      )),
-                                                  child: Center(
-                                                      child: Text(
-                                                          '${mostViewed[index].schoolName.length < 25 ? mostViewed[index].schoolName : mostViewed[index].schoolName.substring(0, 25)} - ${viewDets[index].views} views',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(color: AppColors.primaryColor))),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      options: CarouselOptions(
-                                        height: 35,
-                                        aspectRatio: 16 / 9,
-                                        viewportFraction: 0.66,
-                                        initialPage: 0,
-                                        enableInfiniteScroll: true,
-                                        autoPlay: true,
-                                        autoPlayInterval: const Duration(seconds: 5),
-                                        autoPlayAnimationDuration: const Duration(milliseconds: 1200),
-                                        autoPlayCurve: Curves.fastOutSlowIn,
-                                        enlargeCenterPage: false,
-                                        scrollDirection: Axis.horizontal,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                    } else
-                      return Container();
-                  })
+              //         for (var school in schoolController.allSchools) {
+              //           if (school.showInApp) {
+              //             if (school.showInApp) {
+              //               school.premiumFeatures.forEach((premiumFeature) {
+              //                 if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
+              //                   viewDetails.forEach((viewDetail) {
+              //                     if (viewDetail.id == school.id) {
+              //                       if (viewDetail.views > 50) {
+              //                         viewDets.add(viewDetail);
+              //                         mostViewed.contains(school) ? {} : mostViewed.add(school);
+              //                       }
+              //                     }
+              //                   });
+              //                 }
+              //               });
+              //             }
+              //           }
+              //         }
+              //         return mostViewed.isEmpty && mostViewed.length < 50
+              //             ? Container()
+              //             : Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.stretch,
+              //                 children: [
+              //                   CustomText(
+              //                     'Most viewed',
+              //                     pBottom: 0,
+              //                     pLeft: 0,
+              //                     pRight: 0,
+              //                     pTop: 0,
+              //                     needsIcon: false,
+              //                     color: AppColors.primaryColor,
+              //                     fontSize: 13,
+              //                   ),
+              //                   Padding(
+              //                     padding: const EdgeInsets.only(top: 2.0),
+              //                     child: Container(
+              //                       height: 35,
+              //                       child: CarouselSlider.builder(
+              //                         itemCount: mostViewed.length,
+              //                         itemBuilder: (BuildContext context, int index, int pageViewIndex) {
+              //                           return Material(
+              //                             borderRadius: BorderRadius.circular(8),
+              //                             child: InkWell(
+              //                               onTap: () {
+              //                                 Get.to(() => SchoolInfo(school: mostViewed[index]));
+              //                               },
+              //                               borderRadius: BorderRadius.circular(8),
+              //                               child: Padding(
+              //                                 padding: const EdgeInsets.all(2.0),
+              //                                 child: ClipRRect(
+              //                                   borderRadius: BorderRadius.circular(8),
+              //                                   child: Container(
+              //                                     decoration: BoxDecoration(
+              //                                         borderRadius: BorderRadius.circular(8),
+              //                                         border: Border.all(
+              //                                           color: AppColors.primaryColor,
+              //                                         )),
+              //                                     child: Center(
+              //                                         child: Text(
+              //                                             '${mostViewed[index].schoolName.length < 25 ? mostViewed[index].schoolName : mostViewed[index].schoolName.substring(0, 25)} - ${viewDets[index].views} views',
+              //                                             textAlign: TextAlign.center,
+              //                                             style: TextStyle(color: AppColors.primaryColor))),
+              //                                   ),
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                           );
+              //                         },
+              //                         options: CarouselOptions(
+              //                           height: 35,
+              //                           aspectRatio: 16 / 9,
+              //                           viewportFraction: 0.66,
+              //                           initialPage: 0,
+              //                           enableInfiniteScroll: true,
+              //                           autoPlay: true,
+              //                           autoPlayInterval: const Duration(seconds: 5),
+              //                           autoPlayAnimationDuration: const Duration(milliseconds: 1200),
+              //                           autoPlayCurve: Curves.fastOutSlowIn,
+              //                           enlargeCenterPage: false,
+              //                           scrollDirection: Axis.horizontal,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                   ),
+              //                 ],
+              //               );
+              //       } else
+              //         return Container();
+              //     })
+           
             ],
           ),
           bottomNavigationBar: CustomBottomNavBar(selectedIndex: 2)),
@@ -513,9 +561,7 @@ class _HomeState extends State<Home> {
         .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
   }
 
-  Stream<List<ViewDetails>> _getAllSchoolViews() {
-    return FirebaseFirestore.instance.collection('schoolViews').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ViewDetails.fromDocument(doc)).toList());
-  }
+ 
 
   Stream<List<ScholarshipDetails>> _getAllScholarships() {
     return FirebaseFirestore.instance

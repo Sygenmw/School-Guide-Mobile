@@ -1,4 +1,6 @@
+import 'package:currency_formatter/currency_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:school_guide/services/currency_formatter.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/menu/premium.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
@@ -33,7 +35,9 @@ class PremiumItemCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 11.0),
-                  child: TopBlackText(text: feature.featurePrice.toString()),
+                  child: TopBlackText(
+                    text: CurrencyFormatter.format(feature.featurePrice, CurrencyF.kwachaSettings),
+                  ),
                 )),
           ),
         ],

@@ -65,8 +65,8 @@ class Menu extends StatelessWidget {
                         icon: Icons.share,
                         text: 'Share app'),
                     MenuCardItem(
-                        onTap: () { 
-                            Get.to(()=> AboutUs()); 
+                        onTap: () {
+                          Get.to(() => AboutUs());
                         },
                         icon: Icons.info_outline,
                         text: 'About us'),
@@ -103,7 +103,13 @@ class Menu extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomText('v1.0.0', pLeft: 0, pTop: 0, pBottom: 0, mainAxisAlignment: MainAxisAlignment.center, icon: Icons.phone_android, color: AppColors.primaryColor),
+                    GestureDetector(
+                        onTap: () {
+                          String link = "https://play.google.com/store/apps/details?id=com.school.guide.malawi&hl=en&gl=US&pli=1";
+
+                          launchUrl(Uri.parse(link), mode: LaunchMode.externalApplication);
+                        },
+                        child: CustomText('v2.0.1', pLeft: 0, pTop: 0, pBottom: 0, mainAxisAlignment: MainAxisAlignment.center, icon: Icons.phone_android, color: AppColors.primaryColor)),
                   ],
                 ),
               ]),

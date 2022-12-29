@@ -19,7 +19,7 @@ class CustomDialog {
         children: const [
           CustomText(
             'Details submitted Successfully!',
-            fontSize: 22,
+            fontSize: 16,
             needsIcon: false,
             color: AppColors.primaryColor,
             textAlign: TextAlign.center,
@@ -30,8 +30,8 @@ class CustomDialog {
           ),
           SizedBox(height: 20),
           CustomText(
-            'Your details have been submitted successfully!\nRegards',
-            fontSize: 16,
+            'Your details have been submitted successfully!',
+            fontSize: 14,
             needsIcon: false,
             textAlign: TextAlign.center,
             pBottom: 0,
