@@ -98,7 +98,7 @@ class AgentCard extends StatelessWidget {
     );
   }
 
-  List<Color> cardColors = [Colors.red, Colors.blue, Colors.brown, Colors.green, Colors.pink, Colors.teal, Colors.black, Colors.deepPurple, Colors.purple];
+  List<Color> cardColors = [Colors.red, Colors.blue, Colors.greenAccent, Colors.lime, Colors.brown, Colors.green, Colors.pink, Colors.teal, Colors.black, Colors.deepPurple, Colors.purple];
   Color chooseRandomColor() {
     Random random = Random();
     var rand = random.nextInt(cardColors.length);
