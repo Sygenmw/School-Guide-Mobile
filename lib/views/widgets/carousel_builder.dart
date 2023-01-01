@@ -156,7 +156,7 @@ class _EduCarouselState extends State<EduCarousel> {
             options: CarouselOptions(
               height: 200,
               aspectRatio: 16 / 9,
-              viewportFraction: itemBlogs.length < 3 ? 1 : 0.8,
+              viewportFraction: 1,
               initialPage: 0,
               enableInfiniteScroll: itemBlogs.length >= 2 ? true : false,
               autoPlay: itemBlogs.length >= 2 ? true : false,

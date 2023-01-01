@@ -15,7 +15,6 @@ import 'package:school_guide/models/banner.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/models/scholarship_model.dart';
 import 'package:school_guide/models/school_model.dart';
-import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/services/cloud_messaging_service.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog.dart';
@@ -30,7 +29,6 @@ import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/custom_snackbar.dart';
-import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -240,7 +238,7 @@ class _HomeState extends State<Home> {
                             options: CarouselOptions(
                               height: 200,
                               aspectRatio: 16 / 9,
-                              viewportFraction: allBanners.length <= 2 ? 1 : 0.856,
+                              viewportFraction: 1,
                               initialPage: 0,
                               enableInfiniteScroll: allBanners.length <= 1 ? false : true,
                               autoPlay: allBanners.length <= 1 ? false : true,
@@ -258,10 +256,19 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: InkWell(
-                        onTap: () {
-                          Get.to(() => AdvertiseSchool());
-                        },
-                        child: ClipRRect(clipBehavior: Clip.antiAlias, borderRadius: BorderRadius.circular(8), child: Image.asset(AppImages.advertise, fit: BoxFit.cover, height: 180))),
+                      onTap: () {
+                        Get.to(() => AdvertiseSchool());
+                      },
+                      child: ClipRRect(
+                        clipBehavior: Clip.antiAlias,
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.asset(
+                          AppImages.advertise,
+                          fit: BoxFit.cover,
+                          height: 180,
+                        ),
+                      ),
+                    ),
                   );
                 }),
               ),
@@ -545,7 +552,6 @@ class _HomeState extends State<Home> {
               //       } else
               //         return Container();
               //     })
-           
             ],
           ),
           bottomNavigationBar: CustomBottomNavBar(selectedIndex: 2)),
@@ -560,8 +566,6 @@ class _HomeState extends State<Home> {
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
   }
-
- 
 
   Stream<List<ScholarshipDetails>> _getAllScholarships() {
     return FirebaseFirestore.instance
