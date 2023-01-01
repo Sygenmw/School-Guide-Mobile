@@ -6,16 +6,16 @@ class SchoolsNearController extends GetxController {
   var allSchools = <SchoolDetails>[].obs;
   @override
   void onInit() {
-    allSchools.bindStream(_getAllSchools());
+    allSchools.bindStream(getAllSchools());
 
     notifyChildrens();
     super.onInit();
   }
 
-  Stream<List<SchoolDetails>> _getAllSchools() {
+  static Stream<List<SchoolDetails>> getAllSchools() {
     return FirebaseFirestore.instance
         .collection('schools')
-        .orderBy('createdAt', descending: false)
+        .orderBy('schoolName', descending: false)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
   }

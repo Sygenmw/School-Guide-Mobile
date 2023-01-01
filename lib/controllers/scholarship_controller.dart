@@ -12,6 +12,10 @@ class ScholarshipController extends GetxController {
   }
 
   Stream<List<ScholarshipDetails>> _getAllScholarships() {
-    return FirebaseFirestore.instance.collection('scholarships').snapshots().map((snapshot) => snapshot.docs.map((doc) => ScholarshipDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance
+        .collection('scholarships')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => ScholarshipDetails.fromDocument(doc)).toList());
   }
 }
