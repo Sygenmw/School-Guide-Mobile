@@ -205,7 +205,7 @@ class _HomeState extends State<Home> {
                             ),
                             child: InkWell(
                                 onTap: () {
-                                  Get.to(() => AdvertiseSchool());
+                                  Get.to(() => AdvertiseBusiness());
                                 },
                                 child: ClipRRect(clipBehavior: Clip.antiAlias, borderRadius: BorderRadius.circular(8), child: Image.asset(AppImages.advertise, fit: BoxFit.cover, height: 180))),
                           )
@@ -219,9 +219,14 @@ class _HomeState extends State<Home> {
                                       ? () {
                                           launchUrl(Uri.parse(allBanners[index].bannerLink), mode: LaunchMode.externalApplication);
                                         }
-                                      : () {
-                                          Get.to(() => SchoolInfo(school: currentSchool));
-                                        },
+                                      : allBanners[index].linkType.toLowerCase() == 'internal'
+                                          ? () {
+                                              Get.to(() => SchoolInfo(school: currentSchool));
+                                              // Advertise page
+                                            }
+                                          : () {
+                                              Get.to(() => AdvertiseBusiness());
+                                            },
                                   child: Container(
                                     width: 420,
                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
@@ -257,7 +262,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        Get.to(() => AdvertiseSchool());
+                        Get.to(() => AdvertiseBusiness());
                       },
                       child: ClipRRect(
                         clipBehavior: Clip.antiAlias,
@@ -562,7 +567,7 @@ class _HomeState extends State<Home> {
   Stream<List<SchoolDetails>> _getAllSchools() {
     return FirebaseFirestore.instance
         .collection('schools')
-        .orderBy('createdAt', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
   }
@@ -570,7 +575,7 @@ class _HomeState extends State<Home> {
   Stream<List<ScholarshipDetails>> _getAllScholarships() {
     return FirebaseFirestore.instance
         .collection('scholarships')
-        .orderBy('createdAt', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ScholarshipDetails.fromDocument(doc)).toList());
   }
@@ -578,7 +583,7 @@ class _HomeState extends State<Home> {
   Stream<List<EduBlogDetails>> _getAllBlogs() {
     return FirebaseFirestore.instance
         .collection('eduBlog')
-        .orderBy('createdAt', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => EduBlogDetails.fromDocument(doc)).toList());
   }

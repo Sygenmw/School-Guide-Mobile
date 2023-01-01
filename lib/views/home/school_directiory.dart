@@ -192,6 +192,7 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                           );
                         }),
                   ),
+                 
                   // (destinationSelectedIndex == 1 || destinationSelectedIndex == 0) && (levelSelectedIndex == 2 || levelSelectedIndex == 1)
                   //     ? const Padding(
                   //         padding: EdgeInsets.only(top: 12.0),
@@ -283,7 +284,7 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
                                   }))
                 ],
               ),
-        bottomNavigationBar:   CustomBottomNavBar());
+        bottomNavigationBar: CustomBottomNavBar());
   }
 
   List<String> destinations = [
@@ -293,6 +294,7 @@ class _SchoolDirectoryState extends State<SchoolDirectory> {
   ];
   List<String> levels = [
     'All',
+    'Pre-School',
     'Primary',
     'High School',
     'Tertiary',

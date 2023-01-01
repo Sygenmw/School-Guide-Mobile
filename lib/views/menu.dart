@@ -84,7 +84,7 @@ class Menu extends StatelessWidget {
                     SizedBox(height: 10),
                     MenuCardItem(
                         onTap: () {
-                          Get.to(() => AdvertiseSchool());
+                          Get.to(() => AdvertiseBusiness());
                         },
                         icon: Icons.branding_watermark,
                         text: 'Advertise your school with us.'),

@@ -180,7 +180,7 @@ class _SchoolCardState extends State<SchoolCard> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 4.0, right: 10),
                                     child: Text(
-                                      distance == 0.0 ? 'Calculating distance' : 'Approx. ${distance.truncateToDouble()} km from you',
+                                      distance == 0.0 && distance > 20 ? 'Calculating distance' : 'Approx. ${distance.truncateToDouble()} km from you',
                                       style: TextStyle(
                                         color: AppColors.white,
                                         fontWeight: FontWeight.bold,

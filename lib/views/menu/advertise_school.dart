@@ -12,14 +12,14 @@ import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
 import 'package:school_guide/style/app_styles.dart';
 
-class AdvertiseSchool extends StatefulWidget {
-  const AdvertiseSchool({super.key});
+class AdvertiseBusiness extends StatefulWidget {
+  const AdvertiseBusiness({super.key});
 
   @override
-  State<AdvertiseSchool> createState() => _AdvertiseSchoolState();
+  State<AdvertiseBusiness> createState() => _AdvertiseBusinessState();
 }
 
-class _AdvertiseSchoolState extends State<AdvertiseSchool> {
+class _AdvertiseBusinessState extends State<AdvertiseBusiness> {
   TextEditingController phoneController = TextEditingController();
 
   TextEditingController nameController = TextEditingController();
@@ -130,7 +130,6 @@ class _AdvertiseSchoolState extends State<AdvertiseSchool> {
               ),
             ),
           ),
-       
         ],
       ),
       bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
