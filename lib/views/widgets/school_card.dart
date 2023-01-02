@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,7 @@ class _SchoolCardState extends State<SchoolCard> {
 
   void initState() {
     getSchoolViews();
-    Timer.periodic(const Duration(seconds: 5), (z) {
+    Timer.periodic(const Duration(seconds: 1), (z) {
       getGeoPoint();
       distance = calculateDistance(
           source: LatLng(lat, long),
@@ -99,9 +100,10 @@ class _SchoolCardState extends State<SchoolCard> {
                     child: SizedBox(
                       child: Hero(
                         tag: widget.school.schoolName,
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundImage: NetworkImage(widget.school.schoolLogo),
+                        child: ClipRRect(
+                          clipBehavior: Clip.antiAlias,
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedNetworkImage(imageUrl: widget.school.schoolLogo),
                         ),
                       ),
                     ),
@@ -180,7 +182,7 @@ class _SchoolCardState extends State<SchoolCard> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 4.0, right: 10),
                                     child: Text(
-                                      distance == 0.0 && distance > 20 ? 'Calculating distance' : 'Approx. ${distance.truncateToDouble()} km from you',
+                                      distance == 0.0 || distance > 20 ? 'Calculating distance' : 'Approx. ${distance.truncateToDouble()} km from you',
                                       style: TextStyle(
                                         color: AppColors.white,
                                         fontWeight: FontWeight.bold,

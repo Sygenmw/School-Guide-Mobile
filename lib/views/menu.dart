@@ -87,7 +87,7 @@ class Menu extends StatelessWidget {
                           Get.to(() => AdvertiseBusiness());
                         },
                         icon: Icons.branding_watermark,
-                        text: 'Advertise your school with us.'),
+                        text: 'Advertise your business with us.'),
                     SizedBox(height: 20),
                     TopText(text: 'Agents', fontSize: 16),
                     SizedBox(height: 10),

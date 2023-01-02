@@ -105,7 +105,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
     };
     final CameraPosition kCustomerPosition = CameraPosition(
       target: LatLng(widget.school.location.lat, widget.school.location.lng),
-      zoom: 15.4746,
+      zoom: 11.4746,
     );
     return Scaffold(
         appBar: const CustomAppBar(
@@ -275,6 +275,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       school.schoolName.toUpperCase(),
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
                                     ),
                                   )),

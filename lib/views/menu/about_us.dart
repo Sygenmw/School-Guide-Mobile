@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -73,7 +74,40 @@ class AboutUs extends StatelessWidget {
                           'assets/images/sygen_logo.png',
                           color: AppColors.white,
                         )),
-                    SizedBox(height: 25),
+                    SizedBox(height: 10),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        launchUrl(Uri.parse('https://play.google.com/store/apps/dev?id=6364907402463387951&hl=en&gl=US'), mode: LaunchMode.externalApplication);
+                      },
+                      child: Container(
+                        color: AppColors.grey,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Get more apps on',
+                                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+                              Container(
+                                  height: 60,
+                                  child: CachedImage(
+                                    imageUrl: 'https://logos-world.net/wp-content/uploads/2020/11/Google-Play-Logo.png',
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

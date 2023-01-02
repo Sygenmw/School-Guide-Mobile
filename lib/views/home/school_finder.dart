@@ -26,9 +26,7 @@ class SchoolFinder extends StatefulWidget {
   State<SchoolFinder> createState() => _SchoolFinderState();
 }
 
-
-  //WARNING BAD CODE AHEAD 
-
+//WARNING BAD CODE AHEAD
 
 class _SchoolFinderState extends State<SchoolFinder> {
   final SchoolsNearController schoolController = Get.find();
@@ -156,19 +154,44 @@ class _SchoolFinderState extends State<SchoolFinder> {
                   );
                 }),
           ),
-          destinationSelectedIndex == 0 && levelSelectedIndex == 0
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: schoolsNearMe.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return SchoolCard(
-                          school: schoolsNearMe[index],
-                          showDistance: true,
-                        );
-                      }))
+          levelSelectedIndex == 0
+              ? schoolsNearMe.isEmpty
+                  ? Container(
+                      height: Get.size.height / 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), image: DecorationImage(image: AssetImage(AppImages.logo))),
+                          ),
+                          CustomText('fetching schools near your location...', textAlign: TextAlign.center, needsIcon: false, color: Colors.black38),
+                          MaterialButton(
+                            onPressed: () {
+                              // fetch schoools again
+                              PermissionHandler.askLocationPermission();
+                            },
+                            child: Icon(
+                              Icons.refresh,
+                              color: AppColors.primaryColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: schoolsNearMe.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SchoolCard(
+                              school: schoolsNearMe[index],
+                              showDistance: true,
+                            );
+                          }))
               : selectedSchools.isEmpty
                   ? widget.schools.isEmpty
                       ? Container(
