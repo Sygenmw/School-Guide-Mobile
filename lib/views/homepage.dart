@@ -114,11 +114,8 @@ class _HomeState extends State<Home> {
 
   // initState
   void initState() {
-    // TODO: CHECK FOR UPDATES
-
     CloudMessaging().requestPermission();
     CloudMessaging().getToken();
-    PermissionHandler.askLocationPermission();
 
     Timer.periodic(const Duration(seconds: 5), (xxx) {
       getGeoPoint();
@@ -309,6 +306,7 @@ class _HomeState extends State<Home> {
                                   items: schoolNames.length >= 1 ? schoolNames.sublist(0, 1) : ['No schools'],
                                   onPressed: () {
                                     // check location permission. If Permission is granted, continue, else ask for permission
+                                    PermissionHandler.askLocationPermission(); 
                                     Get.to(() => SchoolFinder(schools: schoolsNearMe));
                                   },
                                 );

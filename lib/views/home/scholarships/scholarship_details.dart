@@ -163,7 +163,7 @@ class ScholarshipDetailsView extends StatelessWidget {
                         launchUrl(Uri.parse(scholarship.linkToTheScholarshipSite));
                       }),
                       child: Container(
-                        decoration: const BoxDecoration(color: AppColors.primaryColor),
+                        decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(8)),
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Row(
@@ -171,8 +171,8 @@ class ScholarshipDetailsView extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: const [
                               Text(
-                                'MORE INFORMATION',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
+                                'More information',
+                                style: TextStyle(fontSize: 15, color: Colors.white),
                               ),
                               Icon(Icons.keyboard_arrow_right, color: Colors.white),
                             ],

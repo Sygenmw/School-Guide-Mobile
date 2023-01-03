@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/models/agent_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/agents/agent_information.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class AgentCard extends StatelessWidget {
   AgentCard({Key? key, required this.agent}) : super(key: key);
@@ -38,10 +38,10 @@ class AgentCard extends StatelessWidget {
                     flex: 2,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-                      child: CachedNetworkImage(
+                      child: CachedImage(
                         imageUrl: agent.logo,
                         fit: BoxFit.cover,
-                        height: 95,
+                        
                       ),
                     ),
                   ),

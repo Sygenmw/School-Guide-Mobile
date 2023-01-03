@@ -54,7 +54,7 @@ class _SchoolFinderState extends State<SchoolFinder> {
   List<SchoolDetails> schoolsNearMe = [];
   Timer time = Timer(Duration(seconds: 0), () {});
   void initState() {
-    PermissionHandler.askLocationPermission();
+    // PermissionHandler.askLocationPermission();
 
     Timer.periodic(const Duration(seconds: 1), (timer) {
       getGeoPoint();

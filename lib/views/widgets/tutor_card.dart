@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:school_guide/models/tutor_details.dart';
 import 'package:school_guide/style/app_styles.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class TutorCard extends StatelessWidget {
   const TutorCard({super.key, required this.tutor});
@@ -26,10 +26,9 @@ class TutorCard extends StatelessWidget {
                 flex: 2,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-                  child: CachedNetworkImage(
+                  child: CachedImage(
                     imageUrl: tutor.tutorImage,
                     fit: BoxFit.cover,
-                    height: 95,
                   ),
                 ),
               ),

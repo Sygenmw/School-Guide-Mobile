@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -19,24 +20,23 @@ class CloudMessaging extends GetxController {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('Accepted');
       // step 2 here
       messaging.getInitialMessage().then((RemoteMessage? message) {
-        print('Got an initial message in foreground!');
-        print('message data : ${message!.data}');
-        print('message notification : ${message.notification}');
+        debugPrint('Got an initial message in foreground!');
+        debugPrint('message data : ${message!.data}');
+        debugPrint('message notification : ${message.notification}');
       });
     } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-      print('Provisional');
+      debugPrint('Provisional');
     } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
-      print('Denied');
+      debugPrint('Denied');
       openAppSettings();
     }
   }
 
   @pragma('vm:entry-point')
   Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    print("Handling a background message: ${message.messageId}");
+    debugPrint("Handling a background message: ${message.messageId}");
   }
 
   var fcmDeviceToken = ''.obs;
@@ -45,7 +45,7 @@ class CloudMessaging extends GetxController {
     await FirebaseMessaging.instance.getToken().then((token) {
       fcmDeviceToken.value = token!;
       notifyChildrens();
-      print(token);
+      debugPrint(token);
       saveToken(fcmDeviceToken.value);
     });
   }
@@ -72,11 +72,11 @@ class CloudMessaging extends GetxController {
 
     // getfrom FB
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      debugPrint('Got a message whilst in the foreground!');
+      debugPrint('Message data: ${message.data}');
 
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        debugPrint('Message also contained a notification: ${message.notification}');
       }
     });
   }
@@ -84,8 +84,8 @@ class CloudMessaging extends GetxController {
   // message
   getMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      debugPrint('Got a message whilst in the foreground!');
+      debugPrint('Message data: ${message.data}');
 
       BigTextStyleInformation bigTextStyleInformation =
           BigTextStyleInformation(message.notification!.body.toString(), htmlFormatBigText: true, contentTitle: message.notification!.title.toString(), htmlFormatContentTitle: true);
@@ -103,7 +103,7 @@ class CloudMessaging extends GetxController {
       await FlutterLocalNotificationsPlugin().show(0, message.notification?.title, message.notification!.body, platformChannelSpecifics, payload: message.data['title']);
 
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        debugPrint('Message also contained a notification: ${message.notification}');
       }
     });
   }

@@ -6,20 +6,22 @@ import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 
 class DisplayGallery extends StatelessWidget {
-  const DisplayGallery({Key? key, this.title, this.school, required this.imageIndex}) : super(key: key);
-  final String? title;
+  const DisplayGallery({Key? key, this.school, this.pageIndex}) : super(key: key);
+
   final SchoolDetails? school;
-  final int imageIndex;
+  final int? pageIndex;
 
   @override
   Widget build(BuildContext context) {
-    var controller = PageController(keepPage: true, initialPage: imageIndex);
+    Iterable<String> galleryImages = [];
+    galleryImages = school!.gallery.reversed;
+    var controller = PageController(keepPage: true, initialPage: pageIndex!);
 
     return Scaffold(
       appBar: const CustomAppBar(backIconAvailable: true, showAbout: true, isHomeAppBar: true),
       body: PageView.builder(
           controller: controller,
-          itemCount: school!.gallery.length,
+          itemCount: galleryImages.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return Stack(
@@ -39,7 +41,7 @@ class DisplayGallery extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: CachedImage(
-                          imageUrl: school!.gallery[index],
+                          imageUrl: galleryImages.toList()[index],
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -64,7 +66,7 @@ class DisplayGallery extends StatelessWidget {
               ],
             );
           }),
-      bottomNavigationBar:   CustomBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart' as permision;
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:app_settings/app_settings.dart';
+import 'package:get/get.dart';
 
 class PermissionHandler {
   static askLocationPermission() async {
@@ -26,6 +27,7 @@ class PermissionHandler {
           permision.openAppSettings();
         }
       } else {
+        Get.back();
         CustomSnackBar.showSnackBar(title: 'App Needs Location Permission', color: AppColors.errorColor, message: 'To access nearby schools, App needs to access your Location. Please Allow.');
         AppSettings.openLocationSettings();
       }

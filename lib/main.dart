@@ -27,7 +27,6 @@ const AndroidNotificationChannel androidNotificationChannel = AndroidNotificatio
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('A bg message just showed up :  ${message.messageId}');
 }
 
 // ...
@@ -68,7 +67,7 @@ class SchoolGuide extends StatefulWidget {
 class _SchoolGuideState extends State<SchoolGuide> {
   //
   Future<void> subscribeToTopics() async {
-    await FirebaseMessaging.instance.subscribeToTopic('other').then((value) => print('in'));
+    await FirebaseMessaging.instance.subscribeToTopic('other');
     await FirebaseMessaging.instance.subscribeToTopic('schoolNotification');
     await FirebaseMessaging.instance.subscribeToTopic('scholarshipNotification');
     await FirebaseMessaging.instance.subscribeToTopic('eduBlogNotification');

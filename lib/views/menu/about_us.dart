@@ -15,7 +15,7 @@ class AboutUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(Get.height - 105);
+    print(Get.height - 100);
     double bRadius = 40;
     return Scaffold(
       appBar: CustomAppBar(
@@ -74,9 +74,18 @@ class AboutUs extends StatelessWidget {
                           'assets/images/sygen_logo.png',
                           color: AppColors.white,
                         )),
-                    SizedBox(height: 10),
+                    SizedBox(height: 2),
                   ],
                 ),
+                Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0, right: 10),
+                      child: Text(
+                        'More apps on',
+                        style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                    )),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -85,26 +94,18 @@ class AboutUs extends StatelessWidget {
                         launchUrl(Uri.parse('https://play.google.com/store/apps/dev?id=6364907402463387951&hl=en&gl=US'), mode: LaunchMode.externalApplication);
                       },
                       child: Container(
+                        // width: double.infinity,
                         color: AppColors.grey,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Get more apps on',
-                                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Container(
-                                  height: 60,
-                                  child: CachedImage(
-                                    imageUrl: 'https://logos-world.net/wp-content/uploads/2020/11/Google-Play-Logo.png',
-                                  )),
-                            ],
-                          ),
+                          child: Container(
+                              height: 50,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: CachedImage(
+                                  imageUrl: 'https://logos-world.net/wp-content/uploads/2020/11/Google-Play-Logo.png',
+                                ),
+                              )),
                         ),
                       ),
                     ),

@@ -73,26 +73,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 )
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 5.0),
-              child: Material(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(8),
-                child: InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () {
-                      HapticFeedback.vibrate();
-                      showSearch(context: context, delegate: CustomSearchDelegate());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Icon(
-                        Icons.search,
-                        size: 35,
-                        color: AppColors.primaryColor,
-                      ),
-                    )),
-              ),
+            Material(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    HapticFeedback.vibrate();
+                    showSearch(context: context, delegate: CustomSearchDelegate());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Icon(
+                      Icons.search,
+                      size: 35,
+                      color: AppColors.primaryColor,
+                    ),
+                  )),
             ),
           ],
         ),

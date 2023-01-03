@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,7 @@ import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/models/views_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class SchoolCard extends StatefulWidget {
   const SchoolCard({Key? key, required this.school, this.showDistance = false}) : super(key: key);
@@ -103,7 +103,7 @@ class _SchoolCardState extends State<SchoolCard> {
                         child: ClipRRect(
                           clipBehavior: Clip.antiAlias,
                           borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(imageUrl: widget.school.schoolLogo),
+                          child: CachedImage(imageUrl: widget.school.schoolLogo),
                         ),
                       ),
                     ),

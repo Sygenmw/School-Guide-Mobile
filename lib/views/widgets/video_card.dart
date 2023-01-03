@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_guide/controllers/time_controller.dart';
 import 'package:school_guide/models/video_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/videos/video_info.dart';
+import 'package:school_guide/views/widgets/cached_image_builder.dart';
 
 class VideoCard extends StatelessWidget {
   const VideoCard({Key? key, required this.video}) : super(key: key);
@@ -36,10 +36,9 @@ class VideoCard extends StatelessWidget {
                     flex: 4,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                      child: CachedNetworkImage(
+                      child: CachedImage(
                         imageUrl: video.thumbNail,
                         fit: BoxFit.fitWidth,
-                        height: 200,
                       ),
                     ),
                   ),

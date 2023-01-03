@@ -14,6 +14,7 @@ import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_text.dart';
 import 'package:school_guide/views/widgets/top_text_widget.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -65,10 +66,14 @@ class _SchoolInfoState extends State<SchoolInfo> {
   // MAP
   final Completer<GoogleMapController> _controller = Completer();
   Iterable markers = [];
-
+  Iterable<String> galleryImages = [];
   @override
   void initState() {
     school = widget.school;
+    setState(() {
+      galleryImages = school.gallery.reversed;
+    });
+
     getremiumFeatures();
     super.initState();
   }
@@ -132,15 +137,9 @@ class _SchoolInfoState extends State<SchoolInfo> {
                       ),
                     )
                   : ClipRRect(
-                      child: SizedBox(
-                        height: 200,
-                        child: SizedBox(
-                          width: Get.size.width,
-                          child: CachedImage(
-                            imageUrl: school.gallery[0],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                      child: CachedImage(
+                        imageUrl: galleryImages.toList()[0],
+                        // fit: BoxFit.cover,
                       ),
                     ),
               Align(
@@ -164,6 +163,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                       child: CachedImage(
                         imageUrl: school.schoolLogo,
                         fit: BoxFit.cover,
+                        
                       ),
                     ),
                   ),
@@ -372,7 +372,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                             ),
                                           ],
                                         ),
-                                  school.gallery.isEmpty
+                                  galleryImages.toList().isEmpty
                                       ? Container()
                                       : Container(
                                           height: 70,
@@ -382,16 +382,19 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                           ),
                                           child: CarouselSlider.builder(
                                             itemCount: tenImages
-                                                ? school.gallery.length
-                                                : school.gallery.length < 3
-                                                    ? school.gallery.length
-                                                    : school.gallery.sublist(0, 3).length,
+                                                ? galleryImages.toList().length
+                                                : galleryImages.toList().length < 3
+                                                    ? galleryImages.toList().length
+                                                    : galleryImages.toList().sublist(0, 3).length,
                                             itemBuilder: (BuildContext context, int index, int pageViewIndex) {
                                               return Padding(
                                                 padding: const EdgeInsets.all(2.0),
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    Get.to(() => DisplayGallery(imageIndex: index, title: school.schoolName, school: school));
+                                                    Get.to(() => DisplayGallery(
+                                                          school: school,
+                                                          pageIndex: index,
+                                                        ));
                                                   },
                                                   child: Container(
                                                     width: 120,
@@ -400,8 +403,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius.circular(10),
                                                       child: CachedNetworkImage(
-                                                        imageUrl: school.gallery[index],
-                                                        fit: BoxFit.cover,
+                                                        imageUrl: galleryImages.toList()[index],
+                                                        fit: BoxFit.cover, 
                                                       ),
                                                     ),
                                                   ),
@@ -468,7 +471,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                       HapticFeedback.selectionClick();
                                       launchUrl(Uri.parse(school.website), mode: LaunchMode.externalApplication);
                                     },
-                                    child: CustomText(school.website, color: AppColors.primaryColor, fontSize: 14, icon: Icons.circle),
+                                    child: FittedBox(child: CustomText(school.website, color: AppColors.primaryColor, fontSize: 14, icon: Icons.circle)),
                                   ),
                                   // premium
 
@@ -546,4 +549,5 @@ class _SchoolInfoState extends State<SchoolInfo> {
         ),
         bottomNavigationBar: CustomBottomNavBar());
   }
+
 }
