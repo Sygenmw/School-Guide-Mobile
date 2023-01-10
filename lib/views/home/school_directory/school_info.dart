@@ -163,7 +163,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
                       child: CachedImage(
                         imageUrl: school.schoolLogo,
                         fit: BoxFit.cover,
-                        
                       ),
                     ),
                   ),
@@ -308,7 +307,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                   CustomText(school.country, fontSize: 14, icon: Icons.map),
                                   school.levelOfStudy == 'Tertiary'
                                       ? const CustomText('Courses offered', needsIcon: false, color: AppColors.primaryColor)
-                                      : const CustomText('Curriculums offered', needsIcon: false, textAlign: TextAlign.left, color: AppColors.primaryColor),
+                                      : const CustomText('Curricula offered', needsIcon: false, textAlign: TextAlign.left, color: AppColors.primaryColor),
                                   SizedBox(
                                     height: 40,
                                     child: Padding(
@@ -404,7 +403,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                                       borderRadius: BorderRadius.circular(10),
                                                       child: CachedNetworkImage(
                                                         imageUrl: galleryImages.toList()[index],
-                                                        fit: BoxFit.cover, 
+                                                        fit: BoxFit.cover,
                                                       ),
                                                     ),
                                                   ),
@@ -549,5 +548,4 @@ class _SchoolInfoState extends State<SchoolInfo> {
         ),
         bottomNavigationBar: CustomBottomNavBar());
   }
-
 }
