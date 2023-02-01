@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:school_guide/controllers/location_controller.dart';
 import 'package:school_guide/controllers/permission_controller.dart';
-import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
@@ -29,7 +29,7 @@ class SchoolFinder extends StatefulWidget {
 //WARNING BAD CODE AHEAD
 
 class _SchoolFinderState extends State<SchoolFinder> {
-  final SchoolsNearController schoolController = Get.find();
+  final SchoolsController schoolController = Get.find();
   int? destinationSelectedIndex = 0;
 
   int? levelSelectedIndex = 0;

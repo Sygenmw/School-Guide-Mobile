@@ -10,7 +10,7 @@ import 'package:in_app_update/in_app_update.dart';
 import 'package:school_guide/controllers/banner_controller.dart';
 import 'package:school_guide/controllers/location_controller.dart';
 import 'package:school_guide/controllers/permission_controller.dart';
-import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/models/banner.dart';
 import 'package:school_guide/models/edu_blog.dart';
 import 'package:school_guide/models/scholarship_model.dart';
@@ -42,7 +42,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final BannerController bannerController = Get.find();
 
-  final SchoolsNearController schoolController = Get.find();
+  final SchoolsController schoolController = Get.find();
 
   SchoolDetails currentSchool = SchoolDetails(
       address: '',
@@ -196,7 +196,7 @@ class _HomeState extends State<Home> {
                     getSchool();
                     return allBanners.isEmpty
                         ? Container(
-                            height: 200,
+                            height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -238,7 +238,7 @@ class _HomeState extends State<Home> {
                               );
                             },
                             options: CarouselOptions(
-                              height: 200,
+                              height: Get.height / 4.8,
                               aspectRatio: 16 / 9,
                               viewportFraction: 1,
                               initialPage: 0,
@@ -306,7 +306,7 @@ class _HomeState extends State<Home> {
                                   items: schoolNames.length >= 1 ? schoolNames.sublist(0, 1) : ['No schools'],
                                   onPressed: () {
                                     // check location permission. If Permission is granted, continue, else ask for permission
-                                    PermissionHandler.askLocationPermission(); 
+                                    PermissionHandler.askLocationPermission();
                                     Get.to(() => SchoolFinder(schools: schoolsNearMe));
                                   },
                                 );
@@ -324,49 +324,21 @@ class _HomeState extends State<Home> {
                         const SizedBox(
                           height: 10,
                         ),
-                        StreamBuilder<List<SchoolDetails>>(
-                            stream: _getAllSchools(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                var allSchools = snapshot.data!;
-                                List<String> schoolNames = [];
-                                for (var school in allSchools) {
-                                  if (school.showInApp) {
-                                    school.premiumFeatures.forEach((premiumFeature) {
-                                      if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
-                                        if (school.schoolName.length < 15) {
-                                          schoolNames.add(school.schoolName);
-                                        } else {
-                                          schoolNames.add('${school.schoolName.substring(0, 15)}...');
-                                        }
-                                      }
-                                    });
-                                  }
-                                }
-                                return HomeButton(
-                                  title: 'Schools directory',
-                                  image: AppImages.schoolDirectory,
-                                  isSmall: false,
-                                  items: schoolNames.length > 3
-                                      ? schoolNames.sublist(0, 3)
-                                      : schoolNames.isEmpty
-                                          ? ['View all schools']
-                                          : schoolNames,
-                                  onPressed: () {
-                                    Get.to(() => const SchoolDirectory());
-                                  },
-                                );
-                              }
-                              return HomeButton(
-                                title: 'Schools directory',
-                                image: AppImages.schoolDirectory,
-                                isSmall: false,
-                                items: ['No schools'],
-                                onPressed: () {
-                                  Get.to(() => const SchoolDirectory());
-                                },
-                              );
-                            }),
+                        Obx(
+                          () => HomeButton(
+                            title: 'Schools directory',
+                            image: AppImages.schoolDirectory,
+                            isSmall: false,
+                            items: schoolController.allSchoolsNamesNearMe.length > 3
+                                ? schoolController.allSchoolsNamesNearMe.sublist(0, 3)
+                                : schoolController.allSchoolsNamesNearMe.isEmpty
+                                    ? ['View all schools']
+                                    : schoolController.allSchoolsNamesNearMe,
+                            onPressed: () {
+                              Get.to(() => const SchoolDirectory());
+                            },
+                          ),
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -459,102 +431,6 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-              // StreamBuilder<List<ViewDetails>>(
-              //     stream: _getAllSchoolViews(),
-              //     builder: (context, snapshot) {
-              //       if (snapshot.hasData) {
-              //         List<ViewDetails> viewDetails = snapshot.data!;
-              //         List<ViewDetails> viewDets = [];
-
-              //         for (var school in schoolController.allSchools) {
-              //           if (school.showInApp) {
-              //             if (school.showInApp) {
-              //               school.premiumFeatures.forEach((premiumFeature) {
-              //                 if (premiumFeature.feature.toLowerCase() == 'schoolOnHome'.toLowerCase() && DateTime.parse(premiumFeature.endDate).compareTo(DateTime.now()) > 0) {
-              //                   viewDetails.forEach((viewDetail) {
-              //                     if (viewDetail.id == school.id) {
-              //                       if (viewDetail.views > 50) {
-              //                         viewDets.add(viewDetail);
-              //                         mostViewed.contains(school) ? {} : mostViewed.add(school);
-              //                       }
-              //                     }
-              //                   });
-              //                 }
-              //               });
-              //             }
-              //           }
-              //         }
-              //         return mostViewed.isEmpty && mostViewed.length < 50
-              //             ? Container()
-              //             : Column(
-              //                 crossAxisAlignment: CrossAxisAlignment.stretch,
-              //                 children: [
-              //                   CustomText(
-              //                     'Most viewed',
-              //                     pBottom: 0,
-              //                     pLeft: 0,
-              //                     pRight: 0,
-              //                     pTop: 0,
-              //                     needsIcon: false,
-              //                     color: AppColors.primaryColor,
-              //                     fontSize: 13,
-              //                   ),
-              //                   Padding(
-              //                     padding: const EdgeInsets.only(top: 2.0),
-              //                     child: Container(
-              //                       height: 35,
-              //                       child: CarouselSlider.builder(
-              //                         itemCount: mostViewed.length,
-              //                         itemBuilder: (BuildContext context, int index, int pageViewIndex) {
-              //                           return Material(
-              //                             borderRadius: BorderRadius.circular(8),
-              //                             child: InkWell(
-              //                               onTap: () {
-              //                                 Get.to(() => SchoolInfo(school: mostViewed[index]));
-              //                               },
-              //                               borderRadius: BorderRadius.circular(8),
-              //                               child: Padding(
-              //                                 padding: const EdgeInsets.all(2.0),
-              //                                 child: ClipRRect(
-              //                                   borderRadius: BorderRadius.circular(8),
-              //                                   child: Container(
-              //                                     decoration: BoxDecoration(
-              //                                         borderRadius: BorderRadius.circular(8),
-              //                                         border: Border.all(
-              //                                           color: AppColors.primaryColor,
-              //                                         )),
-              //                                     child: Center(
-              //                                         child: Text(
-              //                                             '${mostViewed[index].schoolName.length < 25 ? mostViewed[index].schoolName : mostViewed[index].schoolName.substring(0, 25)} - ${viewDets[index].views} views',
-              //                                             textAlign: TextAlign.center,
-              //                                             style: TextStyle(color: AppColors.primaryColor))),
-              //                                   ),
-              //                                 ),
-              //                               ),
-              //                             ),
-              //                           );
-              //                         },
-              //                         options: CarouselOptions(
-              //                           height: 35,
-              //                           aspectRatio: 16 / 9,
-              //                           viewportFraction: 0.66,
-              //                           initialPage: 0,
-              //                           enableInfiniteScroll: true,
-              //                           autoPlay: true,
-              //                           autoPlayInterval: const Duration(seconds: 5),
-              //                           autoPlayAnimationDuration: const Duration(milliseconds: 1200),
-              //                           autoPlayCurve: Curves.fastOutSlowIn,
-              //                           enlargeCenterPage: false,
-              //                           scrollDirection: Axis.horizontal,
-              //                         ),
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ],
-              //               );
-              //       } else
-              //         return Container();
-              //     })
             ],
           ),
           bottomNavigationBar: CustomBottomNavBar(selectedIndex: 2)),

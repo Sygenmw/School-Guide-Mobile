@@ -12,7 +12,10 @@ class VideoController extends GetxController {
   }
 
   Stream<List<VideoDetails>> _getAllVideos() {
-    return FirebaseFirestore.instance.collection('videos').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => VideoDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance
+        .collection('videos')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => VideoDetails.fromDocument(doc)).toList());
   }
-  
 }

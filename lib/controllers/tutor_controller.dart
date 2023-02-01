@@ -8,10 +8,11 @@ class TutorController extends GetxController {
   @override
   void onInit() {
     allTutors.bindStream(_getAllTutors());
+    update();
     super.onInit();
   }
 
   Stream<List<TutorDetails>> _getAllTutors() {
-    return FirebaseFirestore.instance.collection('tutors').snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => TutorDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance.collection('tutors').orderBy('name', descending: false).snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => TutorDetails.fromDocument(doc)).toList());
   }
 }

@@ -13,9 +13,7 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
-  Future delayApp() async {
-    await Future.delayed(Duration(milliseconds: 4000));
-  }
+  
 
   AppUpdateInfo? _updateInfo;
   Future<bool> _onWillPop() async {
@@ -56,9 +54,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                     ),
                   );
                 })
-            : delayApp().then((value) {
+            :  
                 Get.offAll(() => Home());
-              });
+            
       });
     });
   }

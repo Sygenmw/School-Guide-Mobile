@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/school_directory/school_info.dart';
@@ -102,7 +102,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  final SchoolsNearController schoolController = Get.find();
+  final SchoolsController schoolController = Get.find();
   final List<SchoolDetails> allSchools = [];
   final List<String> schoolNames = [];
   @override

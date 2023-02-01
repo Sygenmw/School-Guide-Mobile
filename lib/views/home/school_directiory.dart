@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
@@ -19,7 +19,7 @@ class SchoolDirectory extends StatefulWidget {
 }
 
 class _SchoolDirectoryState extends State<SchoolDirectory> {
-  final SchoolsNearController schoolController = Get.find();
+  final SchoolsController schoolController = Get.find();
   int? destinationSelectedIndex = 0;
 
   int? levelSelectedIndex = 0;

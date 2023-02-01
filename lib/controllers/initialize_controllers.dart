@@ -6,7 +6,7 @@ import 'package:school_guide/controllers/edu_blog_controller.dart';
 import 'package:school_guide/controllers/font_controller.dart';
 import 'package:school_guide/controllers/scholarship_controller.dart';
 import 'package:school_guide/controllers/school_views_controller.dart';
-import 'package:school_guide/controllers/schools_near_controller.dart';
+import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/controllers/tutor_controller.dart';
 import 'package:school_guide/controllers/video_controller.dart';
 import 'package:school_guide/controllers/views_controller.dart';
@@ -15,7 +15,7 @@ import 'package:school_guide/services/cloud_messaging_service.dart';
 class Controller {
   static initializeControllers() {
     Get.put(BannerController());
-    Get.put(SchoolsNearController());
+    Get.put(SchoolsController());
     Get.put(EduBlogController());
     Get.put(VideoController());
     Get.put(ScholarshipController());
