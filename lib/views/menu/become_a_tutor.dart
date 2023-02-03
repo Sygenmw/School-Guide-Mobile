@@ -364,13 +364,13 @@ class _BecomeATutorState extends State<BecomeATutor> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
                 onTap: () {
-                  bool notEmpty = nameController.text.isNotEmpty ||
-                      emailController.text.isNotEmpty ||
-                      phoneController.text.isNotEmpty ||
-                      date.isNotEmpty ||
-                      selectedChoices.isNotEmpty ||
+                  bool notEmpty = nameController.text.isNotEmpty &&
+                      emailController.text.isNotEmpty &&
+                      phoneController.text.isNotEmpty &&
+                      date.isNotEmpty &&
+                      selectedChoices.isNotEmpty &&
                       selectedCurriculumChoices.isNotEmpty;
-                  bool notBlank = (selectedGender.toString().isNotEmpty || selectedLocation.toString().isNotEmpty);
+                  bool notBlank = (selectedGender.toString().isNotEmpty && selectedLocation.toString().isNotEmpty);
                   if (notEmpty && notBlank) {
                     HapticFeedback.vibrate();
                     String subject = 'APPLICATION FOR A TUTORSHIP';
@@ -378,9 +378,13 @@ class _BecomeATutorState extends State<BecomeATutor> {
                     String br = '<br/>';
                     String message =
                         'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to be a tutor on the School Guide Platform.$br$br The following are the subjects you can be turoring: $br$br -${selectedChoices.join('$br$br -')}$br$br .The Selected Curricula include$br$br -${selectedCurriculumChoices.join('$br$br - ')}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74$br$br Best Regards.';
+                    String userDetails =
+                        "${nameController.text.trim()} sent you an email requesting to be a tutor!${br}Here are the details${br}Name:        ${nameController.text.trim()}${br}Email:       ${emailController.text.trim()}${br}Phone:       ${phoneController.text.trim()}${br}Birthday:    $date$br${br}SUBJECTS$br- ${selectedChoices.join('$br$br - ')}$br${br}CURRICULUM(S)$br$br- ${selectedCurriculumChoices.join('$br$br - ')}$br$br Best Regards${br}School Guide Mobile";
+                    EmailService.sendEmail(email: 'info@sygen.com', message: userDetails, subject: subject);
                     CustomDialog.showCustomDialog();
-
+                    // User email service
                     EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: subject);
+                    // Admin email service
                   } else {
                     // show snackbar
                     CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);

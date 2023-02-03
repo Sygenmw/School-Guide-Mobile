@@ -29,9 +29,7 @@ class HomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = Get.size;
     return Container(
-      constraints: isSmall
-          ? BoxConstraints(minHeight: size.height / 5.8, maxHeight: size.height / 5.2, minWidth: size.width / 2.25)
-          : BoxConstraints(minHeight: 200, maxHeight: 220, minWidth: size.width / 2.25),
+      constraints: isSmall ? BoxConstraints(minHeight: 140, maxHeight: 160, minWidth: size.width / 2.25) : BoxConstraints(minHeight: 200, maxHeight: 220, minWidth: size.width / 2.25),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -53,56 +51,66 @@ class HomeButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4),
               child: Column(
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: AppColors.white,
+                  FittedBox(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: CircleAvatar(radius: 30, backgroundColor: AppColors.primaryColor, backgroundImage: AssetImage(image)),
-                  ),
-                  Expanded(
+                  Spacer(),
+                  Align(
+                    alignment: Alignment.center,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ...items.map(
-                          (text) => Padding(
-                            padding: const EdgeInsets.only(bottom: 3.0),
-                            child: InkWell(
-                              onTap: isSchool
-                                  ? () {
-                                      Get.to(() => SchoolInfo(school: school!));
-                                    }
-                                  : null,
-                              child: Row(children: [
-                                const Icon(
-                                  Icons.fiber_manual_record,
-                                  size: 8,
-                                  color: AppColors.white,
-                                ),
-                                FittedBox(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 4.0),
-                                    child: Text(
-                                      text,
-                                      style: const TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 14,
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: CircleAvatar(radius: 25, backgroundColor: AppColors.primaryColor, backgroundImage: AssetImage(image)),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ...items.map(
+                              (text) => Padding(
+                                padding: const EdgeInsets.only(bottom: 3.0),
+                                child: InkWell(
+                                  onTap: isSchool
+                                      ? () {
+                                          Get.to(() => SchoolInfo(school: school!));
+                                        }
+                                      : null,
+                                  child: Row(children: [
+                                    const Icon(
+                                      Icons.fiber_manual_record,
+                                      size: 8,
+                                      color: AppColors.white,
+                                    ),
+                                    FittedBox(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 4.0),
+                                        child: Text(
+                                          text,
+                                          style: const TextStyle(
+                                            color: AppColors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ]),
                                 ),
-                              ]),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
                   ),
+                  Spacer(),
                 ],
               ),
             ),
