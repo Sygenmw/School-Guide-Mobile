@@ -142,6 +142,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
                     EmailService.sendEmail(email: 'info@sygen.com', message: userDetails, subject: subject);
                     CustomDialog.showCustomDialog();
                     EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: subject);
+                    Get.back();
                   } else {
                     // show snackbar
                     CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
