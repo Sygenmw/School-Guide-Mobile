@@ -26,18 +26,7 @@ class BannerController extends GetxController {
     notifyChildrens();
     super.onReady();
   }
-
-  // void getBanners() {
-  //   for (var banner in allBanners) {
-  //     if (banner.dateLine.compareTo(Timestamp.now()) > 0) {
-  //       validBanners.add(banner);
-  //       print('NOT YET DATELINE : ${banner.dateLine.compareTo(Timestamp.now())}');
-  //       notifyChildrens();
-  //     } else {
-  //       print('Dateline Passed${banner.dateLine.compareTo(Timestamp.now())}');
-  //     }
-  //   }
-  // }
+ 
 
   Stream<List<BannerDetails>> _getAllBanners() {
     return FirebaseFirestore.instance.collection('banners').snapshots().map((QuerySnapshot snapshot) => snapshot.docs
