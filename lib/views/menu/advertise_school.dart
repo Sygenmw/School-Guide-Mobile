@@ -105,7 +105,7 @@ class _AdvertiseBusinessState extends State<AdvertiseBusiness> {
                     String message =
                         'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to have the item with the following description to be advertised on the School Guide Platform:$br$br ${descController.text.trim()}$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74.$br$br Best Regards.';
                     String userDetails =
-                        "${nameController.text.trim()} sent you an email requesting to have an advert on your platform!${br}Here are the details${br}Name:        ${nameController.text.trim()}${br}Email:       ${emailController.text.trim()}${br}Phone:       ${phoneController.text.trim()}{$br}ADVERT DESCRIPTION$br ${descController.text.trim()}$br$br Best Regards${br}School Guide Mobile";
+                        "${nameController.text.trim()} sent you an email requesting to have an advert on your platform!${br}Here are the details${br}Name:        ${nameController.text.trim()}${br}Email:       ${emailController.text.trim()}${br}Phone:       ${phoneController.text.trim()}${br}ADVERT DESCRIPTION$br ${descController.text.trim()}$br$br Best Regards${br}School Guide Mobile";
                     if (emailController.text.trim().isEmpty && nameController.text.trim().isEmpty && phoneController.text.trim().isEmpty && descController.text.trim().isEmpty) {
                       // showDialog
                       CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
