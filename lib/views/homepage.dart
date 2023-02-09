@@ -7,9 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:location/location.dart';
 import 'package:school_guide/controllers/banner_controller.dart';
-import 'package:school_guide/controllers/location_controller.dart';
-import 'package:school_guide/controllers/permission_controller.dart';
 import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/models/banner.dart';
 import 'package:school_guide/models/edu_blog.dart';
@@ -62,7 +61,7 @@ class _HomeState extends State<Home> {
       premiumFeatures: [],
       website: '',
       id: '',
-      location: Location(lat: 0.0, lng: 0.0));
+      location: AppLocation(lat: 0.0, lng: 0.0));
   List<SchoolDetails> mostViewed = [];
 
   List<BannerDetails> banners = [];
@@ -118,7 +117,6 @@ class _HomeState extends State<Home> {
     CloudMessaging().getToken();
 
     Timer.periodic(const Duration(seconds: 5), (xxx) {
-      getGeoPoint();
       schoolController.allSchools.forEach((school) {
         if (school.showInApp && school.status.toLowerCase() == "Paid".toLowerCase()) {
           distance = calculateDistance(
@@ -134,14 +132,22 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  Location location = Location();
   getGeoPoint() {
-    var currentLocation = LocationController().determinePosition();
-    currentLocation.then((value) => {
-          setState(() {
-            lat = value.latitude;
-            long = value.longitude;
-          })
-        });
+    location.getLocation().then((value) {
+      setState(() {
+        lat = value.latitude!;
+        long = value.longitude!;
+      });
+    });
+    Stream<LocationData> changedLocation = location.onLocationChanged;
+
+    changedLocation.listen((event) {
+      setState(() {
+        long = event.longitude!;
+        lat = event.latitude!;
+      });
+    });
   }
 
   double calculateDistance({required LatLng source, required LatLng dest}) {
@@ -306,7 +312,7 @@ class _HomeState extends State<Home> {
                                   items: schoolNames.length >= 1 ? schoolNames.sublist(0, 1) : ['No schools'],
                                   onPressed: () {
                                     // check location permission. If Permission is granted, continue, else ask for permission
-                                    PermissionHandler.askLocationPermission();
+                                    // PermissionHandler.askLocationPermission();
                                     Get.to(() => SchoolFinder(schools: schoolsNearMe));
                                   },
                                 );

@@ -30,7 +30,7 @@ class SchoolDetails {
   final String destination;
   final List<String> gallery;
   final String email;
-  final Location location;
+  final AppLocation location;
   final String phone;
   final String header;
   final String schoolLogo;
@@ -58,7 +58,7 @@ class SchoolDetails {
         status: doc["status"],
         levelOfStudy: doc["levelOfStudy"],
         website: doc["website"],
-        location: Location.fromMap(doc["location"]),
+        location: AppLocation.fromMap(doc["location"]),
         id: doc.id,
       );
 }
@@ -78,13 +78,13 @@ class CarriculumDets {
       );
 }
 
-class Location {
+class AppLocation {
   final double lat;
   final double lng;
 
-  Location({required this.lat, required this.lng});
+  AppLocation({required this.lat, required this.lng});
 
-  factory Location.fromMap(Map<String, dynamic>? doc) => Location(lat: double.parse(doc!['lat']), lng: double.parse(doc['lng']));
+  factory AppLocation.fromMap(Map<String, dynamic>? doc) => AppLocation(lat: double.parse(doc!['lat']), lng: double.parse(doc['lng']));
   Map<String, dynamic> toMap() => {
         "lat": lat,
         "lng": lng,

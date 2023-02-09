@@ -138,11 +138,12 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
                     String message =
                         'Dear Sir/Madam,$br$br Thank you for choosing School Guide.$br$br You have applied to be an agent on the School Guide Platform.$br$br The following are the services you provide:$br$br-${servicesController.text.trim()}.$br$br For any inquiries, please contact us on this same email address or on our mobile phone number +265 880 01 26 74$br$br Best Regards.';
                     String userDetails =
-                        "${nameController.text.trim()} sent you an email requesting to be an agent!${br}Here are the details${br}Name:        ${nameController.text.trim()}${br}Email:       ${emailController.text.trim()}${br}Website:       ${websiteController.text.trim()}${br}Phone:       ${phoneController.text.trim()}{$br}Location:       $location$br${br}SERVICES PROVIDED$br- ${servicesController.text.trim()}$br$br Best Regards${br}School Guide Mobile";
-                    EmailService.sendEmail(email: 'info@sygen.com', message: userDetails, subject: subject);
-                    CustomDialog.showCustomDialog();
-                    EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: subject);
+                        "${nameController.text.trim()} sent you an email requesting to be an agent!${br}Here are the details${br}Name:        ${nameController.text.trim()}${br}Email:       ${emailController.text.trim()}${br}Website:       ${websiteController.text.trim()}${br}Phone:       ${phoneController.text.trim()}${br}Location:       $selectedLocation$br${br}SERVICES PROVIDED$br- ${servicesController.text.trim()}$br$br Best Regards${br}School Guide Mobile";
                     Get.back();
+                    EmailService.sendEmail(email: 'info@sygen.com', message: userDetails, subject: subject);
+                    EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: subject);
+                    print(userDetails);
+                    CustomDialog.showCustomDialog();
                   } else {
                     // show snackbar
                     CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);

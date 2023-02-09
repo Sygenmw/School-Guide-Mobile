@@ -152,6 +152,7 @@ class _EduCarouselState extends State<EduCarousel> {
                   ),
                 ),
               );
+           
             },
             options: CarouselOptions(
               height: 200,

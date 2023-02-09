@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:school_guide/controllers/location_controller.dart';
+import 'package:location/location.dart';
 import 'package:school_guide/controllers/permission_controller.dart';
 import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/models/school_model.dart';
@@ -57,7 +57,6 @@ class _SchoolFinderState extends State<SchoolFinder> {
     // PermissionHandler.askLocationPermission();
 
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      getGeoPoint();
       schoolController.allSchools.forEach((school) {
         distance = calculateDistance(
           source: LatLng(school.location.lat, school.location.lng),
@@ -76,14 +75,28 @@ class _SchoolFinderState extends State<SchoolFinder> {
     super.initState();
   }
 
+  Location location = Location();
   getGeoPoint() {
-    var currentLocation = LocationController().determinePosition();
-    currentLocation.then((value) => {
-          setState(() {
-            lat = value.latitude;
-            long = value.longitude;
-          })
+    location.getLocation().then((value) {
+      setState(() {
+        lat = value.latitude!;
+        long = value.longitude!;
+      });
+    });
+
+    startCountdown();
+  }
+
+  startCountdown() {
+    Timer(const Duration(seconds: 10), () {
+      Stream<LocationData> changedLocation = location.onLocationChanged;
+      changedLocation.listen((value) {
+        setState(() {
+          lat = value.latitude!;
+          long = value.longitude!;
         });
+      });
+    });
   }
 
   double calculateDistance({required LatLng source, required LatLng dest}) {
@@ -100,6 +113,7 @@ class _SchoolFinderState extends State<SchoolFinder> {
 
   @override
   Widget build(BuildContext context) {
+    getGeoPoint();
     return Scaffold(
       appBar: const CustomAppBar(
         backIconAvailable: true,

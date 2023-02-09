@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:school_guide/controllers/location_controller.dart';
+import 'package:location/location.dart';
 import 'package:school_guide/controllers/school_views_controller.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/models/views_model.dart';
@@ -39,8 +39,8 @@ class _SchoolCardState extends State<SchoolCard> {
 
   void initState() {
     getSchoolViews();
-    Timer.periodic(const Duration(seconds: 1), (z) {
-      getGeoPoint();
+
+    Timer.periodic(const Duration(seconds: 6), (z) {
       distance = calculateDistance(
           source: LatLng(lat, long),
           //  substitute with school
@@ -52,14 +52,28 @@ class _SchoolCardState extends State<SchoolCard> {
     super.initState();
   }
 
+  Location location = Location();
   getGeoPoint() {
-    var currentLocation = LocationController().determinePosition();
-    currentLocation.then((value) => {
-          setState(() {
-            lat = value.latitude;
-            long = value.longitude;
-          })
+    location.getLocation().then((value) {
+      setState(() {
+        lat = value.latitude!;
+        long = value.longitude!;
+      });
+    });
+
+    startCountdown();
+  }
+
+  startCountdown() {
+    Timer(const Duration(seconds: 10), () {
+      Stream<LocationData> changedLocation = location.onLocationChanged;
+      changedLocation.listen((value) {
+        setState(() {
+          lat = value.latitude!;
+          long = value.longitude!;
         });
+      });
+    });
   }
 
   double calculateDistance({required LatLng source, required LatLng dest}) {
@@ -70,6 +84,7 @@ class _SchoolCardState extends State<SchoolCard> {
 
   @override
   Widget build(BuildContext context) {
+    widget.showDistance ? getGeoPoint() : {};
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Material(

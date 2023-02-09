@@ -111,10 +111,10 @@ class _AdvertiseBusinessState extends State<AdvertiseBusiness> {
                       CustomSnackBar.showSnackBar(message: 'One or more fields look empty', title: 'Error!', color: AppColors.errorColor);
                     } else {
                       HapticFeedback.vibrate();
-                      CustomDialog.showCustomDialog();
                       EmailService.sendEmail(email: 'info@sygen.com', message: userDetails, subject: 'APPLICATION FOR ADVERTISEMENT');
                       EmailService.sendEmail(email: emailController.text.trim(), message: message, subject: 'APPLICATION FOR ADVERTISEMENT');
                       Get.back();
+                      CustomDialog.showCustomDialog();
                     }
                   },
                   child: Center(

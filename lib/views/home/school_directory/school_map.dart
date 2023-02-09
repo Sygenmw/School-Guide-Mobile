@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:school_guide/controllers/location_controller.dart';
+import 'package:location/location.dart';
 import 'package:school_guide/models/school_model.dart';
 import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
@@ -38,7 +38,6 @@ class _SchoolMapState extends State<SchoolMap> {
 
     refreshMarkers(lat, long);
     Timer.periodic(const Duration(seconds: 5), (xxx) {
-      getGeoPoint();
       markers.clear();
 
       refreshMarkers(lat, long);
@@ -48,17 +47,28 @@ class _SchoolMapState extends State<SchoolMap> {
     super.initState();
   }
 
+  Location location = Location();
   getGeoPoint() {
-    var currentLocation = LocationController().determinePosition();
-    currentLocation.then((value) => {
-          setState(() {
-            lat = value.latitude;
-            long = value.longitude;
+    location.getLocation().then((value) {
+      setState(() {
+        lat = value.latitude!;
+        long = value.longitude!;
+      });
+    });
 
-            print('$lat-xxx-$long');
-          })
+    startCountdown();
+  }
+
+  startCountdown() {
+    Timer(const Duration(seconds: 10), () {
+      Stream<LocationData> changedLocation = location.onLocationChanged;
+      changedLocation.listen((value) {
+        setState(() {
+          lat = value.latitude!;
+          long = value.longitude!;
         });
-    // print('latitude: $latitude');
+      });
+    });
   }
 
   refreshMarkers(double orgLat, double orgLng) {
@@ -135,6 +145,8 @@ class _SchoolMapState extends State<SchoolMap> {
 
   @override
   Widget build(BuildContext context) {
+    getGeoPoint();
+
     return Scaffold(
         appBar: CustomAppBar(),
         body: lat == 0
