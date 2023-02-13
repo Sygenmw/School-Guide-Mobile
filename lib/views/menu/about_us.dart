@@ -54,12 +54,9 @@ class AboutUs extends StatelessWidget {
                         description:
                             'The mobile app was developed to simplify the search for private schools in Malawi. Apart from having information on private schools across the warm heart of Africa, we have also included scholarships and articles tailored for Malawian students.'),
                     AboutText(title: 'The Developers', description: 'The app was designed and build with love by Sygen, a tech startup that develops mobile, web and desktop systems.'),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40.0, right: 40),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: rowIcons,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: rowIcons,
                     ),
                     AboutText(title: 'Physical Address', description: 'Masauko Chipembere Highway\nCity Plaza, Room 4,\nBlantyre Malawi.'),
                   ],

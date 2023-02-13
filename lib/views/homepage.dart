@@ -244,7 +244,7 @@ class _HomeState extends State<Home> {
                               );
                             },
                             options: CarouselOptions(
-                              height: Get.height / 4.8,
+                              height: Get.height / 4.3,
                               aspectRatio: 16 / 9,
                               viewportFraction: 1,
                               initialPage: 0,

@@ -33,8 +33,7 @@ class Menu extends StatelessWidget {
         body: CustomBody(
           text: 'Menu',
           children: [
-            SizedBox(
-              height: Get.size.height - Get.size.height / 3.5,
+            SingleChildScrollView(
               child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,6 +99,7 @@ class Menu extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 32),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -112,6 +112,7 @@ class Menu extends StatelessWidget {
                         child: CustomText('v2.0.2', pLeft: 0, pTop: 0, pBottom: 0, mainAxisAlignment: MainAxisAlignment.center, icon: Icons.phone_android, color: AppColors.primaryColor)),
                   ],
                 ),
+                SizedBox(height: 16),
               ]),
             )
           ],
