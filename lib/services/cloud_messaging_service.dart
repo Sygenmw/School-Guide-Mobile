@@ -4,11 +4,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:school_guide/views/home/edu_blog.dart';
+import 'package:school_guide/views/home/scholarships.dart';
+import 'package:school_guide/views/home/school_directiory.dart';
 
 class CloudMessaging extends GetxController {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   requestPermission() async {
+    await Permission.notification.isDenied.then((value) {
+      Permission.notification.request();
+      print('Permision status is : $value');
+    });
     NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: false,
@@ -22,9 +29,15 @@ class CloudMessaging extends GetxController {
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       // step 2 here
       messaging.getInitialMessage().then((RemoteMessage? message) {
-        debugPrint('Got an initial message in foreground!');
-        debugPrint('message data : ${message!.data}');
-        debugPrint('message notification : ${message.notification}');
+        if (message!.notification!.title!.toLowerCase().contains('scholarship')) {
+          Get.to(() => Scholarships());
+        } else if (message.notification!.title!.toLowerCase().contains('school')) {
+          Get.to(() => SchoolDirectory());
+        } else if (message.notification!.title!.toLowerCase().contains('blog')) {
+          Get.to(() => EducationBlog());
+        }
+
+        debugPrint('SOmething : ${settings.authorizationStatus.name}');
       });
     } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       debugPrint('Provisional');

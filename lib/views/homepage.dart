@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:school_guide/controllers/banner_controller.dart';
 import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/models/banner.dart';
@@ -129,8 +130,11 @@ class _HomeState extends State<Home> {
         }
       });
     });
+
     super.initState();
   }
+
+ 
 
   Location location = Location();
   getGeoPoint() {
@@ -157,12 +161,6 @@ class _HomeState extends State<Home> {
   }
 
 // WE CAN DO THIS
-
-  @override
-  void dispose() {
-    getGeoPoint();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

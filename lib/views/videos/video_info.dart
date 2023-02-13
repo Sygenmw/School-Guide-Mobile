@@ -38,7 +38,7 @@ class VideoInformation extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
-                height: 250,
+                height: 200,
                 width: Get.size.width,
                 child: YoutubePlayer(
                   controller: controller,

@@ -30,7 +30,6 @@ class VideoCard extends StatelessWidget {
             child: SizedBox(
               height: 200,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
                     flex: 4,
@@ -42,36 +41,47 @@ class VideoCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 3.0),
-                            child: Text(
-                              video.title.length < 40 ? video.title : '${video.title.substring(0, 40)}...',
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 3.0, right: 6),
+                          child: Text(
+                            video.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
                           ),
-                          const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  TimeConversion.convertTimeStamp(video.createdAt),
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.primaryColor,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    TimeConversion.convertTimeStamp(video.createdAt),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.primaryColor,
+                                    ),
                                   ),
-                                )),
-                          ),
-                        ],
-                      ),
+                                  SizedBox(width: 8),
+                                  Icon(
+                                    Icons.remove_red_eye,
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '9',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.primaryColor),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ],
                     ),
                   )
                 ],
