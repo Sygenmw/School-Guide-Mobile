@@ -3,7 +3,7 @@ name: "school_guide"
 description: A new Flutter project.
 
 publish_to: "none"
-version: 2.0.2+5
+version: 2.0.22+6
 
 environment:
   sdk: ">=2.17.1 <3.0.0"

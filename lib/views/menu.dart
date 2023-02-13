@@ -109,7 +109,7 @@ class Menu extends StatelessWidget {
 
                           launchUrl(Uri.parse(link), mode: LaunchMode.externalApplication);
                         },
-                        child: CustomText('v2.0.2', pLeft: 0, pTop: 0, pBottom: 0, mainAxisAlignment: MainAxisAlignment.center, icon: Icons.phone_android, color: AppColors.primaryColor)),
+                        child: CustomText('v2.0.22', pLeft: 0, pTop: 0, pBottom: 0, mainAxisAlignment: MainAxisAlignment.center, icon: Icons.phone_android, color: AppColors.primaryColor)),
                   ],
                 ),
                 SizedBox(height: 16),
