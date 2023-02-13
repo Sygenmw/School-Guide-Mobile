@@ -22,7 +22,7 @@ class CachedImage extends StatelessWidget {
 Widget placeholder(BuildContext context, String url) {
   return Shimmer.fromColors(
       child: Container(
-        width: double.infinity,
+        width: double.maxFinite,
         color: AppColors.grey,
         child: Text(
           '',

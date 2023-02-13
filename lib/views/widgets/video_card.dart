@@ -50,6 +50,7 @@ class _VideoCardState extends State<VideoCard> {
             borderRadius: BorderRadius.circular(8),
             onTap: () {
               // Video Details
+              Get.to(() => VideoInformation(video: widget.video));
               setState(() {
                 views.views++;
               });
@@ -57,23 +58,47 @@ class _VideoCardState extends State<VideoCard> {
               docRef.set({"views": views.views}).then((value) => () {
                     docRef.update({"views": FieldValue.increment(views.views)});
                   });
-              Get.to(() => VideoInformation(video: widget.video));
             },
-            child: SizedBox(
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                      child: CachedImage(
-                        imageUrl: widget.video.thumbNail,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: CachedImage(
+                    imageUrl: widget.video.thumbNail,
+                    fit: BoxFit.cover,
                   ),
-                  Expanded(
-                    flex: 2,
+                ),
+                Positioned(
+                    top: 2,
+                    right: 0,
+                    child: Card(
+                      child: Row(
+                        children: [
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.remove_red_eye,
+                            size: 15,
+                          ),
+                          SizedBox(width: 4),
+                          Obx(() {
+                            var allViews = controllers.currentVideoViews(widget.video.id);
+
+                            return Text(
+                              allViews.views >= 900 ? '${allViews.views / 1000}K' : allViews.views.toString(),
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.primaryColor),
+                            );
+                          }),
+                          SizedBox(width: 8),
+                        ],
+                      ),
+                    )),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Card(
+                    margin: const EdgeInsets.all(0),
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: Column(
@@ -101,27 +126,15 @@ class _VideoCardState extends State<VideoCard> {
                                       ),
                                     ),
                                     SizedBox(width: 8),
-                                    Icon(
-                                      Icons.remove_red_eye,
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Obx(() {
-                                      var allViews = controllers.currentVideoViews(widget.video.id);
-                                      return Text(
-                                        allViews.views.toString(),
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.primaryColor),
-                                      );
-                                    }),
                                   ],
                                 )),
                           ),
                         ],
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
