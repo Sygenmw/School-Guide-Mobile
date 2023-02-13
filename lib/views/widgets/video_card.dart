@@ -60,7 +60,6 @@ class _VideoCardState extends State<VideoCard> {
               Get.to(() => VideoInformation(video: widget.video));
             },
             child: SizedBox(
-              height: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -88,18 +87,34 @@ class _VideoCardState extends State<VideoCard> {
                               style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.black, fontSize: 16),
                             ),
                           ),
-                          const Spacer(),
                           Padding(
                             padding: const EdgeInsets.only(top: 4.0),
                             child: Align(
                                 alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  TimeConversion.convertTimeStamp(widget.video.createdAt),
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.primaryColor,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      TimeConversion.convertTimeStamp(widget.video.createdAt),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Icon(
+                                      Icons.remove_red_eye,
+                                      size: 20,
+                                    ),
+                                    SizedBox(width: 4),
+                                    Obx(() {
+                                      var allViews = controllers.currentVideoViews(widget.video.id);
+                                      return Text(
+                                        allViews.views.toString(),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.primaryColor),
+                                      );
+                                    }),
+                                  ],
                                 )),
                           ),
                         ],
