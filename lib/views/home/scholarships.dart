@@ -123,7 +123,7 @@ class _ScholarshipsState extends State<Scholarships> {
                                             child: Text(
                                               destinations[index],
                                               style: TextStyle(
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.bold,
                                                 color: destinationSelectedIndex == index ? AppColors.white : AppColors.black,
                                               ),

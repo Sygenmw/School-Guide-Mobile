@@ -44,68 +44,57 @@ class ScholarshipCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
-                      child: SizedBox(
-                        height: 90,
-                        width: 90,
-                        child: Hero(
-                          tag: scholarship.scholarshipName,
-                          child: ClipRRect(
-                            clipBehavior: Clip.antiAlias,
-                            borderRadius: BorderRadius.circular(100),
-                            child: CachedImage(
-                              imageUrl: scholarship.scholarshipLogo,
+                FittedBox(
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+                        child: SizedBox(
+                          height: 70,
+                          width: 70,
+                          child: Hero(
+                            tag: scholarship.scholarshipName,
+                            child: ClipRRect(
+                              clipBehavior: Clip.antiAlias,
+                              borderRadius: BorderRadius.circular(80),
+                              child: CachedImage(
+                                imageUrl: scholarship.scholarshipLogo,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 4),
-                              Text(
-                                scholarship.level,
-                                style: const TextStyle(color: Colors.white, fontSize: 14),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          FittedBox(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Study ${scholarship.destination.toLowerCase() == 'International'.toLowerCase() ? 'Abroad' : 'in Malawi'}',
-                                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                                ),
-                                Text(
-                                  'Applications begin :  ${TimeConversion.convertTimeStamp(scholarship.startDate)}',
-                                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                                ),
-                                Text(
-                                  'Applications end : ${TimeConversion.convertTimeStamp(scholarship.deadline)}',
-                                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                                ),
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              scholarship.level,
+                              style: const TextStyle(color: Colors.white, fontSize: 14),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'Study ${scholarship.destination.toLowerCase() == 'International'.toLowerCase() ? 'Abroad' : 'in Malawi'}',
+                              style: const TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                            Text(
+                              'Applications begin :  ${TimeConversion.convertTimeStamp(scholarship.startDate)}',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                            Text(
+                              'Applications end : ${TimeConversion.convertTimeStamp(scholarship.deadline)}',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
