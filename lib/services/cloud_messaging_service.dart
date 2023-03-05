@@ -78,7 +78,15 @@ class CloudMessaging extends GetxController {
       onDidReceiveNotificationResponse: (details) {
         try {
           if (details.payload != null && details.payload!.isNotEmpty) {
-          } else {}
+          } else {
+            if (details.payload!.toLowerCase().contains('scholarship')) {
+              Get.to(() => Scholarships());
+            } else if (details.payload!.toLowerCase().contains('school')) {
+              Get.to(() => SchoolDirectory());
+            } else if (details.payload!.toLowerCase().contains('blog')) {
+              Get.to(() => EducationBlog());
+            }
+          }
         } catch (e) {}
       },
     );

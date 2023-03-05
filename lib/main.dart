@@ -116,17 +116,6 @@ class _SchoolGuideState extends State<SchoolGuide> {
           ));
     });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification!;
-      //  PUSH TO PAGE
-      if (notification.title!.toLowerCase().contains('scholarship')) {
-        Get.to(() => Scholarships());
-      } else if (notification.title!.toLowerCase().contains('school')) {
-        Get.to(() => SchoolDirectory());
-      } else if (notification.title!.toLowerCase().contains('blog')) {
-        Get.to(() => EducationBlog());
-      }
-    });
   }
 
   initializePlatformSpecifics() {
