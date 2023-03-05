@@ -18,7 +18,7 @@ class CustomDialog {
       content: Column(
         children: const [
           CustomText(
-            'Details submitted Successfully!',
+            'Thanks!',
             fontSize: 16,
             needsIcon: false,
             color: AppColors.primaryColor,
