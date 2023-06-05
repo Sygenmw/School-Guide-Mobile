@@ -61,7 +61,7 @@ class _TutorState extends State<Tutor> {
                     Expanded(
                       flex: 5,
                       child: Text(
-                        'Tutors help students learn and understand curriculum based concepts and help in studying, assigenments and many more.',
+                        'Tutors help students learn and understand curriculum based concepts and help in studying, assignments and many more.',
                       ),
                     ),
                   ],

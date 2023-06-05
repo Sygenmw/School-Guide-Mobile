@@ -13,8 +13,6 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
-  
-
   AppUpdateInfo? _updateInfo;
   Future<bool> _onWillPop() async {
     return false; //<-- SEE HERE
@@ -54,9 +52,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                     ),
                   );
                 })
-            :  
-                Get.offAll(() => Home());
-            
+            : Get.offAll(() => Home());
       });
     });
   }

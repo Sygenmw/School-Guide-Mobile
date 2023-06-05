@@ -1,9 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:school_guide/views/home/edu_blog.dart';
-import 'package:school_guide/views/home/scholarships.dart';
-import 'package:school_guide/views/home/school_directiory.dart';
 import 'firebase_options.dart';
 //
 import 'package:flutter/material.dart';
@@ -115,7 +112,6 @@ class _SchoolGuideState extends State<SchoolGuide> {
             ),
           ));
     });
-
   }
 
   initializePlatformSpecifics() {
