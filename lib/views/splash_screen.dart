@@ -63,7 +63,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
 
   @override
   void initState() {
-    checkForUpdate();
+    Get.offAll(() => Home());
     super.initState();
   }
 
