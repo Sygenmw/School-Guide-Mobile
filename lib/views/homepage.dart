@@ -6,9 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:location/location.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:school_guide/controllers/banner_controller.dart';
 import 'package:school_guide/controllers/school_controller.dart';
 import 'package:school_guide/models/banner.dart';
@@ -28,7 +26,6 @@ import 'package:school_guide/views/widgets/bottom_navbar.dart';
 import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
-import 'package:school_guide/views/widgets/custom_snackbar.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -72,46 +69,6 @@ class _HomeState extends State<Home> {
   double distance = 0.0;
   List<SchoolDetails> schoolsNearMe = [];
 
-  // check for an update from playstore
-  AppUpdateInfo? _updateInfo;
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> checkForUpdate() async {
-    InAppUpdate.checkForUpdate().then((info) {
-      setState(() {
-        _updateInfo = info;
-      });
-      if (_updateInfo!.updateAvailability == UpdateAvailability.updateAvailable) {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Update Available!'),
-                content: Text('Update app now to the latest version v${_updateInfo!.availableVersionCode} to continue using it!'),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: _updateInfo?.updateAvailability == UpdateAvailability.updateAvailable
-                          ? () {
-                              InAppUpdate.performImmediateUpdate().catchError((e) => showSnack(e.toString()));
-                            }
-                          : () {
-                              //action code for "Yes" button
-                            },
-                      child: Text('Update Now!')),
-                ],
-              );
-            });
-      } else {}
-    }).catchError((e) {
-      // showSnack(e.toString());
-    });
-  }
-
-  void showSnack(String text) {
-    CustomSnackBar.showSnackBar(title: 'UPDATE FAILED', message: 'AN UPDATE HAS FAILED DRASTICALLY', color: AppColors.primaryColor);
-  }
-
   // initState
   void initState() {
     CloudMessaging().requestPermission();
@@ -133,8 +90,6 @@ class _HomeState extends State<Home> {
 
     super.initState();
   }
-
- 
 
   Location location = Location();
   getGeoPoint() {
@@ -443,34 +398,18 @@ class _HomeState extends State<Home> {
 
   // FETCH ITEMS
   Stream<List<SchoolDetails>> _getAllSchools() {
-    return FirebaseFirestore.instance
-        .collection('schools')
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance.collection('schools').orderBy('createdAt', descending: true).snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => SchoolDetails.fromDocument(doc)).toList());
   }
 
   Stream<List<ScholarshipDetails>> _getAllScholarships() {
-    return FirebaseFirestore.instance
-        .collection('scholarships')
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ScholarshipDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance.collection('scholarships').orderBy('createdAt', descending: true).snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => ScholarshipDetails.fromDocument(doc)).toList());
   }
 
   Stream<List<EduBlogDetails>> _getAllBlogs() {
-    return FirebaseFirestore.instance
-        .collection('eduBlog')
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => EduBlogDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance.collection('eduBlog').orderBy('createdAt', descending: true).snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => EduBlogDetails.fromDocument(doc)).toList());
   }
 
   Stream<List<BannerDetails>> _getAllBanners() {
-    return FirebaseFirestore.instance
-        .collection('banners')
-        .orderBy('createdAt', descending: false)
-        .snapshots()
-        .map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => BannerDetails.fromDocument(doc)).toList());
+    return FirebaseFirestore.instance.collection('banners').orderBy('createdAt', descending: false).snapshots().map((QuerySnapshot snapshot) => snapshot.docs.map((DocumentSnapshot doc) => BannerDetails.fromDocument(doc)).toList());
   }
 }
