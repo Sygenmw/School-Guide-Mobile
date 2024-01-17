@@ -132,6 +132,7 @@ class _SchoolGuideState extends State<SchoolGuide> {
       title: 'School Guide Malawi',
       theme: ThemeData(
         fontFamily: 'quicksand',
+        useMaterial3: false,
       ),
       debugShowCheckedModeBanner: false,
       home: SplashScreenView(),

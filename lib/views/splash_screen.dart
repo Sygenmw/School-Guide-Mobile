@@ -61,9 +61,15 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     CustomSnackBar.showSnackBar(title: 'UPDATE FAILED', message: 'AN UPDATE HAS FAILED DRASTICALLY', color: AppColors.primaryColor);
   }
 
+  Future<void> delayApp() async {
+    await Future.delayed(Duration(seconds: 3));
+  }
+
   @override
   void initState() {
-    Get.offAll(() => Home());
+    delayApp().then((value) {
+      Get.offAll(() => Home());
+    },);
     super.initState();
   }
 

@@ -18,16 +18,17 @@ import 'package:school_guide/style/app_styles.dart';
 import 'package:school_guide/views/home/edu_blog.dart';
 import 'package:school_guide/views/home/scholarships.dart';
 import 'package:school_guide/views/home/school_directiory.dart';
-import 'package:school_guide/views/home/school_directory/school_info.dart';
 import 'package:school_guide/views/home/school_finder.dart';
-import 'package:school_guide/views/menu/advertise_school.dart';
 import 'package:school_guide/views/widgets/back_exit.dart';
 import 'package:school_guide/views/widgets/bottom_navbar.dart';
-import 'package:school_guide/views/widgets/cached_image_builder.dart';
 import 'package:school_guide/views/widgets/custom_appbar.dart';
 import 'package:school_guide/views/widgets/custom_body.dart';
 import 'package:school_guide/views/widgets/home_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'home/school_directory/school_info.dart';
+import 'menu/advertise_school.dart';
+import 'widgets/cached_image_builder.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

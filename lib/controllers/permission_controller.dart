@@ -29,7 +29,7 @@ class PermissionHandler {
       } else {
         Get.back();
         CustomSnackBar.showSnackBar(title: 'App Needs Location Permission', color: AppColors.errorColor, message: 'To access nearby schools, App needs to access your Location. Please Allow.');
-        AppSettings.openLocationSettings();
+        AppSettings.openAppSettings();
       }
     }
   }
