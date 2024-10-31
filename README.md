@@ -1,16 +1,3 @@
-# school_guide
+School Guide
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This mobile application platform is designed primarily for parents and guardians to easily find schools for their children. Using School Guide, users can discover schools across all education levels, scholarships, tutors, and access educational blogs. Our advanced proximity algorithms make it easy to find nearby schools, simplifying the search process.
