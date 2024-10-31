@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDqRysGslHNbHvBkKqQxwDHfT406bKGcyE',
-    appId: '1:47683460737:android:b3a121b60c75e22d59f780',
-    messagingSenderId: '47683460737',
-    projectId: 'school-guide-4fdf8',
-    storageBucket: 'school-guide-4fdf8.appspot.com',
+    apiKey: 'Request from Sygen',
+    appId: 'Request from Sygen',
+    messagingSenderId: 'Request from Sygen',
+    projectId: 'Request from Sygen',
+    storageBucket: 'Request from Sygen',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD4g8dybQSNkmDyW_FGGIMepgTBAptJ4lU',
-    appId: '1:47683460737:ios:61e53eb645d9385d59f780',
-    messagingSenderId: '47683460737',
-    projectId: 'school-guide-4fdf8',
-    storageBucket: 'school-guide-4fdf8.appspot.com',
-    iosClientId: '47683460737-4jsddbo78lrt3aqp6t3s30drobinvndt.apps.googleusercontent.com',
-    iosBundleId: 'com.sygen.schoolGuide',
+    apiKey: 'Request from Sygen',
+    appId: 'Request from Sygen',
+    messagingSenderId: 'Request from Sygen',
+    projectId: 'Request from Sygen',
+    storageBucket: 'Request from Sygen',
+    iosClientId: 'Request from Sygen',
+    iosBundleId: 'Request from Sygen',
   );
 }
