@@ -36,5 +36,5 @@ Feel free to fork the repository and submit pull requests. Together, we can make
 ---
 
 ## 📝 **Updated By**
-**Winkford Mboma**
+**George Jere**
 
